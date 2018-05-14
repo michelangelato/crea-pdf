@@ -81,13 +81,13 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Isbn</th>
+                                                <th>Fornitore</th>
                                                 <th>Titolo</th>
                                                 <th>Editore</th>
-                                                <th>Anno Edizione</th>
                                                 <th>Autore</th>
                                                 <th>Quantità</th>
                                                 <th>Prezzo Listino</th>
-                                                <th>Azioni</th>
+                                                <th>Documento Carico Listino</th>
                                                 <th>Modifica</th>
 
                                             </tr>
@@ -98,15 +98,15 @@
                                             foreach ($data as $item):
                                                 ?>
                                                 <tr>
-                                                    <td><img src="<?php echo $item->image; ?>" style="width:40px;"></td>
+                                                    <td><img src="<?php echo $item->image; ?>" style="width:40px;" alt="<?php echo $item->image; ?>"></td>
                                                     <td><?php echo $item->isbn; ?></td>
+                                                    <td><?php echo $item->distributore; ?></td>
                                                     <td><?php echo $item->titolo; ?></td>
                                                     <td><?php echo $item->casa_editrice; ?></td>
-                                                    <td><?php echo $item->edizione; ?></td>
                                                     <td><?php echo $item->autore; ?></td>
                                                     <td><?php echo $item->quantita; ?></td>
                                                     <td><?php echo $item->prezzo; ?></td>
-                                                    <td></td>
+                                                    <td><?php echo $item->documento_carico; ?></td>
                                                     <td></td>
                                                 </tr>
                                             <?php endforeach; ?>   
@@ -134,13 +134,12 @@
                                         <div class="col-md-12 text-center">
                                             <?php echo $pagination; ?>
                                         </div>
-                           
                                     </div>
                     
                     
                     
                 </div>
-                 <div style="clear: both"></div>
+                
             </div>
 <!--            <div class="footer">
                 <div class="pull-right">

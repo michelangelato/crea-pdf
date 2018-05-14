@@ -20,12 +20,16 @@
                         IN+
                     </div>
                 </li>
+                <?php
+                
+                
+                
                 
                 $activeLM ="";
                 $activeLCM ="";
                 
                 
-                <?php 
+                 
                 
                 
                 if($this->uri->segment(2) =='listaMagazzino'){

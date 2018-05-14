@@ -23,30 +23,18 @@ class Magazzino extends CI_Controller {
 
     public function listaMagazzino() {
         
-        
-        
      $this->load->library('pagination');
         $this->load->model('magazzino_model');
         
         //pagination settings
         $config['base_url'] = site_url('magazzino/listaMagazzino');
-        $config['total_rows'] = $this->magazzino_model->listaMagazzinoCount();
+        $config['total_rows'] = $this->magazzino_model->listaMagazzino_count();
         
-        
-        
-       // echo $config['total_rows']; die();
-        
-        
-        
-        
-        $config['per_page'] = "100";
+        $config['per_page'] = "150";
         $config["uri_segment"] = 3;
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
 
-        
-        //echo $config["num_links"];die();
-        
         //config for bootstrap pagination class integration
         $config['full_tag_open'] = '<ul class="pagination">';
         $config['full_tag_close'] = '</ul>';
@@ -67,8 +55,57 @@ class Magazzino extends CI_Controller {
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
 
-//        if (count($_GET) > 0)
-//            $config['suffix'] = '?' . http_build_query($_GET, '', "&");
+
+        //$config['page_query_string']=true;
+
+        $this->pagination->initialize($config);
+        $obj['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        
+        $obj['totali'] = $config["total_rows"];
+        $obj["data"] = $this->magazzino_model->listaMagazzino($config["per_page"], $obj['page']);
+        $obj['pagination'] = $this->pagination->create_links();
+        
+       // $obj['data'] = $this->magazzino_model->listaMagazzino();
+
+        $this->load->view('magazzino/listaMagazzino.php', $obj);
+    }
+
+
+
+public function listaCaricoMagazzino() {
+        
+     $this->load->library('pagination');
+        $this->load->model('magazzino_model');
+        
+        //pagination settings
+        $config['base_url'] = site_url('magazzino/listaCaricoMagazzino');
+        $config['total_rows'] = $this->magazzino_model->listaCaricoMagazzino_count();
+        
+        $config['per_page'] = "150";
+        $config["uri_segment"] = 3;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+
+        //config for bootstrap pagination class integration
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
 
 
         //$config['page_query_string']=true;
@@ -78,21 +115,55 @@ class Magazzino extends CI_Controller {
 
         
         $obj['totali'] = $config["total_rows"];
-
-        $obj["data"] = $this->magazzino_model->listaMagazzino($config["per_page"], $obj['page']);
-
+        $obj["data"] = $this->magazzino_model->listaCaricoMagazzino($config["per_page"], $obj['page']);
         $obj['pagination'] = $this->pagination->create_links();
-        
-        
         
        // $obj['data'] = $this->magazzino_model->listaMagazzino();
 
-        $this->load->view('magazzino/listaMagazzino.php', $obj);
+        $this->load->view('magazzino/listaCaricoMagazzino.php', $obj);
     }
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     
 //    public function dateCorso($idCorso, $gruppo) {
