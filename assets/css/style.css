@@ -3605,7 +3605,8 @@ video {
   padding: 20px 30px 30px 30px;
 }
 .inmodal .modal-body {
-  background: #f8fafb;
+/*  background: #f8fafb;*/
+  background: #fff;
 }
 .inmodal .modal-header {
   padding: 30px 15px;

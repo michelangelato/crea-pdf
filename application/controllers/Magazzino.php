@@ -22,14 +22,14 @@ class Magazzino extends CI_Controller {
     }
 
     public function listaMagazzino() {
-        
-     $this->load->library('pagination');
+
+        $this->load->library('pagination');
         $this->load->model('magazzino_model');
-        
+
         //pagination settings
         $config['base_url'] = site_url('magazzino/listaMagazzino');
         $config['total_rows'] = $this->magazzino_model->listaMagazzino_count();
-        
+
         $config['per_page'] = "150";
         $config["uri_segment"] = 3;
         $choice = $config["total_rows"] / $config["per_page"];
@@ -61,27 +61,25 @@ class Magazzino extends CI_Controller {
         $this->pagination->initialize($config);
         $obj['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-        
+
         $obj['totali'] = $config["total_rows"];
         $obj["data"] = $this->magazzino_model->listaMagazzino($config["per_page"], $obj['page']);
         $obj['pagination'] = $this->pagination->create_links();
-        
-       // $obj['data'] = $this->magazzino_model->listaMagazzino();
+
+        // $obj['data'] = $this->magazzino_model->listaMagazzino();
 
         $this->load->view('magazzino/listaMagazzino.php', $obj);
     }
 
+    public function listaCaricoMagazzino() {
 
-
-public function listaCaricoMagazzino() {
-        
-     $this->load->library('pagination');
+        $this->load->library('pagination');
         $this->load->model('magazzino_model');
-        
+
         //pagination settings
         $config['base_url'] = site_url('magazzino/listaCaricoMagazzino');
         $config['total_rows'] = $this->magazzino_model->listaCaricoMagazzino_count();
-        
+
         $config['per_page'] = "150";
         $config["uri_segment"] = 3;
         $choice = $config["total_rows"] / $config["per_page"];
@@ -113,59 +111,72 @@ public function listaCaricoMagazzino() {
         $this->pagination->initialize($config);
         $obj['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
-        
+
         $obj['totali'] = $config["total_rows"];
         $obj["data"] = $this->magazzino_model->listaCaricoMagazzino($config["per_page"], $obj['page']);
         $obj['pagination'] = $this->pagination->create_links();
-        
-       // $obj['data'] = $this->magazzino_model->listaMagazzino();
+
+        // $obj['data'] = $this->magazzino_model->listaMagazzino();
 
         $this->load->view('magazzino/listaCaricoMagazzino.php', $obj);
+    }
+
+    
+     public function inserisciNuovoStep1() {
+        
+        $this->load->model('magazzino_model');
+
+        $obj['contenutiTipo'] = $this->magazzino_model->getElencoContenutiTipo($id = NULL);
+
+        $this->load->view('magazzino/inserisciNuovoStep1.php', $obj);
     }
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public function inserisciNuovoStep2() {
+        
+        $this->load->library('pagination');
+        $this->load->model('magazzino_model');
+        
+        
+          $idContenuto = $this->input->post('idContenuto');
 
-    
+         $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenuto);
+        
+         print_r($obj);
+        
+        $obj['distributori'] = $this->magazzino_model->getElencoDistributori();
+
+        $this->load->view('magazzino/inserisciNuovoStep2.php', $obj);
+    }
+
+    public function distributoreAdd() {
+        
+        $this->load->model('magazzino_model');
+
+        $data = array(
+            'nome' => $this->input->post('nome'),
+            'indirizzo' => $this->input->post('indirizzo'),
+            'citta' => $this->input->post('citta'),
+            'cap' => $this->input->post('cap'),
+            'telefono' => $this->input->post('telefono'),
+            'email' => $this->input->post('email'),
+            'p_iva' => $this->input->post('p_iva'),
+            'percentuale_sconto' => $this->input->post('percentuale_sconto'),
+            'referente' => $this->input->post('referente'),
+            'codice_fiscale' => $this->input->post('emailReferente'),
+            'telefono_referente' => $this->input->post('telefonoReferente')
+        );
+
+        $ret = $this->magazzino_model->distributoreAdd($data);
+
+        if ($ret->validation) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret));
+        }
+    }
+
 //    public function dateCorso($idCorso, $gruppo) {
 //
 //        

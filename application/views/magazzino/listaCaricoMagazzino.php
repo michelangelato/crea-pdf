@@ -23,10 +23,11 @@
             <div id="page-wrapper" class="gray-bg">
 
                 <?php $this->view('menu_top'); ?>
-
+                
+                
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Lista Magazzino</h2>
+                        <h2>Carico Magazzino</h2>
                         <!--                        <ol class="breadcrumb">
                                                     <li>
                                                         <a href="index.html">Home</a>
@@ -39,17 +40,18 @@
                                                     </li>
                                                 </ol>-->
                     </div>
-                    <div class="col-lg-2">
+<!--                    <div class="col-lg-2">
 
-                    </div>
+                    </div>-->
                 </div>
                 <div class="wrapper wrapper-content animated fadeInRight">
 
                     <div class="row">
                         <div class="col-lg-12">
+                            
 
-                            <div class="ibox float-e-margins">
-                                <!--                                <div class="ibox-title">
+<!--                            <div class="ibox float-e-margins">
+                                                                <div class="ibox-title">
                                                                     <h5>Hover Table  </h5>
                                                                     <div class="ibox-tools">
                                                                         <a class="collapse-link">
@@ -67,8 +69,8 @@
                                                                         <a class="close-link">
                                                                             <i class="fa fa-times"></i>
                                                                         </a>
-                                                                    </div>-->
-                            </div>
+                                                                    </div>
+                            </div>-->
                             <div class="ibox-content">
 
                                 <?php
@@ -128,6 +130,11 @@
                             
                             
                         </div>
+                        
+                        
+                        
+                        
+                        
                     </div>
                     
                         <div class="row">
@@ -140,15 +147,15 @@
                     
                 </div>
                 
-            </div>
-<!--            <div class="footer">
+           
+            <div class="footer">
                 <div class="pull-right">
                     10GB of <strong>250GB</strong> Free.
                 </div>
                 <div>
                     <strong>Copyright</strong> Example Company &copy; 2014-2017
                 </div>
-            </div>-->
+            </div>
 
         </div>
     </div>
