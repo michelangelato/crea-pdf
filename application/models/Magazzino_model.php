@@ -227,11 +227,16 @@ class Magazzino_model extends CI_Model {
         return $this->result;
     }
 
-    public function getElencoDistributori() {
+    public function getElencoDistributori($id) {
         
         
         $this->db->select('id, nome');
         $this->db->from('distributore');
+        
+         if ($id != "") {
+            $this->db->where('id', $id);
+        }
+        
         $this->db->order_by('nome');
         $query = $this->db->get();
         $res = $query->result();

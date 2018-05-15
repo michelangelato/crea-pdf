@@ -126,7 +126,7 @@ class Magazzino extends CI_Controller {
         
         $this->load->model('magazzino_model');
 
-        $obj['contenutiTipo'] = $this->magazzino_model->getElencoContenutiTipo($id = NULL);
+        $obj['contenutiTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo = NULL);
 
         $this->load->view('magazzino/inserisciNuovoStep1.php', $obj);
     }
@@ -139,16 +139,64 @@ class Magazzino extends CI_Controller {
         $this->load->model('magazzino_model');
         
         
-          $idContenuto = $this->input->post('idContenuto');
+        $idContenutoTipo = $this->input->post('idContenutoTipo');
 
-         $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenuto);
+       $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
         
-         print_r($obj);
-        
-        $obj['distributori'] = $this->magazzino_model->getElencoDistributori();
+       $obj['distributori'] = $this->magazzino_model->getElencoDistributori($idDistributore = NULL);
 
         $this->load->view('magazzino/inserisciNuovoStep2.php', $obj);
     }
+    
+    
+     public function inserisciNuovoStep3() {
+        
+        $this->load->library('pagination');
+        $this->load->model('magazzino_model');
+        
+     $obj = array();    
+
+     
+     $idContenutoTipo = $this->input->post('idContenutoTipo');
+     $idDistributore = $this->input->post('idDistributore');
+     $documentoCarico = $this->input->post('documentoCarico');
+     $dataCarico = $this->input->post('dataCarico');
+     
+     
+     
+     $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+     
+     $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
+     
+     $obj['documentoCarico'] = $documentoCarico; 
+     $obj['dataCarico'] = $dataCarico;
+      
+     
+     
+     
+     
+     
+     //print_r($this->input->post());
+
+//
+//         $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenuto);
+//        
+//         //print_r($obj);
+//        
+//        $obj['distributori'] = $this->magazzino_model->getElencoDistributori();
+     
+     
+     
+     
+
+        $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
+    }
+    
+    
+    
+    
+    
+    
 
     public function distributoreAdd() {
         

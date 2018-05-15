@@ -62,7 +62,7 @@
                     <ul class="nav nav-second-level">
                         <li <?php echo $activeLM;?>><a href="<?php echo base_url('magazzino/listaMagazzino'); ?>">Lista Magazzino</a></li>
                         <li <?php echo $activeLCM;?>><a href="<?php echo base_url('magazzino/listaCaricoMagazzino'); ?>">Carico Magazzino</a></li>
-                        <li <?php echo $activeIM;?>><a href="<?php echo base_url('magazzino/inserisciNuovo'); ?>">Inserisci Nuovo</a></li>
+                        <li <?php echo $activeIM;?>><a href="<?php echo base_url('magazzino/inserisciNuovoStep1'); ?>">Inserisci Nuovo</a></li>
                         <li><a href="table_data_tables.html">Data Tables</a></li>
                         <li><a href="table_foo_table.html">Foo Tables</a></li>
                         <li><a href="jq_grid.html">jqGrid</a></li>

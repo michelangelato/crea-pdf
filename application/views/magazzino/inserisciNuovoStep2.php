@@ -72,19 +72,19 @@
                                     </div>
                                 </div>
                                 <div class="ibox-content">
-                                    <form method="get" class="form-horizontal">
+                                         <form class="form-horizontal" method="post" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
 
                                         <div class="form-group"><label class="col-sm-2 control-label">Tipo Documento</label>
                                             <div class="col-sm-10">
                                                 <input type="text" disabled class="form-control" id="contenutoTipo" value="<?php echo $contenutoTipo[0]->tipo; ?>">
-                                                <input type="text"  class="form-control" id="idContenutoTipo" value="<?php echo $contenutoTipo[0]->id; ?>">
+                                                <input type="text"  class="form-control" name="idContenutoTipo" value="<?php echo $contenutoTipo[0]->id; ?>">
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">Distributore</label>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Fornitore</label>
                                             <div class="col-sm-10">
-                                                <select class="select2_demo_3 form-control" style="width:100%">
+                                                <select class="select2_demo_3 form-control"  name="idDistributore" style="width:100%">
                                                     <option></option>
                                                     <?php
                                                     foreach ($distributori as $item):
@@ -110,13 +110,13 @@
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Documento di Carico</label>
-                                            <div class="col-sm-4"><input type="text" class="form-control"></div>
+                                            <div class="col-sm-4"><input type="text" class="form-control" name="documentoCarico" ></div>
                                             <label class="col-sm-2 control-label">Data di Carico</label>
 
                                             <div class="col-sm-4 input-group date">
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" name="dataCarico">
                                             </div>
         <!--                                            <div class="col-sm-4"><input type="text" class="form-control"></div>-->
                                         </div>
@@ -126,7 +126,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-4 col-sm-offset-2">
                                                 <button class="btn btn-white" type="submit">Cancel</button>
-                                                <button class="btn btn-primary" type="submit" >Save changes</button>
+                                                <button class="btn btn-primary" type="submit" >Avanti</button>
                                             </div>
                                         </div>
                                     </form>

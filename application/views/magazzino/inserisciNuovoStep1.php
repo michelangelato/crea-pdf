@@ -66,7 +66,7 @@
 
                                             <div class="col-sm-10">
 
-                                                <select class="select2_demo_3 form-control" name="idContenuto" style="width:100%">
+                                                <select class="select2_demo_3 form-control" name="idContenutoTipo" style="width:100%">
                                                       <option></option>
                                                     <?php
                                                     foreach ($contenutiTipo as $item):
