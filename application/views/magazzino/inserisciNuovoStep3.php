@@ -7,6 +7,10 @@
 
         <title>INSPINIA | Static Tables</title>
 
+        <!-- Toastr style -->
+        <link href="<?php echo base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
+
+
         <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
 <!--        <link href="<?php echo base_url('assets/css/plugins/iCheck/custom.css'); ?>" rel="stylesheet">-->
@@ -14,9 +18,11 @@
         <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/css/plugins/select2/select2.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/css/plugins/datapicker/datepicker3.css'); ?>" rel="stylesheet">
-        
-        
-         <link href="<?php echo base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
+
+
+
+
 
     </head>
 
@@ -55,143 +61,207 @@
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
+
+                                    <?php
+                                    
+                                    echo "--->" .$trovato . "<---";
+                                    
+                                    
+                                    
+                                    switch ($trovato) {
+    case "PRIMA VOLTA":
+        echo "prima volta";
+        break;
+    case "NON TROVATO":
+        echo "LIBRO NON TROVATO!";
+        break;
+    case "TROVATO":
+        echo "LIBRO TROVATO";
+        break;
+}
+
+                                    
+                                    
+                                    
+                                   
+                                    ?>                             
+
+
+
+
                                     <h5>Seleziona distributore e inserisci documento di carico</h5>
-                                    <!--                                    <div class="ibox-tools">
-                                                                            <a class="collapse-link">
-                                                                                <i class="fa fa-chevron-up"></i>
-                                                                            </a>
-                                                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                                                                <i class="fa fa-wrench"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu dropdown-user">
-                                                                                <li><a href="#">Config option 1</a>
-                                                                                </li>
-                                                                                <li><a href="#">Config option 2</a>
-                                                                                </li>
-                                                                            </ul>
-                                                                            <a class="close-link">
-                                                                                <i class="fa fa-times"></i>
-                                                                            </a>
-                                                                        </div>-->
+
                                 </div>
                                 <div class="ibox-content" >
 
 
+                                    <form  method="post" name ="modulo" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
+                                        
+                                        <input type="text"   name="trovato" id="trovato"  value="<?php echo $trovato; ?>">
 
 
-                                    <form  method="post" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
+
+
+                                        
+                                        
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="isbn">Isbn</label>
-                                                <input type="text" class="form-control input-sm" id="isbn" name="isbn"  placeholder="Isbn" style="width:49%">
+                                                <input type="text" class="form-control input-sm" id="isbn" name="isbn"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->isbn : ''); ?>" placeholder="Isbn" style="width:49%">
                                             </div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group col-md-3">
                                                 <label for="idContenutoTipo">Tipo Documento</label>
-                                               <input type="text" readonly class="form-control  input-sm" id="contenutoTipo" value="<?php echo $contenutoTipo[0]->tipo; ?>">
-                                                <input type="hidden"  class="form-control input-sm" name="idContenutoTipo" id="idContenutoTipo"  value="<?php echo $contenutoTipo[0]->id; ?>">
+                                                <input type="text" readonly class="form-control  input-sm" id="contenutoTipo" value="<?php echo $contenutoTipo[0]->tipo; ?>">
+                                                <input type="text"  class="form-control input-sm" name="idContenutoTipo" id="idContenutoTipo"  value="<?php echo $contenutoTipo[0]->id; ?>">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="idDistributore">Fornitore</label>
-                                                
-                                                 <input type="text"  readonly class="form-control input-sm" value="<?php echo $distributore[0]->nome; ?>">
-                                                 <input type="hidden"  class="form-control input-sm" name="idDistributore" id="idDistributore" value="<?php echo $distributore[0]->id; ?>">
+
+                                                <input type="text"  readonly class="form-control input-sm" value="<?php echo $distributore[0]->nome; ?>">
+                                                <input type="text"  class="form-control input-sm" name="idDistributore" id="idDistributore" value="<?php echo $distributore[0]->id; ?>">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="documentoCarico">Documento di Carico</label>
-                                               <input type="text" readonly class="form-control input-sm" name="documentoCarico" id="documentoCarico" value="<?php echo $documentoCarico; ?>" >
+                                                <input type="text" readonly class="form-control input-sm" name="documentoCarico" id="documentoCarico" value="<?php echo $documentoCarico; ?>" >
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="dataCarico">Data di Carico</label>
                                                 <input type="text" readonly class="form-control input-sm" name="dataCarico" id="dataCarico"  value="<?php echo $dataCarico; ?>" >
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-row">
                                             <div class="form-group col-md-3">
                                                 <label for="titolo">Titolo</label>
-                                                <input type="text" class="form-control input-sm" id="titolo" placeholder="Titolo">
+                                                <input type="text" class="form-control input-sm" id="titolo"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->titolo : ''); ?>" placeholder="Titolo">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="autore">Autore</label>
-                                                <input type="text" class="form-control input-sm" id="autore" value="Autore">
+                                                <input type="text" class="form-control input-sm" id="autore"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->autore : ''); ?>">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="inputPassword4">Editore</label>
-                                                <input type="text" class="form-control input-sm" id="editore" placeholder="Editore">
+                                                <input type="text" class="form-control input-sm" id="editore" value="<?php echo (isSet($contenuto) ? $contenuto[0]->casa_editrice : ''); ?>" placeholder="Editore">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="inputPassword4">Anno Pubblicazione</label>
-                                                <input type="text" class="form-control input-sm" id="annoPubblicazione" placeholder="Anno Pubblicazione">
+                                                <input type="text" class="form-control input-sm" id="annoPubblicazione" value="<?php echo (isSet($contenuto) ? $contenuto[0]->edizione : ''); ?>" placeholder="Anno Pubblicazione">
                                             </div>
                                         </div>
-                                        
-                                        
-                                        
-                                        
-                                           <div class="form-row">
+
+
+
+
+                                        <div class="form-row">
                                             <div class="form-group col-md-3">
                                                 <label for="titolo">Prezzo</label>
-                                                <input type="text" class="form-control input-sm" id="prezzo" placeholder="Prezzo">
+                                                <input type="text" class="form-control input-sm" id="prezzo" value="<?php echo (isSet($contenuto) ? $contenuto[0]->prezzo : ''); ?>" placeholder="Prezzo">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label for="quantitaTotali">Quantità totali</label>
-                                                <input type="text" class="form-control input-sm" id="quantitaTotali" placeholder="Quantità totali">
+                                                <label for="quantitaTotali" id="labelQuantitaTotali">Quantità totali</label>
+                                                <input type="text" class="form-control input-sm" id="quantitaTotali" value=""  placeholder="Quantità totali">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label for="inputPassword4">Percentuale di Sconto</label>
-                                                <input type="text" class="form-control input-sm" id="percentualeSconto" placeholder="Percentuale di Sconto">
+                                                <label for="percentualeSconto" id="labelPercentualeSconto">Percentuale di Sconto</label>
+<!--                                                <input type="text" class="form-control input-sm" id="percentualeSconto" placeholder="Percentuale di Sconto">
+                                                -->
+                                            <select class="select2_demo_4 form-control"  name="percentualeSconto" id="percentualeSconto" style="width:100%">
+                                                    <option></option>
+                                                    <?php
+                                                    foreach ($percentuale as $item):
+                                                        ?>
+                                                        <option value="<?php echo $item->name; ?>" data-tokens="<?php echo $item->name; ?>%"  ><?php echo $item->name; ?>%</option>
+                                                        <?php
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            
+                                            
                                             </div>
-                                               <div class="form-group col-md-3">
-                                                <label for="titolo">Numero Copie Omaggio</label>
+                                            <div class="form-group col-md-3">
+                                                <label for="titolo" id="labelNumeroCopieOmaggio">Numero Copie Omaggio</label>
                                                 <input type="text" class="form-control input-sm" id="numeroCopieOmaggio" placeholder="Numero Copie Omaggio">
                                             </div>
-                                           
+
                                         </div>
                                         <div class="form-row">
-                                            
+
                                             <div class="form-group col-md-6">
-                                                <label for="quantitaTotali">Tipo Presa in Carico</label>
-                                                <input type="text" class="form-control input-sm" id="tipoPresaInCarico" placeholder="Tipo Presa in Carico">
+                                                <label for="quantitaTotali" id="labelIdTipoPresaInCarico">Tipo Presa in Carico</label>
+                                                <select class="select2_demo_3 form-control"  name="idTipoPresaInCarico"   id="idTipoPresaInCarico" style="width:100%">
+                                                                                                     
+                                                    <option></option>
+                                                    <?php
+                                                    foreach ($tipoPresaInCarico as $item):
+                                                        ?>
+                                                        <option value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
+                                                        <?php
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+
+
+
+
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="inputPassword4">Codice Sap</label>
                                                 <input type="text" class="form-control input-sm" id="codiceSap" placeholder="Codice Sap">
                                             </div>
-                                            
+
                                             <div class="form-group col-md-3">
                                                 <label for="inputPassword4">Novità</label>
-                                               <input type="checkbox" class="form-control input-sm"  value="">
+                                                <input type="checkbox" class="form-control input-sm"  value="">
                                             </div>
-                                          
-                                           
+
+
                                         </div>
                                         <div class="form-row">
-                                            
+
+
+
+                                            <div class="form-group col-md-6">
+
+
+                                                <?php if (isSet($contenuto) && $contenuto[0]->image != "") { ?>
+
+                                                    <img src="<?php echo $contenuto[0]->image; ?>" style="width: 90px;">
+
+                                                <?php } else { ?>
+
+                                                    <label for="descrizione">Immagine</label>
+
+                                                <?php } ?>
+
+
+                                                <label class="btn btn-primary">
+                                                    Browse&hellip; <input type="file" name="userfile" id="userfile" style="display: none;">
+                                                </label>
+
+
+                                            </div>
+
+
                                             <div class="form-group col-md-6">
                                                 <label for="descrizione">Descrizione Web</label>
-                                                 <textarea class="form-control" rows="5" id="descrizione"></textarea>
+                                                <textarea class="form-control" rows="5" id="descrizione"><?php echo (isSet($contenuto) ? $contenuto[0]->descrizione_web : ''); ?></textarea>
                                             </div>
-                                            
-                                             <div class="form-group col-md-6">
-                                                <label for="descrizione">Descrizione Web</label>
-                                                 <textarea class="form-control" rows="5" id="descrizione"></textarea>
-                                            </div>
-                                            
-                                           
+
+
                                         </div>
 
-                                  <div class="form-row">
-                                    <div class="form-group">
-                                        <button class="btn btn-white" type="submit">Cancel</button>
-                                        <button class="btn btn-primary" type="submit">Save changes</button>
-                                        
-                                    </div>
-                                 </div>
-                                        
-<!--                                        <button type="submit" class="btn btn-primary">Sign in</button>-->
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <button class="btn btn-white" type="submit">Cancel</button>
+                                                <button class="btn btn-primary" type="button" onclick="saveCaricaMagazzino();">Save changes</button>
+
+                                            </div>
+                                        </div>
+
+                                        <!--                                        <button type="submit" class="btn btn-primary">Sign in</button>-->
                                     </form>
 
 
@@ -249,192 +319,198 @@
         <script src="<?php echo base_url('assets/js/plugins/select2/select2.full.min.js'); ?>"></script>
 
 
-        
-        
-        
-        
-        
-     
+
+        <!-- Toastr script -->
+        <script src="<?php echo base_url('assets/js/plugins/toastr/toastr.min.js'); ?>"></script>
+
+
+
+
 
         <script>
+            
+                                                $(document).ready(function () {
 
-            $('.date').datepicker({
-                language: 'it-IT',
-                format: 'dd/mm/yyyy'
+                                                            $(".select2_demo_3").select2({
+                                                                placeholder: "Seleziona il tipo di presa in carico",
+                                                                allowClear: true
+                                                            });
+                                                            
+                                                            
+                                                             $(".select2_demo_4").select2({
+                                                                placeholder: "Seleziona la percentuale",
+                                                                allowClear: true
+                                                            });
 
-            });
 
-            $(".date").datepicker('setDate', new Date());
+                                                        });
+            
+            
+            
+            
 
+                                                    $('.date').datepicker({
+                                                        language: 'it-IT',
+                                                        format: 'dd/mm/yyyy'
 
-            function distributoreAdd()
-            {
-                $('#myModal_distributore').modal('show'); // show bootstrap modal
-            }
+                                                    });
 
-            function save()
-            {
-                $('#btnSave').text('saving...'); //change button text
-                $('#btnSave').attr('disabled', true); //set button disable 
+                                                    $(".date").datepicker('setDate', new Date());
 
-                // ajax adding data to database
-                $.ajax({
-                    url: "<?php echo site_url('magazzino/distributoreAdd') ?>",
-                    type: "POST",
-                    data: {
-                        nome: $('#nome').val(),
-                        indirizzo: $('#indirizzo').val(),
-                        citta: $('#citta').val(),
-                        cap: $('#cap').val(),
-                        telefono: $('#telefono').val(),
-                        email: $('#email').val(),
-                        piva: $('#p_iva').val(),
-                        percentuale: $('#percentuale_sconto').val(),
-                        referente: $('#referente').val(),
-                        emailReferente: $('#emailReferente').val(),
-                        telefonoReferente: $('#telefonoReferente').val()
-                    },
-                    dataType: "json",
-                    success: function (validation)
-                    {
-                        if (validation) //if success close modal and reload ajax table
-                        {
-                            $('#myModal_distributore').modal('hide');
-                            setTimeout(function () {
-                                location.reload();
-                            }, 500);
-                        }
-                        $('#btnSave').text('save'); //change button text
-                        $('#btnSave').attr('disabled', false); //set button enable 
-                    },
-                    error: function (jqXHR, textStatus, errorThrown)
-                    {
-                        alert('Error adding / update data');
-                        $('#btnSave').text('save'); //change button text
-                        $('#btnSave').attr('disabled', false); //set button enable 
-
-                    }
-                });
-            }
+                                                    toastr.options = {
+                                                        "closeButton": true,
+                                                        "debug": false,
+                                                        "progressBar": true,
+                                                        "preventDuplicates": false,
+                                                        "positionClass": "toast-top-right",
+                                                        "onclick": null,
+                                                        "showDuration": "400",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "7000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "fadeOut",
+                                                        "heading": "Error"
+                                                    };
 
 
 
 
 
+                                                    function saveCaricaMagazzino()
+                                                    {
+                                                        $('#btnSave').text('saving...'); //change button text
+                                                        $('#btnSave').attr('disabled', true); //set button disable 
+
+                                                        $("#labelQuantitaTotali").css("color", "#676a6c");
+                                                        $("#labelPercentualeSconto").css("color", "#676a6c");
+                                                        $("#labelNumeroCopieOmaggio").css("color", "#676a6c");
+                                                        $("#labelIdTipoPresaInCarico").css("color", "#676a6c");
+
+
+                                                        if ($('#quantitaTotali').val() === '') {
+                                                            toastr.error('Inserire Quantità totali', 'Attenzione!');
+                                                            $("#labelQuantitaTotali").css("color", "red");
+                                                            return;
+                                                        }
+//
+//alert("The selected text is " + $("#percentualeSconto :selected").text());
+//                
+//var $example = $("#selectId").select2();
+//$example.val(81).trigger("change");
+//                
+                                                      
+
+                                                        if ($('.select2_demo_4').val() === '') {
+                                                            toastr.error('Inserire Percentuale di Sconto', 'Attenzione!');
+                                                            $("#labelPercentualeSconto").css("color", "red");
+                                                            return;
+                                                        }
+
+                                                        if ($('#numeroCopieOmaggio').val() === '') {
+                                                            toastr.error('Inserire Numero Copie Omaggio', 'Attenzione!');
+                                                            $("#labelNumeroCopieOmaggio").css("color", "red");
+                                                            return;
+                                                        }
+
+                                                        if ($('.select2_demo_3').val() == 0) {
+                                                            toastr.error('Selezionare Tipo Presa in Carico', 'Attenzione!');
+                                                            $("#labelIdTipoPresaInCarico").css("color", "red");
+                                                            return;
+                                                        }
 
 
 
 
-            $(document).ready(function () {
-
-                $(".select2_demo_3").select2({
-                    placeholder: "Seleziona il distributore",
-                    allowClear: true
-                });
 
 
-            });
+
+
+
+                                                        // ajax adding data to database
+                                                        $.ajax({
+                                                            url: "<?php echo site_url('magazzino/inserisciArticolo') ?>",
+                                                            type: "POST",
+                                                            data: {
+                                                                trovato: $('#trovato').val(),
+                                                                isbn: $('#isbn').val(),
+                                                                idContenutoTipo: $('#idContenutoTipo').val(),
+                                                                idDistributore: $('#idDistributore').val(),
+                                                                idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),
+                                                                documentoCarico: $('#documentoCarico').val(),
+                                                                dataCarico: $('#dataCarico').val(),
+                                                                titolo: $('#titolo').val(),
+                                                                autore: $('#autore').val(),
+                                                                editore: $('#editore').val(),
+                                                                annoPubblicazione: $('#annoPubblicazione').val(),
+                                                                prezzo: $('#prezzo').val(),
+                                                                quantitaTotali: $('#quantitaTotali').val(),
+                                                                percentualeSconto: $('#percentualeSconto').val(),
+                                                                numeroCopieOmaggio: $('#numeroCopieOmaggio').val(),
+                                                                idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),
+                                                                codiceSap: $('#codiceSap').val()
+                                                            },
+                                                            dataType: "json",
+                                                            success: function (validation)
+                                                            {
+                                                                if (validation) //if success close modal and reload ajax table
+                                                                {
+                                                                  
+                                                                   toastr.success('Articolo inserito con successo!');
+                                                                   
+//                                                                    setTimeout(function () {
+//                                                                        location.reload();
+//                                                                    }, 500);
+                                                                     document.modulo.action = "<?php $_SERVER['PHP_SELF']; ?>";
+                                                                     $('#isbn').val('');
+                                                                     document.modulo.submit();
+                                                                    
+                                                                }
+                                                                $('#btnSave').text('save'); //change button text
+                                                                $('#btnSave').attr('disabled', false); //set button enable 
+                                                            },
+                                                            error: function (jqXHR, textStatus, errorThrown)
+                                                            {
+                                                                alert('Error adding / update data');
+                                                                $('#btnSave').text('save'); //change button text
+                                                                $('#btnSave').attr('disabled', false); //set button enable 
+
+                                                            }
+                                                        });
+                                                    }
+
+
+
+
+
+
+
+
+
+                                                    $(document).ready(function () {
+                                                        
+                                                        if ($('#trovato').val() === 'NON TROVATO') {
+                                                            toastr.error('Articolo non trovato in magazzino', 'Attenzione!');
+                                                            $("#labelNumeroCopieOmaggio").css("color", "red");
+                                                            return;
+                                                        }
+                                                        
+                                                        if ($('#trovato').val()  === 'TROVATO') {
+                                                            toastr.success('Articolo trovato in magazzino');
+                                                            $("#labelNumeroCopieOmaggio").css("color", "red");
+                                                            return;
+                                                        }
+
+                                                        $(".select2_demo_3").select2({
+                                                            placeholder: "Seleziona il tipo di presa in carico",
+                                                            allowClear: true
+                                                        });
+
+
+                                                    });
         </script>
-
-
-        <div class="modal inmodal fade" id="myModal_distributore" tabindex="-1" role="dialog"  aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h2 class="modal-title">Nuovo Distributore</h2>
-                    </div>
-                    <div class="modal-body" style="height:380px">
-                        <div class="form-row">
-                            <div class="form-group col-md-8">
-                                <label for="inputEmail4">Nominativo</label>
-                                <input type="text" class="form-control" id="nome" placeholder="Nominativo">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Indirizzo</label>
-                                <input type="text" class="form-control" id="indirizzo" placeholder="Indirizzo">
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Città</label>
-                                <input type="text" class="form-control" id="citta" placeholder="Città">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Cap</label>
-                                <input type="text" class="form-control" id="cap" placeholder="Cap">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Telefono</label>
-                                <input type="text" class="form-control" id="telefono" placeholder="Telefono">
-                            </div>
-                        </div>                                             
-
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Email</label>
-                                <input type="text" class="form-control" id="email" placeholder="Email">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">P.Iva</label>
-                                <input type="text" class="form-control" id="p_iva" placeholder="P.Iva">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Percentuale di sconto</label>
-                                <input type="text" class="form-control" id="percentuale_sconto" placeholder="Percentuale di sconto">
-                            </div>
-                        </div>    
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <div class="hr-line-dashed"></div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="form-row">
-
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Referente</label>
-                                <input type="text" class="form-control" id="referente" placeholder="Referente">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Email Referente</label>
-                                <input type="text" class="form-control" id="emailReferente" placeholder="Email Referente">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Telefono Referente</label>
-                                <input type="text" class="form-control" id="telefonoReferente" placeholder="Telefono Referente">
-                            </div>
-                        </div>  
-                    </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="btnSave" onclick="save()">Save changes</button>
-                    </div>
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
-
-
-
 
     </body>
 

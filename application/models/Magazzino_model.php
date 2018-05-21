@@ -228,49 +228,140 @@ class Magazzino_model extends CI_Model {
     }
 
     public function getElencoDistributori($id) {
-        
-        
+
+
         $this->db->select('id, nome');
         $this->db->from('distributore');
-        
-         if ($id != "") {
+
+        if ($id != "") {
             $this->db->where('id', $id);
         }
-        
+
         $this->db->order_by('nome');
         $query = $this->db->get();
         $res = $query->result();
         return $res;
     }
 
-    
-    
-    public function getElencoContenutiTipo($id) {
-        
-        $this->db->select('id, tipo');
-        $this->db->from('contenuti_tipo');
-        $this->db->where('is_active','1');
-        
+    public function getElencoTipoPresaCarico($id) {
+
+        $this->db->select('id, nome');
+        $this->db->from('tipo_presa_carico');
+        $this->db->where('is_active', '1');
+
         if ($id != "") {
             $this->db->where('id', $id);
         }
-        
+
+        $this->db->order_by('id');
+        $query = $this->db->get();
+        $res = $query->result();
+        return $res;
+    }
+
+    public function getElencoContenutiTipo($id) {
+
+        $this->db->select('id, tipo');
+        $this->db->from('contenuti_tipo');
+        $this->db->where('is_active', '1');
+
+        if ($id != "") {
+            $this->db->where('id', $id);
+        }
+
         $this->db->order_by('tipo');
         $query = $this->db->get();
         $res = $query->result();
         return $res;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public function getContenutoByISBN($isbn) {
+
+        $this->db->select('contenuti.id, contenuti.id_casa_editrice, contenuti.id_autore, '
+                . 'contenuti.id_contenuto_tipo, contenuti.isbn, contenuti.titolo, contenuti.descrizione, '
+                . 'contenuti.prezzo, contenuti.edizione, contenuti.numero, contenuti.data_inserimento_riga, '
+                . 'contenuti.data_modifica_riga, contenuti.operatore, contenuti.novita, contenuti.descrizione_web, '
+                . 'contenuti.image, autori.nome as autore, casa_editrice.nome as casa_editrice, contenuti_tipo.tipo');
+        $this->db->from('contenuti');
+        $this->db->join('casa_editrice', 'contenuti.id_casa_editrice = casa_editrice.id');
+        $this->db->join('autori', 'contenuti.id_autore = autori.id');
+        $this->db->join('contenuti_tipo', 'contenuti.id_contenuto_tipo = contenuti_tipo.id');
+        $this->db->where('contenuti.is_active', 1);
+        $this->db->where('isbn', $isbn);
+        $query = $this->db->get();
+        $res = $query->result();
+
+
+        //echo $this->db->last_query();die();
+//        var_dump($res);
+
+        return $res;
+    }
+
+    public function inserisciArticoloMagazzino($idContenuto, $idTipoPresaInCarico, $idDistributore, $quantitaTotale, $documentoCarico, $percentualeSconto, $numeroCopieOmaggio, $dataCarico, $codiceSap) {
+
+
+        $this->db->trans_begin();
+
+        $this->db->set('id_contenuto', $idContenuto);
+        $this->db->set('id_tipo_presa_carico', $idTipoPresaInCarico);
+        $this->db->set('id_distributore', $idDistributore);
+        $this->db->set('quantita', $quantitaTotale);
+        $this->db->set('quantita_caricata', $quantitaTotale);
+        $this->db->set('documento_carico', $documentoCarico);
+        $this->db->set('percentuale_sconto', $percentualeSconto);
+        $this->db->set('copie_omaggio', $numeroCopieOmaggio);
+        $this->db->set('data_carico', $dataCarico);
+        $this->db->set('codice_sap', $codiceSap);
+        $this->db->set('is_active', 1);
+        $this->db->set('data_inserimento_riga', 'NOW()', FALSE);
+        $this->db->set('data_modifica_riga', 'NOW()', FALSE);
+        $this->db->set('operatore', 'pippo');
+        $this->db->insert('carico_magazzino');
+
+        if ($this->db->affected_rows() == 1) {
+            //update magazzino
+            $this->db->set('id_tipo_presa_carico', $idTipoPresaInCarico);
+            $this->db->set('id_distributore', $idDistributore);
+            $this->db->set('quantita', 'quantita + ' . $quantitaTotale, FALSE);
+            $this->db->set('quantita_caricata', 'quantita', FALSE);
+            //$this->db->set('documento_carico', $documentoCarico);
+            $this->db->set('percentuale_sconto', $percentualeSconto);
+            $this->db->set('copie_omaggio', $numeroCopieOmaggio);
+            $this->db->set('data_carico', $dataCarico);
+            //$this->db->set('codice_sap', $codiceSap);
+            $this->db->set('data_modifica_riga', 'NOW()', FALSE);
+            $this->db->set('operatore', 'pippo');
+
+            $this->db->where('id_contenuto', $idContenuto);
+            $this->db->update('magazzino');
+
+//            
+            if ($this->db->affected_rows() == 1) {
+
+                $this->db->trans_commit();
+                $this->db->trans_complete();
+            } else {
+                $this->db->trans_rollback();
+            }
+        }
+
+        if ($this->db->trans_status() === FALSE) {
+            //echo "errore";
+            $this->db->trans_rollback();
+
+            $this->result->validation = FALSE;
+            $this->result->message = 'Errore in carica magazzino e update magazzino ok';
+            $this->result->httpResponse = 417;
+        } else {
+            //   echo "ooooookkkk";
+            $this->result->validation = TRUE;
+            $this->result->message = 'insert in carica magazzino e update magazzino ok';
+            $this->result->httpResponse = 200;
+        }
+        return $this->result;
+    }
+
 //    
 //
 //    public function getElencoCorsiArchivio($categoriaCorso) {

@@ -121,85 +121,188 @@ class Magazzino extends CI_Controller {
         $this->load->view('magazzino/listaCaricoMagazzino.php', $obj);
     }
 
-    
-     public function inserisciNuovoStep1() {
-        
+    public function inserisciNuovoStep1() {
+
         $this->load->model('magazzino_model');
 
         $obj['contenutiTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo = NULL);
 
         $this->load->view('magazzino/inserisciNuovoStep1.php', $obj);
     }
-    
-    
-    
+
     public function inserisciNuovoStep2() {
-        
+
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
-        
-        
+
+
         $idContenutoTipo = $this->input->post('idContenutoTipo');
 
-       $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
-        
-       $obj['distributori'] = $this->magazzino_model->getElencoDistributori($idDistributore = NULL);
+        $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+
+        $obj['distributori'] = $this->magazzino_model->getElencoDistributori($idDistributore = NULL);
 
         $this->load->view('magazzino/inserisciNuovoStep2.php', $obj);
     }
-    
-    
-     public function inserisciNuovoStep3() {
-        
+
+    public function inserisciNuovoStep3() {
+
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
+        $this->load->model('setup_model');
+
+        $idContenutoTipo = $this->input->post('idContenutoTipo');
+        $idDistributore = $this->input->post('idDistributore');
+        $documentoCarico = $this->input->post('documentoCarico');
+        $dataCarico = $this->input->post('dataCarico');
+        $isbn = $this->input->post('isbn');
+
+        $obj['percentuale'] = $this->setup_model->getElencoPercentuale();
+
         
-     $obj = array();    
+        //ho fatto la ricerca per isbn
+        if ($isbn != "") {
 
-     
-     $idContenutoTipo = $this->input->post('idContenutoTipo');
-     $idDistributore = $this->input->post('idDistributore');
-     $documentoCarico = $this->input->post('documentoCarico');
-     $dataCarico = $this->input->post('dataCarico');
-     
-     
-     
-     $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
-     
-     $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
-     
-     $obj['documentoCarico'] = $documentoCarico; 
-     $obj['dataCarico'] = $dataCarico;
-      
-     
-     
-     
-     
-     
-     //print_r($this->input->post());
+            $ret = $this->magazzino_model->getContenutoByISBN($isbn);
+            if (isSet($ret[0])) {
 
-//
-//         $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenuto);
-//        
-//         //print_r($obj);
-//        
-//        $obj['distributori'] = $this->magazzino_model->getElencoDistributori();
-     
-     
-     
-     
+                $obj['trovato'] = "TROVATO";
+                $obj['contenuto'] = $ret;
 
-        $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
+                $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+                $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
+                $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
+                $obj['documentoCarico'] = $documentoCarico;
+                $obj['dataCarico'] = $dataCarico;
+
+
+               // echo $idContenutoTipo; 
+                //print_r($obj['contenutoTipo']);die();
+                
+                
+                
+                $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
+            } else {
+                $obj['trovato'] = 'NON TROVATO';
+
+
+                $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+                $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
+                $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
+                $obj['documentoCarico'] = $documentoCarico;
+                $obj['dataCarico'] = $dataCarico;
+
+
+                $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
+            }
+        } else {
+
+            $idContenutoTipo = $this->input->post('idContenutoTipo');
+            $idDistributore = $this->input->post('idDistributore');
+            $documentoCarico = $this->input->post('documentoCarico');
+            $dataCarico = $this->input->post('dataCarico');
+
+
+            $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+            $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
+            $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
+            $obj['documentoCarico'] = $documentoCarico;
+            $obj['dataCarico'] = $dataCarico;
+            $obj['trovato'] = "PRIMA VOLTA";
+
+            $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
+        }
+        
+        
+        
+        
+        
+        
+        
     }
-    
-    
-    
-    
-    
-    
+
+    public function inserisciArticolo() {
+
+
+        $this->load->model('magazzino_model');
+
+        $trovato = $this->input->post('trovato');
+        $isbn = $this->input->post('isbn');
+
+
+        $idContenutoTipo = $this->input->post('idContenutoTipo');
+        $idTipoPresaInCarico = $this->input->post('idTipoPresaInCarico');
+        $idDistributore = $this->input->post('idDistributore');
+        $quantitaTotale = $this->input->post('quantitaTotali');
+        $documentoCarico = $this->input->post('documentoCarico');
+        $percentualeSconto = $this->input->post('percentualeSconto');
+        $numeroCopieOmaggio = $this->input->post('numeroCopieOmaggio');
+        $myDateTime = DateTime::createFromFormat('d/m/Y', $this->input->post('dataCarico'));
+        $dataCarico = $myDateTime->format('Y-m-d');
+        
+        $codiceSap = $this->input->post('codiceSap');
+
+        
+        
+//        echo "idContenutoTipo:" . $idContenutoTipo . "<BR>";
+//        echo "idTipoPresaInCarico:" . $idTipoPresaInCarico . "<BR>";
+//        echo "idDistributore:" . $idDistributore . "<BR>";
+//        echo "quantitaTotale:" . $quantitaTotale . "<BR>";
+//        echo "percentualeSconto:" . $percentualeSconto . "<BR>";
+//        echo "numeroCopieOmaggio:" . $numeroCopieOmaggio . "<BR>";
+//        echo "dataCarico:" . $dataCarico . "<BR>";
+//        echo "codiceSap:" . $codiceSap . "<BR>";
+        
+        
+        
+        
+//       echo "<pre>";
+       //print_r($this->input->post()) . PHP_EOL . PHP_EOL . "\t";die();
+
+        if ($trovato == "TROVATO") {
+
+           $resContenuto = $this->magazzino_model->getContenutoByISBN($isbn);
+           
+          // print_r($resContenuto);
+//           die();
+           
+            $ret = $this->magazzino_model->inserisciArticoloMagazzino($resContenuto[0]->id, $idTipoPresaInCarico,$idDistributore, $quantitaTotale, $documentoCarico, $percentualeSconto, $numeroCopieOmaggio, $dataCarico, $codiceSap );
+                                
+           
+            //echo "PRENO IL CONTENUTO GI° ESISTENTE INSERISCO IN CARICO MAGAZZINO con quantità etc poi AGGIORNO MAGAZZINO<br>";
+
+            
+            
+            
+        }else{
+            
+             echo "nuovo libro insert in carico magazzino e insert in magazzins";
+
+            
+            
+        }
+
+            $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+            $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
+            $obj['documentoCarico'] = $documentoCarico;
+            $obj['dataCarico'] = $dataCarico;
+        
+
+            
+            
+           // echo "ritorno json ok insert e cancello alcuni campi per nuova ricerca/ inserimento<br>";
+            
+            
+            if ($ret->validation) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret));
+        }
+        
+    }
 
     public function distributoreAdd() {
-        
+
         $this->load->model('magazzino_model');
 
         $data = array(
