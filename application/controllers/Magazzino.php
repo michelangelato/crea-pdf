@@ -19,6 +19,16 @@ class Magazzino extends CI_Controller {
 //            //If no session, redirect to login page
 //            redirect('Login', 'refresh');
 //        }
+
+        $this->idMagazzino = null;
+
+        $this->result = new stdClass();
+        $this->result->validation = true;
+        $this->result->message = '';
+        $this->result->data = null;
+        $this->result->httpResponse = 200;
+        $this->result->errorNum = '';
+        $this->result->errorText = '';
     }
 
     public function listaMagazzino() {
@@ -136,7 +146,7 @@ class Magazzino extends CI_Controller {
         $this->load->model('magazzino_model');
 
 
-        $idContenutoTipo = $this->input->post('idContenutoTipo');
+        $idContenutoTipo = $this->input->get('idContenutoTipo');
 
         $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
 
@@ -159,7 +169,7 @@ class Magazzino extends CI_Controller {
 
         $obj['percentuale'] = $this->setup_model->getElencoPercentuale();
 
-        
+
         //ho fatto la ricerca per isbn
         if ($isbn != "") {
 
@@ -176,11 +186,11 @@ class Magazzino extends CI_Controller {
                 $obj['dataCarico'] = $dataCarico;
 
 
-               // echo $idContenutoTipo; 
+                // echo $idContenutoTipo; 
                 //print_r($obj['contenutoTipo']);die();
-                
-                
-                
+
+
+
                 $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
             } else {
                 $obj['trovato'] = 'NON TROVATO';
@@ -212,13 +222,6 @@ class Magazzino extends CI_Controller {
 
             $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
         }
-        
-        
-        
-        
-        
-        
-        
     }
 
     public function inserisciArticolo() {
@@ -239,66 +242,31 @@ class Magazzino extends CI_Controller {
         $numeroCopieOmaggio = $this->input->post('numeroCopieOmaggio');
         $myDateTime = DateTime::createFromFormat('d/m/Y', $this->input->post('dataCarico'));
         $dataCarico = $myDateTime->format('Y-m-d');
-        
         $codiceSap = $this->input->post('codiceSap');
-
-        
-        
-//        echo "idContenutoTipo:" . $idContenutoTipo . "<BR>";
-//        echo "idTipoPresaInCarico:" . $idTipoPresaInCarico . "<BR>";
-//        echo "idDistributore:" . $idDistributore . "<BR>";
-//        echo "quantitaTotale:" . $quantitaTotale . "<BR>";
-//        echo "percentualeSconto:" . $percentualeSconto . "<BR>";
-//        echo "numeroCopieOmaggio:" . $numeroCopieOmaggio . "<BR>";
-//        echo "dataCarico:" . $dataCarico . "<BR>";
-//        echo "codiceSap:" . $codiceSap . "<BR>";
-        
-        
-        
-        
-//       echo "<pre>";
-       //print_r($this->input->post()) . PHP_EOL . PHP_EOL . "\t";die();
 
         if ($trovato == "TROVATO") {
 
-           $resContenuto = $this->magazzino_model->getContenutoByISBN($isbn);
-           
-          // print_r($resContenuto);
-//           die();
-           
-            $ret = $this->magazzino_model->inserisciArticoloMagazzino($resContenuto[0]->id, $idTipoPresaInCarico,$idDistributore, $quantitaTotale, $documentoCarico, $percentualeSconto, $numeroCopieOmaggio, $dataCarico, $codiceSap );
-                                
-           
+            $resContenuto = $this->magazzino_model->getContenutoByISBN($isbn);
+
+            $ret = $this->magazzino_model->inserisciArticoloMagazzino($resContenuto[0]->id, $idTipoPresaInCarico, $idDistributore, $quantitaTotale, $documentoCarico, $percentualeSconto, $numeroCopieOmaggio, $dataCarico, $codiceSap);
+
             //echo "PRENO IL CONTENUTO GI° ESISTENTE INSERISCO IN CARICO MAGAZZINO con quantità etc poi AGGIORNO MAGAZZINO<br>";
-
-            
-            
-            
-        }else{
-            
-             echo "nuovo libro insert in carico magazzino e insert in magazzins";
-
-            
-            
+        } else {
+            echo "nuovo libro insert in carico magazzino e insert in magazzins";
         }
 
-            $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
-            $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
-            $obj['documentoCarico'] = $documentoCarico;
-            $obj['dataCarico'] = $dataCarico;
-        
+        $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
+        $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
+        $obj['documentoCarico'] = $documentoCarico;
+        $obj['dataCarico'] = $dataCarico;
 
-            
-            
-           // echo "ritorno json ok insert e cancello alcuni campi per nuova ricerca/ inserimento<br>";
-            
-            
-            if ($ret->validation) {
+        // echo "ritorno json ok insert e cancello alcuni campi per nuova ricerca/ inserimento<br>";
+
+        if ($ret->validation) {
             $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode($ret));
         }
-        
     }
 
     public function distributoreAdd() {
@@ -326,6 +294,141 @@ class Magazzino extends CI_Controller {
                     ->set_content_type('application/json')
                     ->set_output(json_encode($ret));
         }
+    }
+
+    public function search($array, $key, $value) {
+        $results = array();
+
+
+
+
+        //echo $key . "--" . $value . '------' . $array[0][0]['isbn'] ."<br>";
+
+        print($array[0][0]->isbn);
+
+        if (is_array($array)) {
+
+            echo "ok<br>";
+            if (isset($array[0][0]->$key) && $array[0][0]->$key == '$value') {
+                echo "llsxxxl<br>";
+                $results[] = $array;
+            }
+
+
+            foreach ($array as $subarray) {
+                $results = array_merge($results, $this->search($subarray, $key, $value));
+            }
+        }
+
+        echo "result:::: <br>";
+        print_r($results);
+        return $results;
+    }
+
+    public function portaInVisione() {
+
+        $this->load->model('cliente_model');
+        $this->load->model('magazzino_model');
+
+        $idCliente = $this->input->get('idCliente');
+        $idMagazzino = $this->input->get('idMagazzino');
+        $isbnDelete = $this->input->get('isbnDelete');
+
+        $obj['cliente'] = $this->cliente_model->getClienteById($idCliente);
+
+        echo $isbnDelete . "<br><br><br><br><br><br><br>";
+
+
+        if ($isbnDelete != "") {
+
+            $arr = ($this->session->userdata('que_ans_session'));
+            var_dump($arr);
+            
+            if (($key = array_search($isbnDelete, $arr[0][0])) !== false) {
+                echo "xxxx";
+                unset($arr[$key]);
+            }
+            
+            
+            $this->session->set_userdata('que_ans_session', $arr);
+            
+            
+//            foreach ($arr[0] as $value) {
+//               
+//                if($value->isbn == $isbnDelete)
+//                    
+//                
+//                
+//                
+//                
+//            }
+
+
+//            
+//            if (in_array($isbnDelete, $arr[0])) {
+//                echo "Got Irix";
+//            }
+//            
+
+
+//            print_r($this->session->userdata('que_ans_session'));
+        }
+
+
+
+
+        //METTO IN SESSIONE I LIBRI CHE HO SELEZIONATO PER LA PRESA VISIONE
+        $obj['articoloMagazzino'] = $this->magazzino_model->getArticoloInMagazzinoById($idMagazzino);
+
+        //print_r($obj['articoloMagazzino']);
+
+        $old_que_ans_session = $this->session->userdata('que_ans_session');
+
+        //print_r($old_que_ans_session);die();
+        if (count($old_que_ans_session) == 0) {
+            $old_que_ans_session[] = $obj['articoloMagazzino'];
+        } else {
+            if (!in_array($obj['articoloMagazzino'], $old_que_ans_session)) {
+                array_push($old_que_ans_session, $obj['articoloMagazzino']);
+            }
+        }
+
+        $this->session->set_userdata('que_ans_session', $old_que_ans_session);
+
+        $this->load->view('magazzino/portaInVisione', $obj);
+    }
+
+    function getLibriSelezionatiPerVisione() {
+
+        $obj['selezioneLibriInVisione'] = array_filter($this->session->userdata('que_ans_session'));
+
+//        print(count($obj['selezioneLibriInVisione']));
+
+
+
+        if (count($obj['selezioneLibriInVisione']) > 0) {
+            $this->result->validation = TRUE;
+            $this->result->message = 'Articolo in magazzino recuperato!!';
+            $this->result->httpResponse = 200;
+            $this->result->data = $obj['selezioneLibriInVisione'];
+        } else {
+            $this->result->validation = FALSE;
+            $this->result->errorNum = '0701';
+            $this->result->errorText = 'articolo non trovato per idMagazzino: ' . $idMagazzino;
+            $this->result->message = 'Errore';
+            $this->result->httpResponse = 417;
+        }
+
+        $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($this->result));
+    }
+
+    function test() {
+
+        $obj['selezioneLibriInVisione'] = $this->session->userdata('que_ans_session');
+
+        print(count($obj['selezioneLibriInVisione']));
     }
 
 //    public function dateCorso($idCorso, $gruppo) {
@@ -744,28 +847,6 @@ class Magazzino extends CI_Controller {
 //                ->set_output(json_encode($this->result));
 //    }
 //
-////    public function edit($idCorso) {
-////
-////        $this->load->model('corsi_model');
-////
-////        //elenco categoaria
-////        $obj['categoria'] = $this->corsi_model->getElencoCategoria();
-////
-////        //elenco aule
-////        $obj['aule'] = $this->corsi_model->getElencoAule();
-////
-////        //elenco categoaria
-////        $obj['trainer'] = $this->corsi_model->getElencoTrainer();
-////
-////        //elenco categoaria
-////        $obj['destinatari'] = $this->corsi_model->getElencoDestinatarioCorso();
-////
-////        $obj['data'] = $this->corsi_model->getCorsoById($idCorso);
-////
-////        $this->load->view('editCorso', $obj);
-////    
-////        
-////    }
 //
 //    public function corsoDelete($idCorso) {
 //

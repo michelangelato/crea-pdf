@@ -93,8 +93,6 @@
 
 <script type="text/javascript">
 
-
-
     function cvf_load_all_posts(page) {
         // Start the transition
         $(".cvf_pag_loading").fadeIn().css('background', '#ccc');
@@ -124,7 +122,7 @@
 
     });
 
-// Search
+    // Search
     $('body').on('click', '.blog_search_submit', function () {
         cvf_load_all_posts(1);
     });

@@ -362,7 +362,188 @@ class Magazzino_model extends CI_Model {
         return $this->result;
     }
 
-//    
+    public function getArticoloInMagazzinoById($id) {
+
+        $this->db->select('contenuti.id as id_contenuto, 
+			   contenuti.isbn, 
+                           contenuti.titolo, 
+						contenuti.descrizione, 
+						contenuti.prezzo,
+						contenuti.edizione,
+						contenuti.image, 
+						magazzino.id,
+						magazzino.id as id_magazzino,
+						magazzino.id_tipo_presa_carico,  
+						magazzino.percentuale_sconto, 
+						magazzino.copie_omaggio, 
+						magazzino.data_carico, 
+						magazzino.quantita,
+						magazzino.quantita_caricata,
+						magazzino.documento_carico, 
+						magazzino.data_inserimento_riga,
+						magazzino.data_modifica_riga,  
+						tipo_presa_carico.id as id_tipo_presa_carico, 
+						tipo_presa_carico.nome, 
+						distributore.id as id_distributore, 
+						distributore.nome as distributore, 
+						autori.nome as autore, 
+						casa_editrice.nome as casa_editrice, 
+						contenuti_tipo.id as id_contenuto_tipo,
+						contenuti_tipo.tipo as contenuto_tipo');
+        $this->db->from('magazzino');
+        $this->db->join('contenuti', 'magazzino.id_contenuto = contenuti.id');
+        $this->db->join('tipo_presa_carico', 'magazzino.id_tipo_presa_carico = tipo_presa_carico.id');
+        $this->db->join('distributore', 'magazzino.id_distributore = distributore.id');
+        $this->db->join('casa_editrice', 'contenuti.id_casa_editrice = casa_editrice.id');
+        $this->db->join('autori', 'contenuti.id_autore = autori.id');
+        $this->db->join('contenuti_tipo', 'contenuti.id_contenuto_tipo = contenuti_tipo.id');
+        $this->db->where('magazzino.is_active', '1');
+        $this->db->where('magazzino.quantita > 0');
+        $this->db->where(' magazzino.is_active', '1');
+        $this->db->where(' magazzino.id', $id);
+
+        $query = $this->db->get();
+        $res = $query->result();
+        return $res;
+    }
+
+    // INIZIO PAGINAZIONE PER LA PRESA VISIONE DELL'ELENCO MAGAZZINO
+    //
+    function count_all() {
+        
+        $this->db->select('contenuti.id as id_contenuto, 
+			   contenuti.isbn, 
+                           contenuti.titolo, 
+						contenuti.descrizione, 
+						contenuti.prezzo,
+						contenuti.edizione,
+						contenuti.image, 
+						magazzino.id,
+						magazzino.id as id_magazzino,
+						magazzino.id_tipo_presa_carico,  
+						magazzino.percentuale_sconto, 
+						magazzino.copie_omaggio, 
+						magazzino.data_carico, 
+						magazzino.quantita,
+						magazzino.quantita_caricata,
+						magazzino.documento_carico, 
+						magazzino.data_inserimento_riga,
+						magazzino.data_modifica_riga,  
+						tipo_presa_carico.id as id_tipo_presa_carico, 
+						tipo_presa_carico.nome, 
+						distributore.id as id_distributore, 
+						distributore.nome as distributore, 
+						autori.nome as autore, 
+						casa_editrice.nome as casa_editrice, 
+						contenuti_tipo.id as id_contenuto_tipo,
+						contenuti_tipo.tipo as contenuto_tipo');
+        $this->db->from('magazzino');
+        $this->db->join('contenuti', 'magazzino.id_contenuto = contenuti.id');
+        $this->db->join('tipo_presa_carico', 'magazzino.id_tipo_presa_carico = tipo_presa_carico.id');
+        $this->db->join('distributore', 'magazzino.id_distributore = distributore.id');
+        $this->db->join('casa_editrice', 'contenuti.id_casa_editrice = casa_editrice.id');
+        $this->db->join('autori', 'contenuti.id_autore = autori.id');
+        $this->db->join('contenuti_tipo', 'contenuti.id_contenuto_tipo = contenuti_tipo.id');
+        $this->db->where('magazzino.is_active', '1');
+        $this->db->where('magazzino.quantita > 0');
+        $this->db->where(' magazzino.is_active', '1');
+
+        $query = $this->db->get();
+        
+        //$query = $this->db->get("clienti");
+        return $query->num_rows();
+    }
+
+    function fetch_details($limit, $start, $isbn, $titolo, $prezzo, $documentoCarico) {
+        $output = '';
+        $this->db->select('contenuti.id as id_contenuto, 
+			   contenuti.isbn, 
+                           contenuti.titolo, 
+						contenuti.descrizione, 
+						contenuti.prezzo,
+						contenuti.edizione,
+						contenuti.image, 
+						magazzino.id,
+						magazzino.id as id_magazzino,
+						magazzino.id_tipo_presa_carico,  
+						magazzino.percentuale_sconto, 
+						magazzino.copie_omaggio, 
+						magazzino.data_carico, 
+						magazzino.quantita,
+						magazzino.quantita_caricata,
+						magazzino.documento_carico, 
+						magazzino.data_inserimento_riga,
+						magazzino.data_modifica_riga,  
+						tipo_presa_carico.id as id_tipo_presa_carico, 
+						tipo_presa_carico.nome, 
+						distributore.id as id_distributore, 
+						distributore.nome as distributore, 
+						autori.nome as autore, 
+						casa_editrice.nome as casa_editrice, 
+						contenuti_tipo.id as id_contenuto_tipo,
+						contenuti_tipo.tipo as contenuto_tipo');
+        $this->db->from('magazzino');
+        $this->db->join('contenuti', 'magazzino.id_contenuto = contenuti.id');
+        $this->db->join('tipo_presa_carico', 'magazzino.id_tipo_presa_carico = tipo_presa_carico.id');
+        $this->db->join('distributore', 'magazzino.id_distributore = distributore.id');
+        $this->db->join('casa_editrice', 'contenuti.id_casa_editrice = casa_editrice.id');
+        $this->db->join('autori', 'contenuti.id_autore = autori.id');
+        $this->db->join('contenuti_tipo', 'contenuti.id_contenuto_tipo = contenuti_tipo.id');
+        $this->db->where('magazzino.is_active', '1');
+        $this->db->where('magazzino.quantita > 0');
+        $this->db->where(' magazzino.is_active', '1');
+
+        if ($isbn != "") {
+            $this->db->where('isbn', $isbn);
+        }
+
+        if ($titolo != "") {
+            $this->db->where('titolo', $titolo);
+        }
+
+        if ($prezzo != "") {
+            $this->db->where('prezzo', $prezzo);
+        }
+
+        if ($documentoCarico != "") {
+            $this->db->where('documento_carico', $documentoCarico);
+        }
+
+        $this->db->order_by("data_carico", "ASC");
+        $this->db->limit($limit, $start);
+        
+
+        $query = $this->db->get();
+        $output .= '
+  <table class="table table-bordered">
+   <tr>
+    <th>Isbn</th>
+    <th>Titolo</th>
+    <th>Edizione</th>
+    <th>Quantità</th>
+    <th>Documento di carico</th>
+    <th>Data carico</th>
+    <th></th>
+   </tr>
+  ';
+        foreach ($query->result() as $row) {
+            $output .= '
+   <tr>
+    <td>' . $row->isbn . '</td>
+    <td>' . $row->titolo . '</td>
+    <td>' . $row->edizione . '</td>
+    <td>' . $row->quantita . '</td>
+    <td>' . $row->documento_carico . '</td>
+    <td>' . $row->data_carico . '</td>
+    <td><button type="button"  style="margin-top: 5px;" class="btn btn-primary btn-xs" onclick="portaInVisione(' . $row->id . ')">Porta In Visione</button></td>
+   </tr>
+   ';
+        }
+        $output .= '</table>';
+        return $output;
+    }
+
+    // FINE PAGINAZIONE PER LA PRESA VISIONE DELL'ELENCO MAGAZZINO
 //
 //    public function getElencoCorsiArchivio($categoriaCorso) {
 //

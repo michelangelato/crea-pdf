@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>INSPINIA | Static Tables</title>
+        <!-- Toastr style -->
+        <link href="<?php echo base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
 
         <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
@@ -42,32 +44,15 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h5>Seleziona il tipo di contenuto</h5>
-<!--                                    <div class="ibox-tools">
-                                        <a class="collapse-link">
-                                            <i class="fa fa-chevron-up"></i>
-                                        </a>
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                            <i class="fa fa-wrench"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-user">
-                                            <li><a href="#">Config option 1</a>
-                                            </li>
-                                            <li><a href="#">Config option 2</a>
-                                            </li>
-                                        </ul>
-                                        <a class="close-link">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>-->
                                 </div>
                                 <div class="ibox-content">
                                     <form class="form-horizontal" method="post" action="<?php echo site_url('magazzino/inserisciNuovoStep2') ?>">
-                                        <div class="form-group"><label class="col-sm-2 control-label">Distributore</label>
+                                        <div class="form-group"><label class="col-sm-2 control-label" id ="labelTipoContenuto">Tipologia Articolo</label>
 
                                             <div class="col-sm-10">
 
-                                                <select class="select2_demo_3 form-control" name="idContenutoTipo" style="width:100%">
-                                                      <option></option>
+                                                <select class="select2_demo_3 form-control" name="idContenutoTipo" id="idContenutoTipo" style="width:100%">
+                                                    <option></option>
                                                     <?php
                                                     foreach ($contenutiTipo as $item):
                                                         ?>
@@ -84,7 +69,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-4 col-sm-offset-2">
                                                 <button class="btn btn-white" type="submit">Cancel</button>
-                                                <button class="btn btn-primary" type="submit">Avanti</button>
+                                                <button class="btn btn-primary" type="button" onclick="goStep2()">Avanti</button>
                                             </div>
                                         </div>
                                     </form>
@@ -123,188 +108,208 @@
         <script src="<?php echo base_url('assets/js/inspinia.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/plugins/pace/pace.min.js'); ?>"></script>
 
-        <!--         iCheck 
-                <script src="<?php echo base_url('assets/js/plugins/iCheck/icheck.min.js'); ?>"></script>
-        
-                 Peity 
-                <script src="<?php echo base_url('assets/js/demo/peity-demo.js'); ?>"></script>-->
-
         <!-- Select2 -->
         <script src="<?php echo base_url('assets/js/plugins/select2/select2.full.min.js'); ?>"></script>
 
-<!-- Data picker -->
-   <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js'); ?>"></script>
-   <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.it.min.js'); ?>"></script>
-   
-        
+        <!-- Data picker -->
+        <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.it.min.js'); ?>"></script>
+
+        <!-- Toastr script -->
+        <script src="<?php echo base_url('assets/js/plugins/toastr/toastr.min.js'); ?>"></script>
+
+
+
         <script>
 
-                                   $('.date').datepicker({
-                                                    language: 'it-IT',
-                                                    format: 'dd/mm/yyyy'
+                                                    toastr.options = {
+                                                        "closeButton": true,
+                                                        "debug": false,
+                                                        "progressBar": true,
+                                                        "preventDuplicates": false,
+                                                        "positionClass": "toast-top-right",
+                                                        "onclick": null,
+                                                        "showDuration": "400",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "7000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "fadeOut",
+                                                        "heading": "Error"
+                                                    };
+
+
+
+                                                    function goStep2()
+                                                    {
+
+                                                        $("#labelTipoContenuto").css("color", "#676a6c");
+                                                        
+
+                                                        if ($('.select2_demo_3').val() === '') {
+                                                            toastr.error('Selezionare la tipologia di documento', 'Attenzione!');
+                                                            $("#labelTipoContenuto").css("color", "red");
+                                                            return;
+                                                        }
+
+
+
                                                     
-                                                });
-                                  
-                                     $(".date").datepicker('setDate', new Date());
-                                   
-                                   
-                                                        function distributoreAdd()
-                                                        {
-                                                            $('#myModal_distributore').modal('show'); // show bootstrap modal
-                                                        }
+                                                        var idContenutoTipo = $('#idContenutoTipo').val();
 
-                                                        function goStep2()
-                                                        {
-                                                            $('#btnGoStep2').text('avanti...'); //change button text
-                                                            $('#btnGoStep2').attr('disabled', true); //set button disable 
+                                                        window.location = "<?php echo base_url("magazzino/inserisciNuovoStep2"); ?>?idContenutoTipo=" + idContenutoTipo;
 
-                                                            // ajax adding data to database
-                                                            $.ajax({
-                                                                url: "<?php echo site_url('magazzino/inserisciNuovoStep2') ?>",
-                                                                type: "POST",
-                                                                data: {
-                                                                    nome: $('#nome').val(),
-                                                                    indirizzo: $('#indirizzo').val(),
-                                                                    citta: $('#citta').val(),
-                                                                    cap: $('#cap').val(),
-                                                                    telefono: $('#telefono').val(),
-                                                                    email: $('#email').val(),
-                                                                    piva: $('#p_iva').val(),
-                                                                    percentuale: $('#percentuale_sconto').val(),
-                                                                    referente: $('#referente').val(),
-                                                                    emailReferente: $('#emailReferente').val(),
-                                                                    telefonoReferente: $('#telefonoReferente').val()
-                                                                },
-                                                                dataType: "json",
-                                                                success: function (validation)
-                                                                {
-                                                                    if (validation) //if success close modal and reload ajax table
-                                                                    {
-                                                                        $('#myModal_distributore').modal('hide');
-                                                                        setTimeout(function () {
-                                                                            location.reload();
-                                                                        }, 500);
-                                                                    }
-                                                                    $('#btnGoStep2').text('avanti'); //change button text
-                                                                    $('#btnGoStep2').attr('disabled', false); //set button enable 
-                                                                },
-                                                                error: function (jqXHR, textStatus, errorThrown)
-                                                                {
-                                                                    alert('Error adding / update data');
-                                                                    $('#btnSave').text('save'); //change button text
-                                                                    $('#btnSave').attr('disabled', false); //set button enable 
-
-                                                                }
-                                                            });
-                                                        }
-
-                                                        $(document).ready(function () {
-
-                                                            $(".select2_demo_3").select2({
-                                                                placeholder: "Seleziona la tipologia di contenuto",
-                                                                allowClear: true
-                                                            });
+                                                    }
 
 
+//                                                        function goStep2()
+//                                                        {
+//                                                            $('#btnGoStep2').text('avanti...'); //change button text
+//                                                            $('#btnGoStep2').attr('disabled', true); //set button disable 
+//
+//                                                            // ajax adding data to database
+//                                                            $.ajax({
+//                                                                url: "<?php echo site_url('magazzino/inserisciNuovoStep2') ?>",
+//                                                                type: "POST",
+//                                                                data: {
+//                                                                    idContenutoTipo: $('#nome').val(),
+//                                                                    indirizzo: $('#indirizzo').val(),
+//                                                                    citta: $('#citta').val(),
+//                                                                    cap: $('#cap').val(),
+//                                                                    telefono: $('#telefono').val(),
+//                                                                    email: $('#email').val(),
+//                                                                    piva: $('#p_iva').val(),
+//                                                                    percentuale: $('#percentuale_sconto').val(),
+//                                                                    referente: $('#referente').val(),
+//                                                                    emailReferente: $('#emailReferente').val(),
+//                                                                    telefonoReferente: $('#telefonoReferente').val()
+//                                                                },
+//                                                                dataType: "json",
+//                                                                success: function (validation)
+//                                                                {
+//                                                                    if (validation) //if success close modal and reload ajax table
+//                                                                    {
+//                                                                        $('#myModal_distributore').modal('hide');
+//                                                                        setTimeout(function () {
+//                                                                            location.reload();
+//                                                                        }, 500);
+//                                                                    }
+//                                                                    $('#btnGoStep2').text('avanti'); //change button text
+//                                                                    $('#btnGoStep2').attr('disabled', false); //set button enable 
+//                                                                },
+//                                                                error: function (jqXHR, textStatus, errorThrown)
+//                                                                {
+//                                                                    alert('Error adding / update data');
+//                                                                    $('#btnSave').text('save'); //change button text
+//                                                                    $('#btnSave').attr('disabled', false); //set button enable 
+//
+//                                                                }
+//                                                            });
+//                                                        }
+
+                                                    $(document).ready(function () {
+
+                                                        $(".select2_demo_3").select2({
+                                                            placeholder: "Seleziona la tipologia di contenuto",
+                                                            allowClear: true
                                                         });
+
+
+                                                    });
         </script>
 
 
-        <div class="modal inmodal fade" id="myModal_distributore" tabindex="-1" role="dialog"  aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h2 class="modal-title">Nuovo Distributore</h2>
-                    </div>
-                    <div class="modal-body" style="height:380px">
-                        <div class="form-row">
-                            <div class="form-group col-md-8">
-                                <label for="inputEmail4">Nominativo</label>
-                                <input type="text" class="form-control" id="nome" placeholder="Nominativo">
+        <!--        <div class="modal inmodal fade" id="myModal_distributore" tabindex="-1" role="dialog"  aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h2 class="modal-title">Nuovo Distributore</h2>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Indirizzo</label>
-                                <input type="text" class="form-control" id="indirizzo" placeholder="Indirizzo">
+                            <div class="modal-body" style="height:380px">
+                                <div class="form-row">
+                                    <div class="form-group col-md-8">
+                                        <label for="inputEmail4">Nominativo</label>
+                                        <input type="text" class="form-control" id="nome" placeholder="Nominativo">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Indirizzo</label>
+                                        <input type="text" class="form-control" id="indirizzo" placeholder="Indirizzo">
+                                    </div>
+                                </div>
+        
+        
+        
+        
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Città</label>
+                                        <input type="text" class="form-control" id="citta" placeholder="Città">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Cap</label>
+                                        <input type="text" class="form-control" id="cap" placeholder="Cap">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Telefono</label>
+                                        <input type="text" class="form-control" id="telefono" placeholder="Telefono">
+                                    </div>
+                                </div>                                             
+        
+        
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Email</label>
+                                        <input type="text" class="form-control" id="email" placeholder="Email">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">P.Iva</label>
+                                        <input type="text" class="form-control" id="p_iva" placeholder="P.Iva">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputPassword4">Percentuale di sconto</label>
+                                        <input type="text" class="form-control" id="percentuale_sconto" placeholder="Percentuale di sconto">
+                                    </div>
+                                </div>    
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <div class="hr-line-dashed"></div>
+                                    </div>
+        
+        
+                                </div>
+        
+                                <div class="form-row">
+        
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Referente</label>
+                                        <input type="text" class="form-control" id="referente" placeholder="Referente">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Email Referente</label>
+                                        <input type="text" class="form-control" id="emailReferente" placeholder="Email Referente">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputPassword4">Telefono Referente</label>
+                                        <input type="text" class="form-control" id="telefonoReferente" placeholder="Telefono Referente">
+                                    </div>
+                                </div>  
                             </div>
+        
+        
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btnSave" onclick="save()">Save changes</button>
+                            </div>
+        
+        
+        
+        
                         </div>
-
-
-
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Città</label>
-                                <input type="text" class="form-control" id="citta" placeholder="Città">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Cap</label>
-                                <input type="text" class="form-control" id="cap" placeholder="Cap">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Telefono</label>
-                                <input type="text" class="form-control" id="telefono" placeholder="Telefono">
-                            </div>
-                        </div>                                             
-
-
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Email</label>
-                                <input type="text" class="form-control" id="email" placeholder="Email">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">P.Iva</label>
-                                <input type="text" class="form-control" id="p_iva" placeholder="P.Iva">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Percentuale di sconto</label>
-                                <input type="text" class="form-control" id="percentuale_sconto" placeholder="Percentuale di sconto">
-                            </div>
-                        </div>    
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <div class="hr-line-dashed"></div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="form-row">
-
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Referente</label>
-                                <input type="text" class="form-control" id="referente" placeholder="Referente">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputEmail4">Email Referente</label>
-                                <input type="text" class="form-control" id="emailReferente" placeholder="Email Referente">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputPassword4">Telefono Referente</label>
-                                <input type="text" class="form-control" id="telefonoReferente" placeholder="Telefono Referente">
-                            </div>
-                        </div>  
                     </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="btnSave" onclick="save()">Save changes</button>
-                    </div>
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
+                </div>-->
 
 
 

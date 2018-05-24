@@ -312,13 +312,8 @@
         <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.it.min.js'); ?>"></script>
 
-
-
-
         <!-- Select2 -->
         <script src="<?php echo base_url('assets/js/plugins/select2/select2.full.min.js'); ?>"></script>
-
-
 
         <!-- Toastr script -->
         <script src="<?php echo base_url('assets/js/plugins/toastr/toastr.min.js'); ?>"></script>

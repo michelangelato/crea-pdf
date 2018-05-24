@@ -15,7 +15,7 @@ class Cliente extends CI_Controller {
         $data['post_title'] = 'Blog';
         
 //        $this->load->view('templates/header', $data);
-        $this->load->view('magazzino/index', $data);
+        //$this->load->view('magazzino/index', $data);
 //        $this->load->view('templates/footer');
         
     }

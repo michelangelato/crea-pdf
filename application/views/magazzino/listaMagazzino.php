@@ -16,7 +16,17 @@
 
         <style>
 
+/*.modal-dialog {
+  width: 70%;
+  height: 90%;
+  padding: 0;
+}
 
+.modal-content {
+  min-height: 100%;
+  height:auto;
+  border-radius: 0;
+}*/
 
         </style>
 
@@ -193,7 +203,7 @@
                                                        $('#idCliente').val(idCliente);
                                                        $('#myModal_portainvisione').modal('hide'); // show bootstrap modal
                                                        
-                                                       window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente" + $('#idCliente').val() +'&idMagazzino=' +  $('#idArticoloInVisione').val();
+                                                       window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() +'&idMagazzino=' +  $('#idArticoloInVisione').val();
                                                        
                                                     }
 
@@ -210,9 +220,6 @@
 
         </script>
 
-
-
-
         <div class="modal inmodal fade" id="myModal_portainvisione" tabindex="-1" role="dialog"  aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -220,11 +227,12 @@
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         <h2 class="modal-title">Cerca Cliente</h2>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" >
 
+                        <?php $this->view('magazzino/elencoClientiAjax.php'); ?>
 
-                        <?php $this->view('magazzino/index.php'); ?>
-
+                    </div>
+                    <div class="modal-footer" style="border-top: 0px">
                     </div>
                 </div>
             </div>

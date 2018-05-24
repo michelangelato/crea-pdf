@@ -7,6 +7,10 @@
 
         <title>INSPINIA | Static Tables</title>
 
+
+        <!-- Toastr style -->
+        <link href="<?php echo base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
+
         <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
 <!--        <link href="<?php echo base_url('assets/css/plugins/iCheck/custom.css'); ?>" rel="stylesheet">-->
@@ -72,17 +76,17 @@
                                     </div>
                                 </div>
                                 <div class="ibox-content">
-                                         <form class="form-horizontal" method="post" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
+                                    <form class="form-horizontal" method="post" name="modulo" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">Tipo Documento</label>
+                                        <div class="form-group"><label class="col-sm-2 control-label">Tipologia Articolo</label>
                                             <div class="col-sm-10">
                                                 <input type="text" disabled class="form-control" id="contenutoTipo" value="<?php echo $contenutoTipo[0]->tipo; ?>">
-                                                <input type="text"  class="form-control" name="idContenutoTipo" value="<?php echo $contenutoTipo[0]->id; ?>">
+                                                <input type="hidden"  class="form-control" name="idContenutoTipo" value="<?php echo $contenutoTipo[0]->id; ?>">
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">Fornitore</label>
+                                        <div class="form-group"><label class="col-sm-2 control-label" id="labelFornitore">Fornitore</label>
                                             <div class="col-sm-10">
                                                 <select class="select2_demo_3 form-control"  name="idDistributore" style="width:100%">
                                                     <option></option>
@@ -109,14 +113,14 @@
                                         <div class="hr-line-dashed"></div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">Documento di Carico</label>
-                                            <div class="col-sm-4"><input type="text" class="form-control" name="documentoCarico" ></div>
-                                            <label class="col-sm-2 control-label">Data di Carico</label>
+                                            <label class="col-sm-2 control-label" id ="labelDocumentoCarico">Documento di Carico</label>
+                                            <div class="col-sm-4"><input type="text" class="form-control" name="documentoCarico" id="documentoCarico"  ></div>
+                                            <label class="col-sm-2 control-label" id ="labelDataCarico">Data di Carico</label>
 
                                             <div class="col-sm-4 input-group date">
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control" name="dataCarico">
+                                                <input type="text" class="form-control" name="dataCarico" id="dataCarico"> 
                                             </div>
         <!--                                            <div class="col-sm-4"><input type="text" class="form-control"></div>-->
                                         </div>
@@ -126,7 +130,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-4 col-sm-offset-2">
                                                 <button class="btn btn-white" type="submit">Cancel</button>
-                                                <button class="btn btn-primary" type="submit" >Avanti</button>
+                                                <button class="btn btn-primary" type="button" onclick="goStep3();">Avanti</button>
                                             </div>
                                         </div>
                                     </form>
@@ -165,95 +169,166 @@
         <script src="<?php echo base_url('assets/js/inspinia.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/plugins/pace/pace.min.js'); ?>"></script>
 
-        <!--         iCheck 
-                <script src="<?php echo base_url('assets/js/plugins/iCheck/icheck.min.js'); ?>"></script>
-        
-                 Peity 
-                <script src="<?php echo base_url('assets/js/demo/peity-demo.js'); ?>"></script>-->
-
 
         <!-- Data picker -->
         <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/plugins/datapicker/bootstrap-datepicker.it.min.js'); ?>"></script>
 
-
-
-
         <!-- Select2 -->
         <script src="<?php echo base_url('assets/js/plugins/select2/select2.full.min.js'); ?>"></script>
+
+        <!-- Toastr script -->
+        <script src="<?php echo base_url('assets/js/plugins/toastr/toastr.min.js'); ?>"></script>
 
 
 
         <script>
+                                                    toastr.options = {
+                                                        "closeButton": true,
+                                                        "debug": false,
+                                                        "progressBar": true,
+                                                        "preventDuplicates": false,
+                                                        "positionClass": "toast-top-right",
+                                                        "onclick": null,
+                                                        "showDuration": "400",
+                                                        "hideDuration": "1000",
+                                                        "timeOut": "7000",
+                                                        "extendedTimeOut": "1000",
+                                                        "showEasing": "swing",
+                                                        "hideEasing": "linear",
+                                                        "showMethod": "fadeIn",
+                                                        "hideMethod": "fadeOut",
+                                                        "heading": "Error"
+                                                    };
 
-                                                        $('.date').datepicker({
-                                                            language: 'it-IT',
-                                                            format: 'dd/mm/yyyy'
-
-                                                        });
-
-                                                        $(".date").datepicker('setDate', new Date());
 
 
-                                                        function distributoreAdd()
-                                                        {
-                                                            $('#myModal_distributore').modal('show'); // show bootstrap modal
+                                                    function goStep3()
+                                                    {
+
+
+                                                        //alert($('.select2_demo_3').val());
+
+                                                        $("#labelFornitore").css("color", "#676a6c");
+                                                        $("#labelDocumentoCarico").css("color", "#676a6c");
+                                                        $("#labelDataCarico").css("color", "#676a6c");
+
+                                                        if ($('.select2_demo_3').val() === '') {
+                                                            toastr.error('Selezionare Il Fornitore', 'Attenzione!');
+                                                            $("#labelFornitore").css("color", "red");
+                                                            return;
                                                         }
 
-                                                        function save()
-                                                        {
-                                                            $('#btnSave').text('saving...'); //change button text
-                                                            $('#btnSave').attr('disabled', true); //set button disable 
 
-                                                            // ajax adding data to database
-                                                            $.ajax({
-                                                                url: "<?php echo site_url('magazzino/distributoreAdd') ?>",
-                                                                type: "POST",
-                                                                data: {
-                                                                    nome: $('#nome').val(),
-                                                                    indirizzo: $('#indirizzo').val(),
-                                                                    citta: $('#citta').val(),
-                                                                    cap: $('#cap').val(),
-                                                                    telefono: $('#telefono').val(),
-                                                                    email: $('#email').val(),
-                                                                    piva: $('#p_iva').val(),
-                                                                    percentuale: $('#percentuale_sconto').val(),
-                                                                    referente: $('#referente').val(),
-                                                                    emailReferente: $('#emailReferente').val(),
-                                                                    telefonoReferente: $('#telefonoReferente').val()
-                                                                },
-                                                                dataType: "json",
-                                                                success: function (validation)
-                                                                {
-                                                                    if (validation) //if success close modal and reload ajax table
-                                                                    {
-                                                                        $('#myModal_distributore').modal('hide');
-                                                                        setTimeout(function () {
-                                                                            location.reload();
-                                                                        }, 500);
-                                                                    }
-                                                                    $('#btnSave').text('save'); //change button text
-                                                                    $('#btnSave').attr('disabled', false); //set button enable 
-                                                                },
-                                                                error: function (jqXHR, textStatus, errorThrown)
-                                                                {
-                                                                    alert('Error adding / update data');
-                                                                    $('#btnSave').text('save'); //change button text
-                                                                    $('#btnSave').attr('disabled', false); //set button enable 
 
+                                                        if ($('#documentoCarico').val() === '') {
+                                                            toastr.error('Inserire documento di carico', 'Attenzione!');
+                                                            $("#labelDocumentoCarico").css("color", "red");
+                                                            return;
+                                                        }
+
+                                                        if ($('#dataCarico').val() === '') {
+                                                            toastr.error('Inserire la data di carico', 'Attenzione!');
+                                                            $("#labelDataCarico").css("color", "red");
+                                                            return;
+                                                        }
+
+
+
+                                                        //window.location = "<?php echo base_url("magazzino/inserisciNuovoStep2"); ?>?idContenutoTipo=" + idContenutoTipo;
+                                                         document.modulo.submit();
+                                                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    $('.date').datepicker({
+                                                        language: 'it-IT',
+                                                        format: 'dd/mm/yyyy'
+
+                                                    });
+
+                                                    $(".date").datepicker('setDate', new Date());
+
+
+                                                    function distributoreAdd()
+                                                    {
+                                                        $('#myModal_distributore').modal('show'); // show bootstrap modal
+                                                    }
+
+                                                    function save()
+                                                    {
+                                                        $('#btnSave').text('saving...'); //change button text
+                                                        $('#btnSave').attr('disabled', true); //set button disable 
+
+                                                        // ajax adding data to database
+                                                        $.ajax({
+                                                            url: "<?php echo site_url('magazzino/distributoreAdd') ?>",
+                                                            type: "POST",
+                                                            data: {
+                                                                nome: $('#nome').val(),
+                                                                indirizzo: $('#indirizzo').val(),
+                                                                citta: $('#citta').val(),
+                                                                cap: $('#cap').val(),
+                                                                telefono: $('#telefono').val(),
+                                                                email: $('#email').val(),
+                                                                piva: $('#p_iva').val(),
+                                                                percentuale: $('#percentuale_sconto').val(),
+                                                                referente: $('#referente').val(),
+                                                                emailReferente: $('#emailReferente').val(),
+                                                                telefonoReferente: $('#telefonoReferente').val()
+                                                            },
+                                                            dataType: "json",
+                                                            success: function (validation)
+                                                            {
+                                                                if (validation) //if success close modal and reload ajax table
+                                                                {
+                                                                    $('#myModal_distributore').modal('hide');
+                                                                    setTimeout(function () {
+                                                                        location.reload();
+                                                                    }, 500);
                                                                 }
-                                                            });
-                                                        }
+                                                                $('#btnSave').text('save'); //change button text
+                                                                $('#btnSave').attr('disabled', false); //set button enable 
+                                                            },
+                                                            error: function (jqXHR, textStatus, errorThrown)
+                                                            {
+                                                                alert('Error adding / update data');
+                                                                $('#btnSave').text('save'); //change button text
+                                                                $('#btnSave').attr('disabled', false); //set button enable 
 
-                                                        $(document).ready(function () {
-
-                                                            $(".select2_demo_3").select2({
-                                                                placeholder: "Seleziona il distributore",
-                                                                allowClear: true
-                                                            });
-
-
+                                                            }
                                                         });
+                                                    }
+
+                                                    $(document).ready(function () {
+
+                                                        $(".select2_demo_3").select2({
+                                                            placeholder: "Seleziona il Fornitore",
+                                                            allowClear: true
+                                                        });
+
+
+                                                    });
         </script>
 
 
@@ -346,13 +421,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
 
 
 

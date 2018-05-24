@@ -1,32 +1,75 @@
-<?php 
+<?php
 
-class Cliente_model extends CI_Model{
-    /*
-     * get rows from the posts table
-     */
-    function getRows($params = array()){
+/**
+ * invoice data model
+ *
+ * @package PersonalData
+ * @version 1.0
+ * @copyright Schema31 s.p.a - 2015
+ */
+class Cliente_model extends CI_Model {
+
+    function count_all() {
+        $query = $this->db->get("clienti");
+        return $query->num_rows();
+    }
+
+    function fetch_details($limit, $start, $search) {
+        $output = '';
+        $this->db->select("*");
+        $this->db->from("clienti");
+       
+        if($search !=""){
+            $this->db->like('nome',$search);
+            $this->db->or_like('cognome',$search);
+            $this->db->or_like('p_iva',$search);
+
+        }
+        
+        
+        $this->db->order_by("nome", "ASC");
+        $this->db->limit($limit, $start);
+        
+        $query = $this->db->get();
+        $output .= '
+  <table class="table table-bordered">
+   <tr>
+    <th>Codice Ipa</th>
+    <th>Nome</th>
+    <th>Cognome</th>
+    <th>P. Iva</th>
+    <th>Codice Fiscale</th>
+    <th></th>
+   </tr>
+  ';
+        foreach ($query->result() as $row) {
+            $output .= '
+   <tr>
+    <td>' . $row->codice_ipa . '</td>
+    <td>' . $row->nome . '</td>
+    <td>' . $row->cognome . '</td>
+    <td>' . $row->p_iva . '</td>
+    <td>' . $row->codice_fiscale . '</td>
+    <td><button type="button"  style="margin-top: 5px;" class="btn btn-primary btn-xs" onclick="portaInVisione(' . $row->id . ')">Porta In Visione</button></td>
+   </tr>
+   ';
+        }
+        $output .= '</table>';
+        return $output;
+    }
+    
+
+        public function getClienteById($idCliente) {
+
         $this->db->select('*');
         $this->db->from('clienti');
-        //filter data by searched keywords
-        if(!empty($params['search']['keywords'])){
-            $this->db->like('nome',$params['search']['keywords']);
-        }
-        //sort data by ascending or desceding order
-        if(!empty($params['search']['sortBy'])){
-            $this->db->order_by('nome',$params['search']['sortBy']);
-        }else{
-            $this->db->order_by('id','desc');
-        }
-        //set start and limit
-        if(array_key_exists("start",$params) && array_key_exists("limit",$params)){
-            $this->db->limit($params['limit'],$params['start']);
-        }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){
-            $this->db->limit($params['limit']);
-        }
-        //get records
+        $this->db->where('id', $idCliente);
         $query = $this->db->get();
-        //return fetched data
-        return ($query->num_rows() > 0)?$query->result_array():FALSE;
+        $res = $query->result();
+        
+//      echo $this->db->last_query();
+        
+        return $res;
     }
 
 }
