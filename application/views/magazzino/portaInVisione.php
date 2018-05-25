@@ -119,6 +119,11 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
+
+
+                                <div class="ibox-title">
+                                    <h5>Cerca Articolo</h5>
+                                </div>
                                 <div class="ibox-content">
                                     <?php $this->view('magazzino/elencoMagazzinoAjax.php'); ?>
                                 </div>
@@ -128,12 +133,13 @@
 
                     <!--  LIBRI SELEZIONATI-->
                     <div class="row">
-                        <div class="col-lg-12" >
-
+                        <div class="col-lg-9" >
                             <div class="ibox float-e-margins">
-
+                                <div class="ibox-title">
+                                    <h5>Libri Aggiunti</h5>
+                                </div>
                                 <div class="ibox-content" >
-                                    <table class="table table-bordered" id="myTable">
+                                    <table class="table" id="myTable">
                                         <thead>
                                             <tr>
                                                 <th style="width:20%">Isbn</th>
@@ -146,13 +152,19 @@
                                         <tbody>
                                         </tbody>
                                     </table>  
-
-
                                 </div>
                             </div>
-
-
                         </div>
+                        
+                        <div class="col-lg-3" >
+                            
+                            
+                        </div>  
+                        
+                        
+                        
+                        
+                        
                     </div>
 
                 </div>
@@ -213,14 +225,14 @@
                 window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() + '&idMagazzino=' + $('#idArticoloInVisione').val();
 
             }
-            
+
             function portaInVisioneDelete(isbn)
             {
                 $('#idArticoloInVisione').val(isbn);
                 window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() + '&isbnDelete=' + $('#idArticoloInVisione').val();
 
             }
-            
+
 
             //costruisco tabella libri selezionati per la presa visione
             libriSelezionati();
@@ -253,7 +265,7 @@
                                     '<option>10</option>' +
                                     '<option>11</option>' +
                                     '</select>' +
-                                    '</td>'+
+                                    '</td>' +
                                     '<td><a href="#" class="itemDelete"><i class="fa fa-trash fa-2x" style ="cursor: pointer;"  aria-hidden="true" onclick="portaInVisioneDelete(' + v[0].isbn + ');"></i></a></td>' +
                                     '</tr>');
                         });

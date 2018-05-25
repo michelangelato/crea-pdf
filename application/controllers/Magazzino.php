@@ -296,34 +296,34 @@ class Magazzino extends CI_Controller {
         }
     }
 
-    public function search($array, $key, $value) {
-        $results = array();
-
-
-
-
-        //echo $key . "--" . $value . '------' . $array[0][0]['isbn'] ."<br>";
-
-        print($array[0][0]->isbn);
-
-        if (is_array($array)) {
-
-            echo "ok<br>";
-            if (isset($array[0][0]->$key) && $array[0][0]->$key == '$value') {
-                echo "llsxxxl<br>";
-                $results[] = $array;
-            }
-
-
-            foreach ($array as $subarray) {
-                $results = array_merge($results, $this->search($subarray, $key, $value));
-            }
-        }
-
-        echo "result:::: <br>";
-        print_r($results);
-        return $results;
-    }
+//    public function search($array, $key, $value) {
+//        $results = array();
+//
+//
+//
+//
+//        //echo $key . "--" . $value . '------' . $array[0][0]['isbn'] ."<br>";
+//
+//        print($array[0][0]->isbn);
+//
+//        if (is_array($array)) {
+//
+//            echo "ok<br>";
+//            if (isset($array[0][0]->$key) && $array[0][0]->$key == '$value') {
+//                echo "llsxxxl<br>";
+//                $results[] = $array;
+//            }
+//
+//
+//            foreach ($array as $subarray) {
+//                $results = array_merge($results, $this->search($subarray, $key, $value));
+//            }
+//        }
+//
+//        echo "result:::: <br>";
+//        print_r($results);
+//        return $results;
+//    }
 
     public function portaInVisione() {
 
@@ -336,53 +336,30 @@ class Magazzino extends CI_Controller {
 
         $obj['cliente'] = $this->cliente_model->getClienteById($idCliente);
 
-        echo $isbnDelete . "<br><br><br><br><br><br><br>";
-
-
-        if ($isbnDelete != "") {
-
-            $arr = ($this->session->userdata('que_ans_session'));
-            var_dump($arr);
-            
-            if (($key = array_search($isbnDelete, $arr[0][0])) !== false) {
-                echo "xxxx";
-                unset($arr[$key]);
-            }
-            
-            
-            $this->session->set_userdata('que_ans_session', $arr);
-            
-            
-//            foreach ($arr[0] as $value) {
-//               
-//                if($value->isbn == $isbnDelete)
-//                    
-//                
-//                
-//                
-//                
-//            }
-
-
-//            
-//            if (in_array($isbnDelete, $arr[0])) {
-//                echo "Got Irix";
-//            }
-//            
-
-
-//            print_r($this->session->userdata('que_ans_session'));
-        }
-
+        //echo $isbnDelete . "<br><br><br><br><br><br><br>";
 
 
 
         //METTO IN SESSIONE I LIBRI CHE HO SELEZIONATO PER LA PRESA VISIONE
         $obj['articoloMagazzino'] = $this->magazzino_model->getArticoloInMagazzinoById($idMagazzino);
 
-        //print_r($obj['articoloMagazzino']);
+        $old_que_ans_session = array_filter($this->session->userdata('que_ans_session'));
+        
+            //delete articolo in visione
+           if ($isbnDelete != "") {
+            //$array = array_filter($this->session->userdata('que_ans_session'));
 
-        $old_que_ans_session = $this->session->userdata('que_ans_session');
+             foreach ($old_que_ans_session as $elementKey => $element) {
+                 
+                foreach ($element[0] as $valueKey => $value) {
+                    if ($valueKey == 'isbn' && $value == $isbnDelete) {
+                        //delete this particular object from the $array
+                        unset($old_que_ans_session[$elementKey]);
+                    }
+                }
+            }
+        }
+        
 
         //print_r($old_que_ans_session);die();
         if (count($old_que_ans_session) == 0) {
@@ -394,6 +371,21 @@ class Magazzino extends CI_Controller {
         }
 
         $this->session->set_userdata('que_ans_session', $old_que_ans_session);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         $this->load->view('magazzino/portaInVisione', $obj);
     }
