@@ -329,6 +329,7 @@ class Magazzino extends CI_Controller {
 
         $this->load->model('cliente_model');
         $this->load->model('magazzino_model');
+        $this->load->model('rappresentanti_model');
 
         $idCliente = $this->input->get('idCliente');
         $idMagazzino = $this->input->get('idMagazzino');
@@ -336,9 +337,9 @@ class Magazzino extends CI_Controller {
 
         $obj['cliente'] = $this->cliente_model->getClienteById($idCliente);
 
-        //echo $isbnDelete . "<br><br><br><br><br><br><br>";
-
-
+       
+       $obj['rapprensentati'] = $this->rappresentanti_model->getElencoRapprentanti($id=NULL);
+        
 
         //METTO IN SESSIONE I LIBRI CHE HO SELEZIONATO PER LA PRESA VISIONE
         $obj['articoloMagazzino'] = $this->magazzino_model->getArticoloInMagazzinoById($idMagazzino);
@@ -359,7 +360,6 @@ class Magazzino extends CI_Controller {
                 }
             }
         }
-        
 
         //print_r($old_que_ans_session);die();
         if (count($old_que_ans_session) == 0) {
@@ -371,20 +371,6 @@ class Magazzino extends CI_Controller {
         }
 
         $this->session->set_userdata('que_ans_session', $old_que_ans_session);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         $this->load->view('magazzino/portaInVisione', $obj);

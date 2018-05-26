@@ -18,18 +18,17 @@ class Cliente_model extends CI_Model {
         $output = '';
         $this->db->select("*");
         $this->db->from("clienti");
-       
-        if($search !=""){
-            $this->db->like('nome',$search);
-            $this->db->or_like('cognome',$search);
-            $this->db->or_like('p_iva',$search);
 
+        if ($search != "") {
+            $this->db->like('nome', $search);
+            $this->db->or_like('cognome', $search);
+            $this->db->or_like('p_iva', $search);
         }
-        
-        
+
+
         $this->db->order_by("nome", "ASC");
         $this->db->limit($limit, $start);
-        
+
         $query = $this->db->get();
         $output .= '
   <table class="table table-bordered">
@@ -57,18 +56,28 @@ class Cliente_model extends CI_Model {
         $output .= '</table>';
         return $output;
     }
-    
 
-        public function getClienteById($idCliente) {
+    public function getClienteById($idCliente) {
 
         $this->db->select('*');
         $this->db->from('clienti');
         $this->db->where('id', $idCliente);
         $query = $this->db->get();
         $res = $query->result();
-        
-//      echo $this->db->last_query();
-        
+
+        return $res;
+    }
+    
+    
+    
+      public function getMaxBollaInVisione($idCliente) {
+
+        $this->db->select('*');
+        $this->db->from('clienti');
+        $this->db->where('id', $idCliente);
+        $query = $this->db->get();
+        $res = $query->result();
+
         return $res;
     }
 

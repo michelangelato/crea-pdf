@@ -119,8 +119,6 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
-
-
                                 <div class="ibox-title">
                                     <h5>Cerca Articolo</h5>
                                 </div>
@@ -133,7 +131,8 @@
 
                     <!--  LIBRI SELEZIONATI-->
                     <div class="row">
-                        <div class="col-lg-9" >
+                        <div class="col-lg-8">
+
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h5>Libri Aggiunti</h5>
@@ -155,18 +154,49 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-lg-3" >
-                            
-                            
-                        </div>  
-                        
-                        
-                        
-                        
-                        
-                    </div>
+                        <div class="col-lg-4">  
 
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <label class="control-label" id ="labelTipoContenuto">Rappresentante</label>
+                                    
+                                    <select class="select2_demo_3 form-control" name="idContenutoTipo" id="idContenutoTipo" style="width:100%">
+                                        <option></option>
+                                        <?php
+                                        foreach ($rapprensentati as $item):
+                                            ?>
+                                            <option <?php echo ($item->id==$cliente[0]->id_rappresentante) ? 'selected' : '';  ?> value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
+                                            <?php
+                                        endforeach;
+                                        ?>
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="ibox-content" style="margin-top:20px;">
+                                <div class="form-group">
+                                    <label class="control-label" id ="labelDocumentoCarico">Documento di Carico</label>
+                                    <input type="text" class="form-control" name="documentoCarico" id="documentoCarico"  >
+                                    <label class="control-label" id ="labelDataCarico">Data di Carico</label>
+
+                                    <div class="input-group date">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control" name="dataCarico" id="dataCarico"> 
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>  
+                    </div>
                 </div>
 
                 <div class="footer">
