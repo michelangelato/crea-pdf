@@ -70,11 +70,10 @@ class Cliente_model extends CI_Model {
     
     
     
-      public function getMaxBollaInVisione($idCliente) {
+      public function getMaxBollaInVisione() {
 
-        $this->db->select('*');
-        $this->db->from('clienti');
-        $this->db->where('id', $idCliente);
+        $this->db->select('id');
+        $this->db->from('index_bolla_visione');
         $query = $this->db->get();
         $res = $query->result();
 

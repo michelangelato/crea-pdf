@@ -337,14 +337,18 @@ class Magazzino extends CI_Controller {
 
         $obj['cliente'] = $this->cliente_model->getClienteById($idCliente);
 
-       
-       $obj['rapprensentati'] = $this->rappresentanti_model->getElencoRapprentanti($id=NULL);
+        $obj['rapprensentati'] = $this->rappresentanti_model->getElencoRapprentanti($id=NULL);
         
-
+        $obj['numBollaVisione'] = $this->cliente_model->getMaxBollaInVisione();
+        
+        //print_r($obj['numBollaVisione']);
+        
         //METTO IN SESSIONE I LIBRI CHE HO SELEZIONATO PER LA PRESA VISIONE
         $obj['articoloMagazzino'] = $this->magazzino_model->getArticoloInMagazzinoById($idMagazzino);
 
-        $old_que_ans_session = array_filter($this->session->userdata('que_ans_session'));
+        
+        
+        $old_que_ans_session = (count($this->session->userdata('que_ans_session'))>0) ? array_filter($this->session->userdata('que_ans_session')) : $this->session->userdata('que_ans_session');
         
             //delete articolo in visione
            if ($isbnDelete != "") {

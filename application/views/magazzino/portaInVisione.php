@@ -180,7 +180,7 @@
                             <div class="ibox-content" style="margin-top:20px;">
                                 <div class="form-group">
                                     <label class="control-label" id ="labelDocumentoCarico">Documento di Carico</label>
-                                    <input type="text" class="form-control" name="documentoCarico" id="documentoCarico"  >
+                                    <input type="text" class="form-control" name="documentoCarico" id="documentoCarico" value="<?php echo $numBollaVisione[0]->id;?>" >
                                     <label class="control-label" id ="labelDataCarico">Data di Carico</label>
 
                                     <div class="input-group date">
