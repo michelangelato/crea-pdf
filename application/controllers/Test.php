@@ -46,7 +46,7 @@ $cliente .= "CAP: 00100\n";
 $cliente .= "Città: ROMA\n";
 $cliente .= "C.F. o P.IVA: 08648741000\n";
 
-   $invoice->setTo($cliente);
+ $invoice->setTo($cliente);
   
   
   /* Adding Items in table */
@@ -60,10 +60,18 @@ $cliente .= "C.F. o P.IVA: 08648741000\n";
   $invoice->addTotal("Total due",11446.6,true);
   /* Set badge */ 
   $invoice->addBadge("Payment Paid");
+  
+  /* Add firma */
+  $invoice->addDataFirma("Roma 21/05/2018");
+  
+  
   /* Add title */
-  $invoice->addTitle("Important Notice");
-  /* Add Paragraph */
-  $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you. You can refund within 2 days of purchase.");
+//  $invoice->addTitle("Important Notice");
+//  /* Add Paragraph */
+//  $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you. You can refund within 2 days of purchase.");
+//  
+  
+  
   /* Set footer note */
   $invoice->setFooternote("My Company Name Here");
   /* Render */

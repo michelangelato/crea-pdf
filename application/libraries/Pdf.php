@@ -33,9 +33,11 @@ class Pdf extends FPDF_rotation {
     public $totals;
     public $badge;
     public $addText;
+    public $dataFirma;
     public $footernote;
     public $dimensions;
     public $display_tofrom = true;
+    
 
     /*     * ****************************************
      * Class Constructor               		 *
@@ -230,6 +232,10 @@ class Pdf extends FPDF_rotation {
         $this->totals[] = $t;
     }
 
+     public function addDataFirma($data) {
+        $this->dataFirma = $data;
+     }
+    
     public function addTitle($title) {
         $this->addText[] = array('title', $title);
     }
@@ -238,6 +244,10 @@ class Pdf extends FPDF_rotation {
         $paragraph = $this->br2nl($paragraph);
         $this->addText[] = array('paragraph', $paragraph);
     }
+    
+    
+    
+    
 
     public function addBadge($badge) {
         $this->badge = $badge;
@@ -273,7 +283,7 @@ class Pdf extends FPDF_rotation {
         $positionX = $this->document['w'] - $this->margins['l'] - $this->margins['r'] - max(strtoupper($this->GetStringWidth($this->lang['number'])), strtoupper($this->GetStringWidth($this->lang['date'])), strtoupper($this->GetStringWidth($this->lang['due']))) - 35;
         
         
-         $this->SetFont($this->font, 'B', 10);
+         $this->SetFont($this->font, '', 10);
         //Number
         if (!empty($this->reference)) {
             $this->Multicell(0, 4, iconv('utf-8', 'cp1252', $this->reference), 0, 'R', false);
@@ -525,12 +535,46 @@ class Pdf extends FPDF_rotation {
 //            }
 //        }
 
+        
+        
+          $this->SetFont($this->font, '', 11);
+             $this->SetTextColor(50, 50, 50);
+        
+                        //$this->setTextColor($this->color[0], $this->color[1], $this->color[2]);
+                                $lineheight = 5;
+                                $width = ($this->document['w']-$this->margins['l']-$this->margins['r'])/2;
+				$this->Cell($width,$lineheight,($this->dataFirma),1,0,'L');
+				$this->Cell(0,$lineheight,($this->lang['to']),1,0,'L');
+				$this->Ln(4);
+				$this->SetLineWidth(0.1);
+				//$this->Line($this->margins['l'], $this->GetY(),$this->margins['l']+$width-30, $this->GetY());
+				//$this->Line($this->margins['l']+$width, $this->GetY(),$this->margins['l']+$width+$width, $this->GetY());
+	
+				
+                         $this->Line($this->margins['l']+$width+33, $this->GetY(),$this->margins['l']+$width+$width, $this->GetY());
+	
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         //Add information
         foreach ($this->addText as $text) {
             if ($text[0] == 'title') {
+                
                 $this->SetFont($this->font, 'b', 9);
                 $this->SetTextColor(50, 50, 50);
-                $this->Cell(0, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($text[1])), 0, 0, 'L', 0);
+                $this->Cell(0, 10, iconv("UTF-8", "ISO-8859-1", "ccccc" .strtoupper($text[1])), 0, 0, 'L', 0);
                 $this->Ln();
                 $this->SetLineWidth(0.3);
                 $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
