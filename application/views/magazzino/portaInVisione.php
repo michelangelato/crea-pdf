@@ -109,8 +109,6 @@
 
                                 </div>
 
-
-
                             </div>
 
                         </div>
@@ -159,13 +157,13 @@
                             <div class="ibox-content">
                                 <div class="form-group">
                                     <label class="control-label" id ="labelTipoContenuto">Rappresentante</label>
-                                    
+
                                     <select class="select2_demo_3 form-control" name="idContenutoTipo" id="idContenutoTipo" style="width:100%">
                                         <option></option>
                                         <?php
                                         foreach ($rapprensentati as $item):
                                             ?>
-                                            <option <?php echo ($item->id==$cliente[0]->id_rappresentante) ? 'selected' : '';  ?> value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
+                                            <option <?php echo ($item->id == $cliente[0]->id_rappresentante) ? 'selected' : ''; ?> value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
                                             <?php
                                         endforeach;
                                         ?>
@@ -180,7 +178,7 @@
                             <div class="ibox-content" style="margin-top:20px;">
                                 <div class="form-group">
                                     <label class="control-label" id ="labelDocumentoCarico">Documento di Carico</label>
-                                    <input type="text" class="form-control" name="documentoCarico" id="documentoCarico" value="<?php echo $numBollaVisione[0]->id;?>" >
+                                    <input type="text" class="form-control" name="documentoCarico" id="documentoCarico" value="<?php echo $numBollaVisione[0]->id; ?>" >
                                     <label class="control-label" id ="labelDataCarico">Data di Carico</label>
 
                                     <div class="input-group date">
@@ -278,28 +276,50 @@
                     success: function (response)
                     {
 
-
+                        var c = 1;
                         $.each(response.data, function (k, v) {
 
+
+                            q = 0;
+
                             $('#myTable tr:last').after('<tr><td>' + v[0].isbn + '</td><td>' + v[0].titolo + '</td><td>' + v[0].casa_editrice + '</td><td>' +
-                                    '<select name="orario" class="form-control input-sm" style="width:60%">' +
-                                    '<option>1</option>' +
-                                    '<option>2</option>' +
-                                    '<option>3</option>' +
-                                    '<option>4</option>' +
-                                    '<option>5</option>' +
-                                    '<option>6</option>' +
-                                    '<option>7</option>' +
-                                    '<option>8</option>' +
-                                    '<option>9</option>' +
-                                    '<option>10</option>' +
-                                    '<option>11</option>' +
+                                    '<select name="orario" class="form-control input-sm" style="width:60%" id="comboQuatita_'+c+'">' +
+//                                '<option>1</option>' +
+//                                '<option>2</option>' +
+//                                '<option>3</option>' +
+//                                '<option>4</option>' +
+//                                '<option>5</option>' +
+//                                '<option>6</option>' +
+//                                '<option>7</option>' +
+//                                '<option>8</option>' +
+//                                '<option>9</option>' +
+//                                '<option>10</option>' +
+//                                '<option>11</option>' +
                                     '</select>' +
                                     '</td>' +
                                     '<td><a href="#" class="itemDelete"><i class="fa fa-trash fa-2x" style ="cursor: pointer;"  aria-hidden="true" onclick="portaInVisioneDelete(' + v[0].isbn + ');"></i></a></td>' +
-                                    '</tr>');
-                        });
+                                    '</tr>'
+                                    );
+                            
+                            var q = v[0].quantita;
+                            var sel = document.getElementById('comboQuatita_'+c);
+                          
+                            var opt = null;
 
+                            for (i = 1; i <=  q; i++) {
+                                console.log(v[0].quantita);
+                                console.log(i);
+                                opt = document.createElement('option');
+                                opt.value = i;
+                                opt.innerHTML =  i;
+                                sel.appendChild(opt);
+                            }
+                            
+                          
+                          c++;
+                          
+                          
+                        });
 //                        $.each(response.data, function (k, v) {
 //
 //                            console.log(v[0]);

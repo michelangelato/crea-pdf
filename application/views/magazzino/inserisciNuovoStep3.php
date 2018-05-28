@@ -63,27 +63,21 @@
                                 <div class="ibox-title">
 
                                     <?php
-                                    
-                                    echo "--->" .$trovato . "<---";
-                                    
-                                    
-                                    
-                                    switch ($trovato) {
-    case "PRIMA VOLTA":
-        echo "prima volta";
-        break;
-    case "NON TROVATO":
-        echo "LIBRO NON TROVATO!";
-        break;
-    case "TROVATO":
-        echo "LIBRO TROVATO";
-        break;
-}
+                                    echo "--->" . $trovato . "<---";
 
-                                    
-                                    
-                                    
-                                   
+
+
+                                    switch ($trovato) {
+                                        case "PRIMA VOLTA":
+                                            echo "prima volta";
+                                            break;
+                                        case "NON TROVATO":
+                                            echo "LIBRO NON TROVATO!";
+                                            break;
+                                        case "TROVATO":
+                                            echo "LIBRO TROVATO";
+                                            break;
+                                    }
                                     ?>                             
 
 
@@ -96,14 +90,14 @@
 
 
                                     <form  method="post" name ="modulo" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
-                                        
+
                                         <input type="text"   name="trovato" id="trovato"  value="<?php echo $trovato; ?>">
 
 
 
 
-                                        
-                                        
+
+
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="isbn">Isbn</label>
@@ -115,13 +109,13 @@
                                             <div class="form-group col-md-3">
                                                 <label for="idContenutoTipo">Tipo Documento</label>
                                                 <input type="text" readonly class="form-control  input-sm" id="contenutoTipo" value="<?php echo $contenutoTipo[0]->tipo; ?>">
-                                                <input type="text"  class="form-control input-sm" name="idContenutoTipo" id="idContenutoTipo"  value="<?php echo $contenutoTipo[0]->id; ?>">
+                                                <input type="hidden"  class="form-control input-sm" name="idContenutoTipo" id="idContenutoTipo"  value="<?php echo $contenutoTipo[0]->id; ?>">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="idDistributore">Fornitore</label>
 
                                                 <input type="text"  readonly class="form-control input-sm" value="<?php echo $distributore[0]->nome; ?>">
-                                                <input type="text"  class="form-control input-sm" name="idDistributore" id="idDistributore" value="<?php echo $distributore[0]->id; ?>">
+                                                <input type="hidden"  class="form-control input-sm" name="idDistributore" id="idDistributore" value="<?php echo $distributore[0]->id; ?>">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="documentoCarico">Documento di Carico</label>
@@ -168,18 +162,18 @@
                                                 <label for="percentualeSconto" id="labelPercentualeSconto">Percentuale di Sconto</label>
 <!--                                                <input type="text" class="form-control input-sm" id="percentualeSconto" placeholder="Percentuale di Sconto">
                                                 -->
-                                            <select class="select2_demo_4 form-control"  name="percentualeSconto" id="percentualeSconto" style="width:100%">
+                                                <select class="select2_demo_4 form-control"  name="percentualeSconto" id="percentualeSconto" style="width:100%">
                                                     <option></option>
-                                                    <?php
-                                                    foreach ($percentuale as $item):
-                                                        ?>
+<?php
+foreach ($percentuale as $item):
+    ?>
                                                         <option value="<?php echo $item->name; ?>" data-tokens="<?php echo $item->name; ?>%"  ><?php echo $item->name; ?>%</option>
-                                                        <?php
-                                                    endforeach;
-                                                    ?>
+    <?php
+endforeach;
+?>
                                                 </select>
-                                            
-                                            
+
+
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="titolo" id="labelNumeroCopieOmaggio">Numero Copie Omaggio</label>
@@ -192,15 +186,15 @@
                                             <div class="form-group col-md-6">
                                                 <label for="quantitaTotali" id="labelIdTipoPresaInCarico">Tipo Presa in Carico</label>
                                                 <select class="select2_demo_3 form-control"  name="idTipoPresaInCarico"   id="idTipoPresaInCarico" style="width:100%">
-                                                                                                     
+
                                                     <option></option>
-                                                    <?php
-                                                    foreach ($tipoPresaInCarico as $item):
-                                                        ?>
+<?php
+foreach ($tipoPresaInCarico as $item):
+    ?>
                                                         <option value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
-                                                        <?php
-                                                    endforeach;
-                                                    ?>
+    <?php
+endforeach;
+?>
                                                 </select>
 
 
@@ -226,15 +220,15 @@
                                             <div class="form-group col-md-6">
 
 
-                                                <?php if (isSet($contenuto) && $contenuto[0]->image != "") { ?>
+<?php if (isSet($contenuto) && $contenuto[0]->image != "") { ?>
 
                                                     <img src="<?php echo $contenuto[0]->image; ?>" style="width: 90px;">
 
-                                                <?php } else { ?>
+<?php } else { ?>
 
                                                     <label for="descrizione">Immagine</label>
 
-                                                <?php } ?>
+<?php } ?>
 
 
                                                 <label class="btn btn-primary">
@@ -323,26 +317,26 @@
 
 
         <script>
-            
-                                                $(document).ready(function () {
 
-                                                            $(".select2_demo_3").select2({
-                                                                placeholder: "Seleziona il tipo di presa in carico",
-                                                                allowClear: true
-                                                            });
-                                                            
-                                                            
-                                                             $(".select2_demo_4").select2({
-                                                                placeholder: "Seleziona la percentuale",
-                                                                allowClear: true
-                                                            });
+                                                    $(document).ready(function () {
 
-
+                                                        $(".select2_demo_3").select2({
+                                                            placeholder: "Seleziona il tipo di presa in carico",
+                                                            allowClear: true
                                                         });
-            
-            
-            
-            
+
+
+                                                        $(".select2_demo_4").select2({
+                                                            placeholder: "Seleziona la percentuale",
+                                                            allowClear: true
+                                                        });
+
+
+                                                    });
+
+
+
+
 
                                                     $('.date').datepicker({
                                                         language: 'it-IT',
@@ -396,7 +390,7 @@
 //var $example = $("#selectId").select2();
 //$example.val(81).trigger("change");
 //                
-                                                      
+
 
                                                         if ($('.select2_demo_4').val() === '') {
                                                             toastr.error('Inserire Percentuale di Sconto', 'Attenzione!');
@@ -452,16 +446,16 @@
                                                             {
                                                                 if (validation) //if success close modal and reload ajax table
                                                                 {
-                                                                  
-                                                                   toastr.success('Articolo inserito con successo!');
-                                                                   
+
+                                                                    toastr.success('Articolo inserito con successo!');
+
 //                                                                    setTimeout(function () {
 //                                                                        location.reload();
 //                                                                    }, 500);
-                                                                     document.modulo.action = "<?php $_SERVER['PHP_SELF']; ?>";
-                                                                     $('#isbn').val('');
-                                                                     document.modulo.submit();
-                                                                    
+                                                                    document.modulo.action = "<?php $_SERVER['PHP_SELF']; ?>";
+                                                                    $('#isbn').val('');
+                                                                    document.modulo.submit();
+
                                                                 }
                                                                 $('#btnSave').text('save'); //change button text
                                                                 $('#btnSave').attr('disabled', false); //set button enable 
@@ -485,14 +479,14 @@
 
 
                                                     $(document).ready(function () {
-                                                        
+
                                                         if ($('#trovato').val() === 'NON TROVATO') {
                                                             toastr.error('Articolo non trovato in magazzino', 'Attenzione!');
                                                             $("#labelNumeroCopieOmaggio").css("color", "red");
                                                             return;
                                                         }
-                                                        
-                                                        if ($('#trovato').val()  === 'TROVATO') {
+
+                                                        if ($('#trovato').val() === 'TROVATO') {
                                                             toastr.success('Articolo trovato in magazzino');
                                                             $("#labelNumeroCopieOmaggio").css("color", "red");
                                                             return;

@@ -242,6 +242,31 @@ class Magazzino_model extends CI_Model {
         $res = $query->result();
         return $res;
     }
+    
+      public function getAutori($id) {
+
+        $this->db->select('id, nome');
+        $this->db->from('autori');
+
+        if ($id != "") {
+            $this->db->where('id', $id);
+        }
+
+        $this->db->order_by('nome');
+        $query = $this->db->get();
+        $res = $query->result();
+        return $res;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public function getElencoTipoPresaCarico($id) {
 

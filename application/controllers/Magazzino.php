@@ -33,6 +33,8 @@ class Magazzino extends CI_Controller {
 
     public function listaMagazzino() {
 
+        
+        
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
 
@@ -326,6 +328,11 @@ class Magazzino extends CI_Controller {
 //    }
 
     public function portaInVisione() {
+        
+        
+        //var_dump(array_filter($this->session->userdata('que_ans_session')));
+        
+        
 
         $this->load->model('cliente_model');
         $this->load->model('magazzino_model');
@@ -375,7 +382,6 @@ class Magazzino extends CI_Controller {
         }
 
         $this->session->set_userdata('que_ans_session', $old_que_ans_session);
-
 
         $this->load->view('magazzino/portaInVisione', $obj);
     }

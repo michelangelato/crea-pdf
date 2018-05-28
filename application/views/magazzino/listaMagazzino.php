@@ -16,17 +16,17 @@
 
         <style>
 
-/*.modal-dialog {
-  width: 70%;
-  height: 90%;
-  padding: 0;
-}
-
-.modal-content {
-  min-height: 100%;
-  height:auto;
-  border-radius: 0;
-}*/
+            /*.modal-dialog {
+              width: 70%;
+              height: 90%;
+              padding: 0;
+            }
+            
+            .modal-content {
+              min-height: 100%;
+              height:auto;
+              border-radius: 0;
+            }*/
 
         </style>
 
@@ -44,13 +44,86 @@
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
                         <h2>Lista Magazzino</h2>
-                       
+
                     </div>
                     <div class="col-lg-2">
 
                     </div>
                 </div>
                 <div class="wrapper wrapper-content animated fadeInRight">
+
+                    <div class="row">
+
+                        <div class="col-lg-12">
+
+                            <div class="ibox collapsed">
+                                <div class="ibox-title">
+                                    <h5>Ricerca</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <i class="fa fa-wrench"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-user">
+                                            <li><a href="#">Config option 1</a>
+                                            </li>
+                                            <li><a href="#">Config option 2</a>
+                                            </li>
+                                        </ul>
+                                        <a class="close-link">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:20%">Nome</th>
+                                                <th>Cognome</th>
+                                                <th>P. Iva</th>
+                                                <th>Codice Fiscale</th>
+                                                <th>Indirizzo</th>
+                                                <th>Cap</th>
+                                                <th>Città</th>
+                                                <th>Telefono</th>
+                                                <th>Cellulare</th>
+                                                <th>E-mail</th>
+                                                <th>Note</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -61,15 +134,15 @@
                             </div>
                             <div class="ibox-content">
 
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+
+
+
+
+
+
+
+
+
                                 <?php
                                 if (count($data) > 0) {
                                     ?>
@@ -86,12 +159,25 @@
                                                 <th>Autore</th>
                                                 <th>Quantità</th>
                                                 <th>Prezzo Listino</th>
-                                                <th>Azioni</th>
-                                                <th>Modifica</th>
+                                                <th></th>
+                                                <th></th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
+                                                <td><button type="button" class="btn btn-w-m btn-success btn-sm">Cerca</button></td>
+                                                <td></td>
+                                            </tr>
+
 
                                             <?php
                                             foreach ($data as $item):
@@ -100,11 +186,11 @@
                                                     <td><img src="<?php echo $item->image; ?>" style="width:40px;"></td>
                                                     <td><?php echo $item->isbn; ?></td>
                                                     <td><?php echo $item->titolo; ?></td>
-                                                    <td><?php echo $item->casa_editrice; ?></td>
-                                                    <td><?php echo $item->edizione; ?></td>
-                                                    <td><?php echo $item->autore; ?></td>
-                                                    <td><?php echo $item->quantita; ?></td>
-                                                    <td><?php echo $item->prezzo; ?></td>
+                                                    <td style="text-align:center"><?php echo $item->casa_editrice; ?></td>
+                                                    <td style="text-align:center"><?php echo $item->edizione; ?></td>
+                                                    <td style="text-align:center"><?php echo $item->autore; ?></td>
+                                                    <td style="text-align:center"><?php echo $item->quantita; ?></td>
+                                                    <td style="text-align:center"><?php echo $item->prezzo; ?></td>
                                                     <td>
                                                         <button type="button"  style="margin-top: 5px;" class="btn btn-primary btn-xs" onclick="openModalPortaInVisione(<?php echo $item->id; ?>)">
                                                             Porta In Visione
@@ -157,20 +243,20 @@
             </div>
         </div>
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- Mainly scripts -->
         <script src="<?php echo base_url('assets/js/jquery-3.1.1.min.js'); ?>"></script>
@@ -195,22 +281,22 @@
 
 
 
-                                                     
+
 
 
                                                     function portaInVisione(idCliente)
                                                     {
-                                                       $('#idCliente').val(idCliente);
-                                                       $('#myModal_portainvisione').modal('hide'); // show bootstrap modal
-                                                       
-                                                       window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() +'&idMagazzino=' +  $('#idArticoloInVisione').val();
-                                                       
+                                                        $('#idCliente').val(idCliente);
+                                                        $('#myModal_portainvisione').modal('hide'); // show bootstrap modal
+
+                                                        window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() + '&idMagazzino=' + $('#idArticoloInVisione').val();
+
                                                     }
 
                                                     function openModalPortaInVisione(idArticolo)
                                                     {
-                                                        
-                                                       $('#idArticoloInVisione').val(idArticolo);
+
+                                                        $('#idArticoloInVisione').val(idArticolo);
                                                         $('#myModal_portainvisione').modal('show'); // show bootstrap modal
                                                     }
 
