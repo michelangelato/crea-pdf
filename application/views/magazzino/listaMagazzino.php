@@ -52,169 +52,96 @@
                 </div>
                 <div class="wrapper wrapper-content animated fadeInRight">
 
-                    <div class="row">
-
-                        <div class="col-lg-12">
-
-                            <div class="ibox collapsed">
-                                <div class="ibox-title">
-                                    <h5>Ricerca</h5>
-                                    <div class="ibox-tools">
-                                        <a class="collapse-link">
-                                            <i class="fa fa-chevron-up"></i>
-                                        </a>
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                            <i class="fa fa-wrench"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-user">
-                                            <li><a href="#">Config option 1</a>
-                                            </li>
-                                            <li><a href="#">Config option 2</a>
-                                            </li>
-                                        </ul>
-                                        <a class="close-link">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ibox-content">
-
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:20%">Nome</th>
-                                                <th>Cognome</th>
-                                                <th>P. Iva</th>
-                                                <th>Codice Fiscale</th>
-                                                <th>Indirizzo</th>
-                                                <th>Cap</th>
-                                                <th>Città</th>
-                                                <th>Telefono</th>
-                                                <th>Cellulare</th>
-                                                <th>E-mail</th>
-                                                <th>Note</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-
 
                     <div class="row">
                         <div class="col-lg-12">
 
                             <div class="ibox float-e-margins">
-                                <input type="text"  class="form-control" id="idArticoloInVisione" value="">
-                                <input type="text"  class="form-control" id="idCliente" value="">
+                                <input type="hidden"  class="form-control" id="idArticoloInVisione" value="">
+                                <input type="hidden"  class="form-control" id="idCliente" value="">
                             </div>
-                            <div class="ibox-content">
+
+                            <form name="form1" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                <div class="ibox-content">
+
+                                    <?php
+                                    if (count($data) > 0) {
+                                        ?>
 
 
-
-
-
-
-
-
-
-
-                                <?php
-                                if (count($data) > 0) {
-                                    ?>
-
-
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Isbn</th>
-                                                <th>Titolo</th>
-                                                <th>Editore</th>
-                                                <th>Anno Edizione</th>
-                                                <th>Autore</th>
-                                                <th>Quantità</th>
-                                                <th>Prezzo Listino</th>
-                                                <th></th>
-                                                <th></th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td> <input type="text" class="form-control input-sm" id="isbn_txt"  value="" placeholder="isbn"></td>
-                                                <td><button type="button" class="btn btn-w-m btn-success btn-sm">Cerca</button></td>
-                                                <td></td>
-                                            </tr>
-
-
-                                            <?php
-                                            foreach ($data as $item):
-                                                ?>
-                                                <tr>
-                                                    <td><img src="<?php echo $item->image; ?>" style="width:40px;"></td>
-                                                    <td><?php echo $item->isbn; ?></td>
-                                                    <td><?php echo $item->titolo; ?></td>
-                                                    <td style="text-align:center"><?php echo $item->casa_editrice; ?></td>
-                                                    <td style="text-align:center"><?php echo $item->edizione; ?></td>
-                                                    <td style="text-align:center"><?php echo $item->autore; ?></td>
-                                                    <td style="text-align:center"><?php echo $item->quantita; ?></td>
-                                                    <td style="text-align:center"><?php echo $item->prezzo; ?></td>
-                                                    <td>
-                                                        <button type="button"  style="margin-top: 5px;" class="btn btn-primary btn-xs" onclick="openModalPortaInVisione(<?php echo $item->id; ?>)">
-                                                            Porta In Visione
-                                                        </button>
-
+                                        <table class="table table-hover">
+                                            <thead>
+                                                
+                                                 <tr>
+                                                    <td></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="isbn_txt"  value="<?php echo $isbn_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="titolo_txt"  value="<?php echo $titolo_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="casa_editrice_txt"  value="<?php echo $casa_editrice_txt; ?>"></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="edizione_txt"  value="<?php echo $edizione_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="autore_txt"  value="<?php echo $autore_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="quantita_txt"  value="<?php echo $quantita_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="prezzo_txt"  value="<?php echo $prezzo_txt; ?>" ></td>
+                                                    <td><button type="submit" style="min-width:40px" class="btn btn-w-m btn-success btn-sm">Cerca</button>
+                                                        <button type="reset" style="margin-left: 5px;min-width:40px" class="btn btn-w-m btn-danger btn-sm" onclick="document.location.href = '<?php echo $_SERVER['PHP_SELF']; ?>'">Reset</button>
+                                                        <button type="button" style="margin-left: 5px;min-width:40px" class="btn btn-w-m btn-default btn-sm" onclick="exportExcel();">Export</button>
 
                                                     </td>
                                                     <td></td>
                                                 </tr>
-                                            <?php endforeach; ?>   
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Isbn</th>
+                                                    <th>Titolo</th>
+                                                    <th>Editore</th>
+                                                    <th>Anno Edizione</th>
+                                                    <th>Autore</th>
+                                                    <th>Quantità</th>
+                                                    <th>Prezzo Listino</th>
+                                                    <th style="width:200px"></th>
+                                                    <th></th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                               
+
+                                                <?php
+                                                foreach ($data as $item):
+                                                    ?>
+                                                    <tr>
+                                                        <td><img src="<?php echo $item->image; ?>" style="width:40px;"></td>
+                                                        <td ><?php echo $item->isbn; ?></td>
+                                                        <td><?php echo $item->titolo; ?></td>
+                                                        <td ><?php echo $item->casa_editrice; ?></td>
+                                                        <td><?php echo $item->edizione; ?></td>
+                                                        <td ><?php echo $item->autore; ?></td>
+                                                        <td ><?php echo $item->quantita; ?></td>
+                                                        <td><?php echo $item->prezzo; ?></td>
+                                                        <td>
+                                                            <button type="button"  style="margin-top: 5px;" class="btn btn-primary btn-xs" onclick="openModalPortaInVisione(<?php echo $item->id; ?>)">
+                                                                Porta In Visione
+                                                            </button>
 
 
-                                        </tbody>
-                                    </table>
-
-                                    <?php
-                                } else {
-                                    echo "<h4 style=\"text-align:center\">Nessun libro in lista magazzino</h4>";
-                                }
-                                ?>  
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                <?php endforeach; ?>   
 
 
-                            </div>
+                                            </tbody>
+                                        </table>
 
+                                        <?php
+                                    } else {
+                                        echo "<h4 style=\"text-align:center\">Nessun libro in lista magazzino</h4>";
+                                    }
+                                    ?>  
+
+
+                                </div>
+
+                            </form>
 
 
                         </div>
@@ -281,24 +208,29 @@
 
 
 
+                                                        function exportExcel()
+                                                        {
+                                                           
+                                                            document.form1.action = "<?php echo base_url("report/listaMagazzino"); ?>";
+                                                            document.form1.submit();
+                                                        }
 
 
+                                                        function portaInVisione(idCliente)
+                                                        {
+                                                            $('#idCliente').val(idCliente);
+                                                            $('#myModal_portainvisione').modal('hide'); // show bootstrap modal
 
-                                                    function portaInVisione(idCliente)
-                                                    {
-                                                        $('#idCliente').val(idCliente);
-                                                        $('#myModal_portainvisione').modal('hide'); // show bootstrap modal
+                                                            window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() + '&idMagazzino=' + $('#idArticoloInVisione').val();
 
-                                                        window.location = "<?php echo base_url("magazzino/portaInVisione"); ?>?idCliente=" + $('#idCliente').val() + '&idMagazzino=' + $('#idArticoloInVisione').val();
+                                                        }
 
-                                                    }
+                                                        function openModalPortaInVisione(idArticolo)
+                                                        {
 
-                                                    function openModalPortaInVisione(idArticolo)
-                                                    {
-
-                                                        $('#idArticoloInVisione').val(idArticolo);
-                                                        $('#myModal_portainvisione').modal('show'); // show bootstrap modal
-                                                    }
+                                                            $('#idArticoloInVisione').val(idArticolo);
+                                                            $('#myModal_portainvisione').modal('show'); // show bootstrap modal
+                                                        }
 
 
 

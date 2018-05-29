@@ -91,7 +91,7 @@
 
                                     <form  method="post" name ="modulo" action="<?php echo site_url('magazzino/inserisciNuovoStep3') ?>">
 
-                                        <input type="text"   name="trovato" id="trovato"  value="<?php echo $trovato; ?>">
+                                        <input type="hidden"   name="trovato" id="trovato"  value="<?php echo $trovato; ?>">
 
 
 
@@ -99,9 +99,21 @@
 
 
                                         <div class="form-row">
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-3">
                                                 <label for="isbn">Isbn</label>
-                                                <input type="text" class="form-control input-sm" id="isbn" name="isbn"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->isbn : ''); ?>" placeholder="Isbn" style="width:49%">
+                                                <input type="text" class="form-control input-sm" id="isbn" name="isbn"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->isbn : ''); ?>" placeholder="Isbn">
+                                            </div>
+                                            
+                                             <div class="form-group col-md-3">
+                                            </div>
+                                             <div class="form-group col-md-3">
+                                            </div>
+                                            
+                                            
+                                            
+                                            <div class="form-group col-md-3">
+                                                <label for="idDistributore">Totale €</label>
+                                                <input type="text"  readonly class="form-control input-sm" id="totalePrezzoDocumentoCarico" name="totalePrezzoDocumentoCarico" value="<?php echo $totalePrezzoDocumentoCarico ?>">
                                             </div>
                                         </div>
 
@@ -425,6 +437,7 @@ endforeach;
                                                             data: {
                                                                 trovato: $('#trovato').val(),
                                                                 isbn: $('#isbn').val(),
+                                                                totalePrezzoDocumentoCarico: $('#totalePrezzoDocumentoCarico').val(),
                                                                 idContenutoTipo: $('#idContenutoTipo').val(),
                                                                 idDistributore: $('#idDistributore').val(),
                                                                 idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),

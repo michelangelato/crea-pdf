@@ -122,9 +122,13 @@
                                                     <i class="fa fa-calendar"></i></span>
                                                 <input type="text" class="form-control" name="dataCarico" id="dataCarico"> 
                                             </div>
-        <!--                                            <div class="col-sm-4"><input type="text" class="form-control"></div>-->
                                         </div>
+<!--                                <div class="hr-line-dashed"></div>-->
 
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" id ="labelDocumentoCarico">Totale €</label>
+                                            <div class="col-sm-2"><input type="text" class="form-control" name="totalePrezzoDocumentoCarico" id="totalePrezzoDocumentoCarico" ></div>
+                                        </div>
 
                                         <div class="hr-line-dashed"></div>
                                         <div class="form-group">

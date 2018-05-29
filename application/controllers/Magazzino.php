@@ -34,13 +34,32 @@ class Magazzino extends CI_Controller {
     public function listaMagazzino() {
 
         
+        $isbn_txt = $this->input->post('isbn_txt');
+        $titolo_txt = $this->input->post('titolo_txt');
+        $casa_editrice_txt = $this->input->post('casa_editrice_txt');
+        $edizione_txt = $this->input->post('edizione_txt');
+        $autore_txt = $this->input->post('autore_txt');
+        $quantita_txt = $this->input->post('quantita_txt');
+        $prezzo_txt = $this->input->post('prezzo_txt');
+        
+        $obj['isbn_txt'] = $isbn_txt;
+        $obj['titolo_txt'] = $titolo_txt;
+        $obj['casa_editrice_txt'] = $casa_editrice_txt;
+        $obj['edizione_txt'] = $edizione_txt;
+        $obj['autore_txt'] = $autore_txt;
+        $obj['quantita_txt'] = $quantita_txt;
+        $obj['prezzo_txt'] = $prezzo_txt;
+        
+        
+        
+        
         
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
 
         //pagination settings
         $config['base_url'] = site_url('magazzino/listaMagazzino');
-        $config['total_rows'] = $this->magazzino_model->listaMagazzino_count();
+        $config['total_rows'] = $this->magazzino_model->listaMagazzino_count($isbn_txt, $titolo_txt, $casa_editrice_txt, $edizione_txt, $autore_txt, $quantita_txt, $prezzo_txt);
 
         $config['per_page'] = "150";
         $config["uri_segment"] = 3;
@@ -75,22 +94,50 @@ class Magazzino extends CI_Controller {
 
 
         $obj['totali'] = $config["total_rows"];
-        $obj["data"] = $this->magazzino_model->listaMagazzino($config["per_page"], $obj['page']);
+        $obj["data"] = $this->magazzino_model->listaMagazzino($config["per_page"], $obj['page'], $isbn_txt, $titolo_txt, $casa_editrice_txt, $edizione_txt, $autore_txt, $quantita_txt, $prezzo_txt);
         $obj['pagination'] = $this->pagination->create_links();
 
-        // $obj['data'] = $this->magazzino_model->listaMagazzino();
 
         $this->load->view('magazzino/listaMagazzino.php', $obj);
     }
 
     public function listaCaricoMagazzino() {
-
+        
+        $isbn_txt = $this->input->post('isbn_txt');
+        $distributore_txt = $this->input->post('distributore_txt');
+        $titolo_txt = $this->input->post('titolo_txt');
+        $casa_editrice_txt = $this->input->post('casa_editrice_txt');
+        
+        $autore_txt = $this->input->post('autore_txt');
+        $quantita_txt = $this->input->post('quantita_txt');
+        $prezzo_txt = $this->input->post('prezzo_txt');
+        $documentoCarico_txt = $this->input->post('documentoCarico_txt');
+        
+        
+        $totalePrezzoDocumentoCarico_txt = $this->input->post('totalePrezzoDocumentoCarico_txt');
+        
+        $obj['isbn_txt'] = $isbn_txt;
+        $obj['distributore_txt'] = $distributore_txt;
+        
+        
+        
+        $obj['titolo_txt'] = $titolo_txt;
+        
+        
+        $obj['casa_editrice_txt'] = $casa_editrice_txt;
+//        $obj['edizione_txt'] = $edizione_txt;
+        $obj['autore_txt'] = $autore_txt;
+        $obj['quantita_txt'] = $quantita_txt;
+        $obj['prezzo_txt'] = $prezzo_txt;
+        $obj['totalePrezzoDocumentoCarico_txt'] = $totalePrezzoDocumentoCarico_txt;
+        $obj['documentoCarico_txt'] = $documentoCarico_txt;
+        
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
 
         //pagination settings
         $config['base_url'] = site_url('magazzino/listaCaricoMagazzino');
-        $config['total_rows'] = $this->magazzino_model->listaCaricoMagazzino_count();
+        $config['total_rows'] = $this->magazzino_model->listaCaricoMagazzino_count($isbn_txt, $distributore_txt,  $titolo_txt, $casa_editrice_txt, $autore_txt, $quantita_txt, $prezzo_txt, $documentoCarico_txt);
 
         $config['per_page'] = "150";
         $config["uri_segment"] = 3;
@@ -125,7 +172,7 @@ class Magazzino extends CI_Controller {
 
 
         $obj['totali'] = $config["total_rows"];
-        $obj["data"] = $this->magazzino_model->listaCaricoMagazzino($config["per_page"], $obj['page']);
+        $obj["data"] = $this->magazzino_model->listaCaricoMagazzino($config["per_page"], $obj['page'], $isbn_txt, $distributore_txt, $titolo_txt, $casa_editrice_txt,$autore_txt, $quantita_txt, $prezzo_txt, $documentoCarico_txt);
         $obj['pagination'] = $this->pagination->create_links();
 
         // $obj['data'] = $this->magazzino_model->listaMagazzino();
@@ -166,6 +213,7 @@ class Magazzino extends CI_Controller {
         $idContenutoTipo = $this->input->post('idContenutoTipo');
         $idDistributore = $this->input->post('idDistributore');
         $documentoCarico = $this->input->post('documentoCarico');
+        $totalePrezzoDocumentoCarico = $this->input->post('totalePrezzoDocumentoCarico');
         $dataCarico = $this->input->post('dataCarico');
         $isbn = $this->input->post('isbn');
 
@@ -186,6 +234,7 @@ class Magazzino extends CI_Controller {
                 $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
                 $obj['documentoCarico'] = $documentoCarico;
                 $obj['dataCarico'] = $dataCarico;
+                $obj['totalePrezzoDocumentoCarico'] = $totalePrezzoDocumentoCarico;
 
 
                 // echo $idContenutoTipo; 
@@ -203,7 +252,7 @@ class Magazzino extends CI_Controller {
                 $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
                 $obj['documentoCarico'] = $documentoCarico;
                 $obj['dataCarico'] = $dataCarico;
-
+                $obj['totalePrezzoDocumentoCarico'] = $totalePrezzoDocumentoCarico;
 
                 $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
             }
@@ -213,6 +262,7 @@ class Magazzino extends CI_Controller {
             $idDistributore = $this->input->post('idDistributore');
             $documentoCarico = $this->input->post('documentoCarico');
             $dataCarico = $this->input->post('dataCarico');
+            $totalePrezzoDocumentoCarico = $this->input->post('totalePrezzoDocumentoCarico');
 
 
             $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
@@ -220,6 +270,7 @@ class Magazzino extends CI_Controller {
             $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
             $obj['documentoCarico'] = $documentoCarico;
             $obj['dataCarico'] = $dataCarico;
+            $obj['totalePrezzoDocumentoCarico'] = $totalePrezzoDocumentoCarico;
             $obj['trovato'] = "PRIMA VOLTA";
 
             $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
@@ -244,13 +295,14 @@ class Magazzino extends CI_Controller {
         $numeroCopieOmaggio = $this->input->post('numeroCopieOmaggio');
         $myDateTime = DateTime::createFromFormat('d/m/Y', $this->input->post('dataCarico'));
         $dataCarico = $myDateTime->format('Y-m-d');
+        $totalePrezzoDocumentoCarico = $this->input->post('totalePrezzoDocumentoCarico');
         $codiceSap = $this->input->post('codiceSap');
 
         if ($trovato == "TROVATO") {
 
             $resContenuto = $this->magazzino_model->getContenutoByISBN($isbn);
 
-            $ret = $this->magazzino_model->inserisciArticoloMagazzino($resContenuto[0]->id, $idTipoPresaInCarico, $idDistributore, $quantitaTotale, $documentoCarico, $percentualeSconto, $numeroCopieOmaggio, $dataCarico, $codiceSap);
+            $ret = $this->magazzino_model->inserisciArticoloMagazzino($resContenuto[0]->id, $idTipoPresaInCarico, $idDistributore, $quantitaTotale, $documentoCarico, $percentualeSconto, $numeroCopieOmaggio, $dataCarico, $codiceSap, $totalePrezzoDocumentoCarico);
 
             //echo "PRENO IL CONTENUTO GI° ESISTENTE INSERISCO IN CARICO MAGAZZINO con quantità etc poi AGGIORNO MAGAZZINO<br>";
         } else {

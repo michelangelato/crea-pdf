@@ -41,9 +41,8 @@
                 <!--                <div class="wrapper wrapper-content animated fadeInRight">-->
                 <div class="wrapper wrapper-content">
 
-
-                    <input type="text"  class="form-control" id="idArticoloInVisione" value="">
-                    <input type="text"  class="form-control" id="idCliente" value="<?php echo $cliente[0]->id; ?>">
+<!--                    <input type="text"  class="form-control" id="idArticoloInVisione" value="">
+                    <input type="text"  class="form-control" id="idCliente" value="<?php echo $cliente[0]->id; ?>">-->
 
 
                     <div class="row">
@@ -108,6 +107,8 @@
                                     </table>
 
                                 </div>
+
+
 
                             </div>
 
@@ -317,8 +318,6 @@
                             
                           
                           c++;
-                          
-                          
                         });
 //                        $.each(response.data, function (k, v) {
 //

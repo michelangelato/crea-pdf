@@ -13,6 +13,23 @@
         <link href="<?php echo base_url('assets/css/animate.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
 
+        
+        
+        <style type="text/css">
+
+    table {
+        table-layout:auto
+/*        word-wrap: break-word;*/
+    }
+
+        table th, table td {
+/*            overflow: hidden;*/
+        }
+
+</style>
+
+
+
     </head>
 
     <body>
@@ -28,58 +45,47 @@
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
                         <h2>Carico Magazzino</h2>
-                        <!--                        <ol class="breadcrumb">
-                                                    <li>
-                                                        <a href="index.html">Home</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>Tables</a>
-                                                    </li>
-                                                    <li class="active">
-                                                        <strong>Static Tables</strong>
-                                                    </li>
-                                                </ol>-->
                     </div>
 <!--                    <div class="col-lg-2">
 
                     </div>-->
                 </div>
+                
+                
+                <form name="form1" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <div class="wrapper wrapper-content animated fadeInRight">
 
                     <div class="row">
                         <div class="col-lg-12">
                             
-
-<!--                            <div class="ibox float-e-margins">
-                                                                <div class="ibox-title">
-                                                                    <h5>Hover Table  </h5>
-                                                                    <div class="ibox-tools">
-                                                                        <a class="collapse-link">
-                                                                            <i class="fa fa-chevron-up"></i>
-                                                                        </a>
-                                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-wrench"></i>
-                                                                        </a>
-                                                                        <ul class="dropdown-menu dropdown-user">
-                                                                            <li><a href="#">Config option 1</a>
-                                                                            </li>
-                                                                            <li><a href="#">Config option 2</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <a class="close-link">
-                                                                            <i class="fa fa-times"></i>
-                                                                        </a>
-                                                                    </div>
-                            </div>-->
                             <div class="ibox-content">
 
+                                <div class="table-responsive">
                                 <?php
                                 if (count($data) > 0) {
                                     ?>
 
 
-                                    <table class="table table-hover">
+                                    <table class="table table-hover" style="width:100%" border="0">
                                         <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td style="width:7%;"> <input type="text" class="form-control input-sm" name="isbn_txt"  value="<?php echo $isbn_txt; ?>" ></td>
+                                                    <td style="width:9%;"> <input type="text" class="form-control input-sm" name="distributore_txt"  value="<?php echo $distributore_txt; ?>"></td>
+                                                    <td style="width:26%;"> <input type="text" class="form-control input-sm" name="titolo_txt"  value="<?php echo $titolo_txt; ?>" ></td>
+                                                    <td style="width:7%;"> <input type="text" class="form-control input-sm" name="casa_editrice_txt"  value="<?php echo $casa_editrice_txt; ?>" ></td>
+                                                    <td style="width:7%;"> <input type="text" class="form-control input-sm" name="autore_txt"  value="<?php echo $autore_txt; ?>" ></td>
+                                                    <td style="width:5%;"> <input type="text" class="form-control input-sm" name="quantita_txt"  value="<?php echo $quantita_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="prezzo_txt"  value="<?php echo $prezzo_txt; ?>" ></td>
+                                                    <td> <input type="text" class="form-control input-sm" name="documentoCarico_txt"  value="<?php echo $documentoCarico_txt; ?>" ></td>
+<!--                                                    <td> <input type="text" class="form-control input-sm" name="totalePrezzoDocumentoCarico_txt"  value="<?php echo $totalePrezzoDocumentoCarico_txt; ?>" ></td>-->
+                                                    <td colspan="2">
+                                                        <button type="submit" style="min-width:30px" class="btn btn-w-m btn-success btn-sm">Cerca</button>
+                                                        <button type="reset" style="margin-left: 5px;min-width:30px" class="btn btn-w-m btn-danger btn-sm" onclick="document.location.href = '<?php echo $_SERVER['PHP_SELF']; ?>'">Reset</button>
+                                                        <button type="button" style="margin-left: 5px;min-width:30px" class="btn btn-w-m btn-default btn-sm" onclick="exportExcel();">Export</button>
+
+                                                    </td>
+                                                </tr>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Isbn</th>
@@ -89,7 +95,8 @@
                                                 <th>Autore</th>
                                                 <th>Quantità</th>
                                                 <th>Prezzo Listino</th>
-                                                <th>Documento Carico Listino</th>
+                                                <th>Doc. Carico</th>
+                                                <th>Totale €</th>
                                                 <th>Modifica</th>
 
                                             </tr>
@@ -100,7 +107,7 @@
                                             foreach ($data as $item):
                                                 ?>
                                                 <tr>
-                                                    <td><img src="<?php echo $item->image; ?>" style="width:40px;" alt="<?php echo $item->image; ?>"></td>
+                                                    <td><img src="<?php echo $item->image; ?>" style="width:30px;" alt="<?php echo $item->image; ?>"></td>
                                                     <td><?php echo $item->isbn; ?></td>
                                                     <td><?php echo $item->distributore; ?></td>
                                                     <td><?php echo $item->titolo; ?></td>
@@ -109,6 +116,7 @@
                                                     <td><?php echo $item->quantita; ?></td>
                                                     <td><?php echo $item->prezzo; ?></td>
                                                     <td><?php echo $item->documento_carico; ?></td>
+                                                    <td><?php echo $item->totalePrezzoDocumentoCarico; ?></td>
                                                     <td></td>
                                                 </tr>
                                             <?php endforeach; ?>   
@@ -125,6 +133,12 @@
                                 ?>  
 
 
+                                
+                                
+                                
+                                
+                                
+                                        </div>
                             </div>
                             
                             
@@ -146,6 +160,8 @@
                     
                     
                 </div>
+                    
+                    </form>
                 
            
             <div class="footer">
@@ -181,6 +197,19 @@
     <script src="<?php echo base_url('assets/js/demo/peity-demo.js'); ?>"></script>
 
     <script>
+        
+        
+          function exportExcel()
+                                                        {
+                                                           
+                                                            document.form1.action = "<?php echo base_url("report/listaCaricoMagazzino"); ?>";
+                                                            document.form1.submit();
+                                                        }
+
+        
+        
+        
+        
         $(document).ready(function () {
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
