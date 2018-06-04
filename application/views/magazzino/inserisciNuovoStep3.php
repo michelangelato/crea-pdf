@@ -21,9 +21,6 @@
         <link href="<?php echo base_url('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'); ?>" rel="stylesheet">
 
 
-
-
-
     </head>
 
     <body>
@@ -103,14 +100,14 @@
                                                 <label for="isbn">Isbn</label>
                                                 <input type="text" class="form-control input-sm" id="isbn" name="isbn"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->isbn : ''); ?>" placeholder="Isbn">
                                             </div>
-                                            
-                                             <div class="form-group col-md-3">
+
+                                            <div class="form-group col-md-3">
                                             </div>
-                                             <div class="form-group col-md-3">
+                                            <div class="form-group col-md-3">
                                             </div>
-                                            
-                                            
-                                            
+
+
+
                                             <div class="form-group col-md-3">
                                                 <label for="idDistributore">Totale €</label>
                                                 <input type="text"  readonly class="form-control input-sm" id="totalePrezzoDocumentoCarico" name="totalePrezzoDocumentoCarico" value="<?php echo $totalePrezzoDocumentoCarico ?>">
@@ -144,13 +141,73 @@
                                                 <label for="titolo">Titolo</label>
                                                 <input type="text" class="form-control input-sm" id="titolo"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->titolo : ''); ?>" placeholder="Titolo">
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="autore">Autore</label>
-                                                <input type="text" class="form-control input-sm" id="autore"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->autore : ''); ?>">
+                                            <div class="form-group col-md-3" style="float: left">
+
+                                                <div style="vertical-align: bottom;display: inline-block;width: 89%;">
+                                                    <label for="autore">Autore</label>
+
+
+                                                    <?php if ($trovato == "TROVATO") { ?>
+
+                                                        <input type="text" class="form-control input-sm" id="autore"  value="<?php echo (isSet($contenuto) ? $contenuto[0]->autore : ''); ?>">
+
+                                                    <?php } else { ?>
+
+
+
+                                                        <select class="select2_demo_autore form-control"  name="autore" id="autore">
+                                                            <option></option>
+                                                            <?php
+                                                            foreach ($autori as $item):
+                                                                ?>
+                                                                <option value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
+                                                                <?php
+                                                            endforeach;
+                                                            ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div style="vertical-align: bottom;display: inline-block;">
+                                                        <button style="height:30px;margin-bottom: 0px;" type="button" class="btn btn-default btn-sm" onclick="autoreAdd()">
+                                                            <span class="glyphicon glyphicon-plus " aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="clear"></div>
+
+                                                <?php } ?>
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="inputPassword4">Editore</label>
-                                                <input type="text" class="form-control input-sm" id="editore" value="<?php echo (isSet($contenuto) ? $contenuto[0]->casa_editrice : ''); ?>" placeholder="Editore">
+                                            <div class="form-group col-md-3" style="float: left">
+
+                                                <div style="width: 89%;border:0px solid #005f8d;vertical-align: bottom;display: inline-block;">
+                                                    <label for="inputPassword4">Editore</label>
+
+                                                    <?php if ($trovato == "TROVATO") { ?>
+
+                                                        <input type="text" class="form-control input-sm" id="editore" value="<?php echo (isSet($contenuto) ? $contenuto[0]->casa_editrice : ''); ?>" placeholder="Editore">
+
+                                                    <?php } else { ?>
+
+                                                        <select class="select2_demo_casa_editrice form-control"  name="editore" id="editore" >
+                                                            <option></option>
+                                                            <?php
+                                                            foreach ($casaEditrice as $item):
+                                                                ?>
+                                                                <option value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
+                                                                <?php
+                                                            endforeach;
+                                                            ?>
+                                                        </select>
+
+                                                    </div>
+
+                                                    <div style="border:0px solid #090;vertical-align: bottom;display: inline-block;">
+                                                        <button style="height:30px;margin-bottom: 0px;" type="button" class="btn btn-default btn-sm" onclick="casaEditriceAdd()">
+                                                            <span class="glyphicon glyphicon-plus " aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="clear"></div>
+
+                                                <?php } ?>
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="inputPassword4">Anno Pubblicazione</label>
@@ -176,13 +233,13 @@
                                                 -->
                                                 <select class="select2_demo_4 form-control"  name="percentualeSconto" id="percentualeSconto" style="width:100%">
                                                     <option></option>
-<?php
-foreach ($percentuale as $item):
-    ?>
+                                                    <?php
+                                                    foreach ($percentuale as $item):
+                                                        ?>
                                                         <option value="<?php echo $item->name; ?>" data-tokens="<?php echo $item->name; ?>%"  ><?php echo $item->name; ?>%</option>
-    <?php
-endforeach;
-?>
+                                                        <?php
+                                                    endforeach;
+                                                    ?>
                                                 </select>
 
 
@@ -200,13 +257,13 @@ endforeach;
                                                 <select class="select2_demo_3 form-control"  name="idTipoPresaInCarico"   id="idTipoPresaInCarico" style="width:100%">
 
                                                     <option></option>
-<?php
-foreach ($tipoPresaInCarico as $item):
-    ?>
+                                                    <?php
+                                                    foreach ($tipoPresaInCarico as $item):
+                                                        ?>
                                                         <option value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
-    <?php
-endforeach;
-?>
+                                                        <?php
+                                                    endforeach;
+                                                    ?>
                                                 </select>
 
 
@@ -232,15 +289,15 @@ endforeach;
                                             <div class="form-group col-md-6">
 
 
-<?php if (isSet($contenuto) && $contenuto[0]->image != "") { ?>
+                                                <?php if (isSet($contenuto) && $contenuto[0]->image != "") { ?>
 
                                                     <img src="<?php echo $contenuto[0]->image; ?>" style="width: 90px;">
 
-<?php } else { ?>
+                                                <?php } else { ?>
 
                                                     <label for="descrizione">Immagine</label>
 
-<?php } ?>
+                                                <?php } ?>
 
 
                                                 <label class="btn btn-primary">
@@ -326,192 +383,414 @@ endforeach;
 
 
 
+        <form action="#" id="form" class="form-horizontal">
+            <div class="modal inmodal fade" id="myModal_casaEditrice" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <input type="hidden" class="form-control" id="idCasaEditrice" name="idAutore">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h2 class="modal-title">Nuovo Distributore</h2>
+                        </div>
+                        <div class="modal-body" style="height:240px">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputEmail4">Nominativo</label>
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nominativo">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputEmail4">Descrizione</label>
+                                    <input type="text" class="form-control" id="descrizione" name="descrizione" placeholder="Descrizione">
+                                </div>
+
+                            </div>                                             
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="btnSave" onclick="saveCasaEditrice()">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>    
+        </form>
+
+
+
+
+
+
+        <form action="#" id="form" class="form-horizontal">
+            <div class="modal inmodal fade" id="myModal_autore" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <input type="hidden" class="form-control" id="idAutore" name="idAutore">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h2 class="modal-title">Nuovo Distributore</h2>
+                        </div>
+                        <div class="modal-body" style="height:240px">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputEmail4">Nominativo</label>
+                                    <input type="text" class="form-control" id="nomeAutore" name="nomeAutore" placeholder="Nominativo">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputEmail4">Descrizione</label>
+                                    <input type="text" class="form-control" id="descrizioneAutore" name="descrizioneAutore" placeholder="Descrizione">
+                                </div>
+
+                            </div>                                             
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="btnSave" onclick="saveAutore()">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>    
+        </form>   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         <script>
-
-                                                    $(document).ready(function () {
-
-                                                        $(".select2_demo_3").select2({
-                                                            placeholder: "Seleziona il tipo di presa in carico",
-                                                            allowClear: true
-                                                        });
-
-
-                                                        $(".select2_demo_4").select2({
-                                                            placeholder: "Seleziona la percentuale",
-                                                            allowClear: true
-                                                        });
-
-
-                                                    });
+            var save_method;
+            function autoreAdd()
+            {
+                $('#form')[0].reset(); // reset form on modals
+                $('.modal-title').text('Aggiungi Autore');
+                $('#myModal_autore').modal('show'); // show bootstrap modal
+            }
 
 
 
+            function casaEditriceAdd()
+            {
+                $('#form')[0].reset(); // reset form on modals
+                $('.modal-title').text('Aggiungi Editore'); // Set title to Bootstrap modal title
 
-
-                                                    $('.date').datepicker({
-                                                        language: 'it-IT',
-                                                        format: 'dd/mm/yyyy'
-
-                                                    });
-
-                                                    $(".date").datepicker('setDate', new Date());
-
-                                                    toastr.options = {
-                                                        "closeButton": true,
-                                                        "debug": false,
-                                                        "progressBar": true,
-                                                        "preventDuplicates": false,
-                                                        "positionClass": "toast-top-right",
-                                                        "onclick": null,
-                                                        "showDuration": "400",
-                                                        "hideDuration": "1000",
-                                                        "timeOut": "7000",
-                                                        "extendedTimeOut": "1000",
-                                                        "showEasing": "swing",
-                                                        "hideEasing": "linear",
-                                                        "showMethod": "fadeIn",
-                                                        "hideMethod": "fadeOut",
-                                                        "heading": "Error"
-                                                    };
+                $('#myModal_casaEditrice').modal('show'); // show bootstrap modal
+            }
 
 
 
+            function saveCasaEditrice()
+            {
+                $('#btnSave').text('saving...'); //change button text
+                $('#btnSave').attr('disabled', true); //set button disable 
+
+                var url;
+
+                url = "<?php echo site_url('magazzino/casaEditriceAdd') ?>";
 
 
-                                                    function saveCaricaMagazzino()
-                                                    {
-                                                        $('#btnSave').text('saving...'); //change button text
-                                                        $('#btnSave').attr('disabled', true); //set button disable 
+                // ajax adding data to database
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        idAutore: $('#idCasaEditrice').val(),
+                        nome: $('#nome').val(),
+                        descrizione: $('#descrizione').val()
 
-                                                        $("#labelQuantitaTotali").css("color", "#676a6c");
-                                                        $("#labelPercentualeSconto").css("color", "#676a6c");
-                                                        $("#labelNumeroCopieOmaggio").css("color", "#676a6c");
-                                                        $("#labelIdTipoPresaInCarico").css("color", "#676a6c");
+                    },
+                    dataType: "json",
+                    success: function (validation)
+                    {
+                        if (validation) //if success close modal and reload ajax table
+                        {
+                            $('#myModal_casaEditrice').modal('hide');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 500);
+                        }
+                        $('#btnSave').text('save'); //change button text
+                        $('#btnSave').attr('disabled', false); //set button enable 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error adding / update data');
+                        $('#btnSave').text('save'); //change button text
+                        $('#btnSave').attr('disabled', false); //set button enable 
 
-
-                                                        if ($('#quantitaTotali').val() === '') {
-                                                            toastr.error('Inserire Quantità totali', 'Attenzione!');
-                                                            $("#labelQuantitaTotali").css("color", "red");
-                                                            return;
-                                                        }
-//
-//alert("The selected text is " + $("#percentualeSconto :selected").text());
-//                
-//var $example = $("#selectId").select2();
-//$example.val(81).trigger("change");
-//                
-
-
-                                                        if ($('.select2_demo_4').val() === '') {
-                                                            toastr.error('Inserire Percentuale di Sconto', 'Attenzione!');
-                                                            $("#labelPercentualeSconto").css("color", "red");
-                                                            return;
-                                                        }
-
-                                                        if ($('#numeroCopieOmaggio').val() === '') {
-                                                            toastr.error('Inserire Numero Copie Omaggio', 'Attenzione!');
-                                                            $("#labelNumeroCopieOmaggio").css("color", "red");
-                                                            return;
-                                                        }
-
-                                                        if ($('.select2_demo_3').val() == 0) {
-                                                            toastr.error('Selezionare Tipo Presa in Carico', 'Attenzione!');
-                                                            $("#labelIdTipoPresaInCarico").css("color", "red");
-                                                            return;
-                                                        }
-
-
+                    }
+                });
+            }
 
 
 
+            function saveAutore()
+            {
+                $('#btnSave').text('saving...'); //change button text
+                $('#btnSave').attr('disabled', true); //set button disable 
+
+                var url;
+
+                url = "<?php echo site_url('magazzino/autoreAdd') ?>";
+
+                // ajax adding data to database
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        nome: $('#nomeAutore').val(),
+                        descrizione: $('#descrizioneAutore').val()
+
+                    },
+                    dataType: "json",
+                    success: function (validation)
+                    {
+                        if (validation) //if success close modal and reload ajax table
+                        {
+                            $('#myModal_autore').modal('hide');
+                            setTimeout(function () {
+                                location.reload();
+                            }, 500);
+                        }
+                        $('#btnSave').text('save'); //change button text
+                        $('#btnSave').attr('disabled', false); //set button enable 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error adding / update data');
+                        $('#btnSave').text('save'); //change button text
+                        $('#btnSave').attr('disabled', false); //set button enable 
+
+                    }
+                });
+            }
 
 
 
 
-                                                        // ajax adding data to database
-                                                        $.ajax({
-                                                            url: "<?php echo site_url('magazzino/inserisciArticolo') ?>",
-                                                            type: "POST",
-                                                            data: {
-                                                                trovato: $('#trovato').val(),
-                                                                isbn: $('#isbn').val(),
-                                                                totalePrezzoDocumentoCarico: $('#totalePrezzoDocumentoCarico').val(),
-                                                                idContenutoTipo: $('#idContenutoTipo').val(),
-                                                                idDistributore: $('#idDistributore').val(),
-                                                                idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),
-                                                                documentoCarico: $('#documentoCarico').val(),
-                                                                dataCarico: $('#dataCarico').val(),
-                                                                titolo: $('#titolo').val(),
-                                                                autore: $('#autore').val(),
-                                                                editore: $('#editore').val(),
-                                                                annoPubblicazione: $('#annoPubblicazione').val(),
-                                                                prezzo: $('#prezzo').val(),
-                                                                quantitaTotali: $('#quantitaTotali').val(),
-                                                                percentualeSconto: $('#percentualeSconto').val(),
-                                                                numeroCopieOmaggio: $('#numeroCopieOmaggio').val(),
-                                                                idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),
-                                                                codiceSap: $('#codiceSap').val()
-                                                            },
-                                                            dataType: "json",
-                                                            success: function (validation)
-                                                            {
-                                                                if (validation) //if success close modal and reload ajax table
-                                                                {
 
-                                                                    toastr.success('Articolo inserito con successo!');
+            $(document).ready(function () {
+
+                $(".select2_demo_3").select2({
+                    placeholder: "Seleziona il tipo di presa in carico",
+                    allowClear: true
+                });
+
+
+                $(".select2_demo_4").select2({
+                    placeholder: "Seleziona la percentuale",
+                    allowClear: true
+                });
+
+                $(".select2_demo_autore").select2({
+                    placeholder: "Seleziona l'autore",
+                    allowClear: true
+                });
+
+                $(".select2_demo_casa_editrice").select2({
+                    placeholder: "Seleziona l'editore",
+                    allowClear: true
+                });
+
+
+
+
+            });
+
+
+
+
+
+            $('.date').datepicker({
+                language: 'it-IT',
+                format: 'dd/mm/yyyy'
+
+            });
+
+            $(".date").datepicker('setDate', new Date());
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "progressBar": true,
+                "preventDuplicates": false,
+                "positionClass": "toast-top-right",
+                "onclick": null,
+                "showDuration": "400",
+                "hideDuration": "1000",
+                "timeOut": "7000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "heading": "Error"
+            };
+
+
+
+
+
+            function saveCaricaMagazzino()
+            {
+                $('#btnSave').text('saving...'); //change button text
+                $('#btnSave').attr('disabled', true); //set button disable 
+
+                $("#labelQuantitaTotali").css("color", "#676a6c");
+                $("#labelPercentualeSconto").css("color", "#676a6c");
+                $("#labelNumeroCopieOmaggio").css("color", "#676a6c");
+                $("#labelIdTipoPresaInCarico").css("color", "#676a6c");
+
+                if ($('#quantitaTotali').val() === '') {
+                    toastr.error('Inserire Quantità totali', 'Attenzione!');
+                    $("#labelQuantitaTotali").css("color", "red");
+                    return;
+                }
+
+                if ($('.select2_demo_4').val() === '') {
+                    toastr.error('Inserire Percentuale di Sconto', 'Attenzione!');
+                    $("#labelPercentualeSconto").css("color", "red");
+                    return;
+                }
+
+                if ($('#numeroCopieOmaggio').val() === '') {
+                    toastr.error('Inserire Numero Copie Omaggio', 'Attenzione!');
+                    $("#labelNumeroCopieOmaggio").css("color", "red");
+                    return;
+                }
+
+                if ($('.select2_demo_3').val() == 0) {
+                    toastr.error('Selezionare Tipo Presa in Carico', 'Attenzione!');
+                    $("#labelIdTipoPresaInCarico").css("color", "red");
+                    return;
+                }
+
+
+
+
+
+
+
+
+
+                // ajax adding data to database
+                $.ajax({
+                    url: "<?php echo site_url('magazzino/inserisciArticolo') ?>",
+                    type: "POST",
+                    data: {
+                        trovato: $('#trovato').val(),
+                        isbn: $('#isbn').val(),
+                        totalePrezzoDocumentoCarico: $('#totalePrezzoDocumentoCarico').val(),
+                        idContenutoTipo: $('#idContenutoTipo').val(),
+                        idDistributore: $('#idDistributore').val(),
+                        idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),
+                        documentoCarico: $('#documentoCarico').val(),
+                        dataCarico: $('#dataCarico').val(),
+                        titolo: $('#titolo').val(),
+                        autore: $('#autore').val(),
+                        editore: $('#editore').val(),
+                        annoPubblicazione: $('#annoPubblicazione').val(),
+                        prezzo: $('#prezzo').val(),
+                        quantitaTotali: $('#quantitaTotali').val(),
+                        percentualeSconto: $('#percentualeSconto').val(),
+                        numeroCopieOmaggio: $('#numeroCopieOmaggio').val(),
+                        idTipoPresaInCarico: $('#idTipoPresaInCarico').val(),
+                        codiceSap: $('#codiceSap').val()
+                    },
+                    dataType: "json",
+                    success: function (validation)
+                    {
+                        if (validation) //if success close modal and reload ajax table
+                        {
+
+                            toastr.success('Articolo inserito con successo!');
 
 //                                                                    setTimeout(function () {
 //                                                                        location.reload();
 //                                                                    }, 500);
-                                                                    document.modulo.action = "<?php $_SERVER['PHP_SELF']; ?>";
-                                                                    $('#isbn').val('');
-                                                                    document.modulo.submit();
+                            document.modulo.action = "<?php $_SERVER['PHP_SELF']; ?>";
+                            $('#isbn').val('');
+                            document.modulo.submit();
 
-                                                                }
-                                                                $('#btnSave').text('save'); //change button text
-                                                                $('#btnSave').attr('disabled', false); //set button enable 
-                                                            },
-                                                            error: function (jqXHR, textStatus, errorThrown)
-                                                            {
-                                                                alert('Error adding / update data');
-                                                                $('#btnSave').text('save'); //change button text
-                                                                $('#btnSave').attr('disabled', false); //set button enable 
+                        }
+                        $('#btnSave').text('save'); //change button text
+                        $('#btnSave').attr('disabled', false); //set button enable 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error adding / update data');
+                        $('#btnSave').text('save'); //change button text
+                        $('#btnSave').attr('disabled', false); //set button enable 
 
-                                                            }
-                                                        });
-                                                    }
-
-
+                    }
+                });
+            }
 
 
 
 
 
+            $(document).ready(function () {
+
+                if ($('#trovato').val() === 'NON TROVATO') {
+                    toastr.error('Articolo non trovato in magazzino', 'Attenzione!');
+                    $("#labelNumeroCopieOmaggio").css("color", "red");
+                    return;
+                }
+
+                if ($('#trovato').val() === 'TROVATO') {
+                    toastr.success('Articolo trovato in magazzino');
+                    $("#labelNumeroCopieOmaggio").css("color", "red");
+                    return;
+                }
+
+                $(".select2_demo_3").select2({
+                    placeholder: "Seleziona il tipo di presa in carico",
+                    allowClear: true
+                });
 
 
-                                                    $(document).ready(function () {
-
-                                                        if ($('#trovato').val() === 'NON TROVATO') {
-                                                            toastr.error('Articolo non trovato in magazzino', 'Attenzione!');
-                                                            $("#labelNumeroCopieOmaggio").css("color", "red");
-                                                            return;
-                                                        }
-
-                                                        if ($('#trovato').val() === 'TROVATO') {
-                                                            toastr.success('Articolo trovato in magazzino');
-                                                            $("#labelNumeroCopieOmaggio").css("color", "red");
-                                                            return;
-                                                        }
-
-                                                        $(".select2_demo_3").select2({
-                                                            placeholder: "Seleziona il tipo di presa in carico",
-                                                            allowClear: true
-                                                        });
-
-
-                                                    });
+            });
         </script>
 
     </body>

@@ -41,14 +41,19 @@
                 <!--                <div class="wrapper wrapper-content animated fadeInRight">-->
                 <div class="wrapper wrapper-content">
 
-<!--                    <input type="text"  class="form-control" id="idArticoloInVisione" value="">
-                    <input type="text"  class="form-control" id="idCliente" value="<?php echo $cliente[0]->id; ?>">-->
+                    <input type="hidden"  class="form-control" id="idArticoloInVisione" value="">
+                    <input type="hidden"  class="form-control" id="idCliente" value="<?php echo $cliente[0]->id; ?>">
 
-
+                    
+                    <div class="ibox-title" style="text-align:right">
+                                  <button type="button" class="btn btn-primary btn-sm" onclick="casaEditriceAdd()">Porta In Visione</button>
+                   </div>
+                    
+                    
+                    
+                    
                     <div class="row">
-
                         <div class="col-lg-12">
-
                             <div class="ibox collapsed">
                                 <div class="ibox-title">
                                     <h5>Dati del Cliente: <?php echo $cliente[0]->nome; ?></h5>
@@ -56,10 +61,10 @@
                                         <a class="collapse-link">
                                             <i class="fa fa-chevron-up"></i>
                                         </a>
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+<!--                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                             <i class="fa fa-wrench"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-user">
+                                        </a>-->
+<!--                                        <ul class="dropdown-menu dropdown-user">
                                             <li><a href="#">Config option 1</a>
                                             </li>
                                             <li><a href="#">Config option 2</a>
@@ -67,7 +72,7 @@
                                         </ul>
                                         <a class="close-link">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </a>-->
                                     </div>
                                 </div>
                                 <div class="ibox-content">

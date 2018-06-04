@@ -25,8 +25,8 @@
 <!--    <div class="form-group">-->
 
   <div class="form-group col-md-12">
-        <button class="btn btn-primary blog_search_submit" type="button" style="margin-left: 10px;margin-right: 10px; float: right">Save changes</button>
-        <button class="btn btn-white" style="float: right" onclick="resetForm();">Cancel</button>
+        <button class="btn btn-primary  btn-sm blog_search_submit" type="button" style="margin-left: 10px;margin-right: 10px; float: right">Save changes</button>
+        <button class="btn btn-white  btn-sm" style="float: right" onclick="resetForm();">Cancel</button>
   </div> 
         
         
@@ -37,7 +37,7 @@
 
 
 <div class="form-group col-md-12" style="max-height: 300px;overflow-y:scroll">
-    <div id="magazzino_table_contenitore" style="border:2px solid red;margin-top:0px">
+    <div id="magazzino_table_contenitore" style="border:0px solid red;margin-top:0px">
         <div align="right" id="pagination_link"></div>
         <div class="table-responsive" id="country_table"></div>
     </div> 

@@ -6,65 +6,49 @@
                             <img alt="image" class="img-circle" src="<?php echo base_url('assets/img/profile_small.jpg'); ?>" />
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"> <?php echo $global['name']; ?></strong>
+                             </span> <span class="text-muted text-xs block"><?php echo $global['role_text']; ?> <b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a href="profile.html">Profile</a></li>
                             <li><a href="contacts.html">Contacts</a></li>
                             <li><a href="mailbox.html">Mailbox</a></li>
                             <li class="divider"></li>
-                            <li><a href="login.html">Logout</a></li>
+                            <li><a href="<?php echo base_url('logout'); ?>">Logout</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
-                        IN+
+<!--                        IN+-->
+MBM
                     </div>
                 </li>
-                <?php
                 
-                
-                
-                $activeM ="";
-                $activeLM ="";
-                $activeLCM ="";
-                $activeIM ="";
-                
-                 if($this->uri->segment(1) == 'magazzino'){
-                   
-                     $activeM = "class=\"active\"";  
+                  <!-- DASHBOARD -->
+                <li <?php echo (basename(current_url())=='user') ? "class=\"active\"" : "" ?>>
                     
-                 } 
+                    <a href="<?php echo base_url('user'); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                  
+                </li>
+                
+                  <!-- AMMINISTRAZIONE -->
+               <li <?php echo (basename(current_url())=='userListing') ? "class=\"active\"" : "" ?>>
+                    <a href="#"><i class="fa fa-gears"></i> <span class="nav-label">Amministrazione</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li <?php echo (basename(current_url())=='userListing') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('user/userListing'); ?>">Lista Utenti</a></li>
+                    </ul>
+                </li>
                 
                 
                 
                 
-                if($this->uri->segment(2) =='listaMagazzino'){
-                    
-                    $activeLM = "class=\"active\"";
-                } 
-                
-                if($this->uri->segment(2) =='listaCaricoMagazzino'){
-                    
-                    $activeLCM = "class=\"active\"";
-                }  
-                
-                if($this->uri->segment(2) =='inserisciNuovo'){
-                    
-                    $activeIM = "class=\"active\"";
-                }
-                
-                ?>
-                
-                
-                
-                <li <?php echo $activeM;?>>
+                <!-- MAGAZZINO -->
+                <li <?php echo (basename(current_url())=='listaMagazzino' || basename(current_url())=='listaCaricoMagazzino' || basename(current_url())=='inserisciNuovoStep1' || basename(current_url())=='listaCasaEditrice' || basename(current_url())=='listaAutori') ? "class=\"active\"" : "" ?>>
                     <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Magazzino</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li <?php echo $activeLM;?>><a href="<?php echo base_url('magazzino/listaMagazzino'); ?>">Lista Magazzino</a></li>
-                        <li <?php echo $activeLCM;?>><a href="<?php echo base_url('magazzino/listaCaricoMagazzino'); ?>">Storico Magazzino</a></li>
-                        <li <?php echo $activeIM;?>><a href="<?php echo base_url('magazzino/inserisciNuovoStep1'); ?>">Inserisci Nuovo</a></li>
-                        <li><a href="#">Lista Editori</a></li>
-                        <li><a href="#">Lista Autori</a></li>
+                        <li <?php echo (basename(current_url())=='listaMagazzino') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaMagazzino'); ?>">Lista Magazzino</a></li>
+                        <li <?php echo (basename(current_url())=='listaCaricoMagazzino') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaCaricoMagazzino'); ?>">Storico Magazzino</a></li>
+                        <li <?php echo (basename(current_url())=='inserisciNuovoStep1') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/inserisciNuovoStep1'); ?>">Inserisci Nuovo</a></li>
+                        <li <?php echo (basename(current_url())=='listaCasaEditrice') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaCasaEditrice'); ?>">Lista Editori</a></li>
+                        <li <?php echo (basename(current_url())=='listaAutori') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaAutori'); ?>">Lista Autori</a></li>
                     </ul>
                 </li>
                 

@@ -2,7 +2,10 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Magazzino extends CI_Controller {
+require APPPATH . '/libraries/BaseController.php';
+
+
+class Magazzino extends BaseController {
 
     function __construct() {
         parent::__construct();
@@ -19,7 +22,7 @@ class Magazzino extends CI_Controller {
 //            //If no session, redirect to login page
 //            redirect('Login', 'refresh');
 //        }
-
+        $this->isLoggedIn();   
         $this->idMagazzino = null;
 
         $this->result = new stdClass();
@@ -33,6 +36,7 @@ class Magazzino extends CI_Controller {
 
     public function listaMagazzino() {
 
+        $this->session->unset_userdata('que_ans_session');
         
         $isbn_txt = $this->input->post('isbn_txt');
         $titolo_txt = $this->input->post('titolo_txt');
@@ -41,7 +45,7 @@ class Magazzino extends CI_Controller {
         $autore_txt = $this->input->post('autore_txt');
         $quantita_txt = $this->input->post('quantita_txt');
         $prezzo_txt = $this->input->post('prezzo_txt');
-        
+
         $obj['isbn_txt'] = $isbn_txt;
         $obj['titolo_txt'] = $titolo_txt;
         $obj['casa_editrice_txt'] = $casa_editrice_txt;
@@ -49,11 +53,11 @@ class Magazzino extends CI_Controller {
         $obj['autore_txt'] = $autore_txt;
         $obj['quantita_txt'] = $quantita_txt;
         $obj['prezzo_txt'] = $prezzo_txt;
-        
-        
-        
-        
-        
+
+
+
+
+
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
 
@@ -96,34 +100,34 @@ class Magazzino extends CI_Controller {
         $obj['totali'] = $config["total_rows"];
         $obj["data"] = $this->magazzino_model->listaMagazzino($config["per_page"], $obj['page'], $isbn_txt, $titolo_txt, $casa_editrice_txt, $edizione_txt, $autore_txt, $quantita_txt, $prezzo_txt);
         $obj['pagination'] = $this->pagination->create_links();
-
+        $obj['global'] = $this->global;
 
         $this->load->view('magazzino/listaMagazzino.php', $obj);
     }
 
     public function listaCaricoMagazzino() {
-        
+
         $isbn_txt = $this->input->post('isbn_txt');
         $distributore_txt = $this->input->post('distributore_txt');
         $titolo_txt = $this->input->post('titolo_txt');
         $casa_editrice_txt = $this->input->post('casa_editrice_txt');
-        
+
         $autore_txt = $this->input->post('autore_txt');
         $quantita_txt = $this->input->post('quantita_txt');
         $prezzo_txt = $this->input->post('prezzo_txt');
         $documentoCarico_txt = $this->input->post('documentoCarico_txt');
-        
-        
+
+
         $totalePrezzoDocumentoCarico_txt = $this->input->post('totalePrezzoDocumentoCarico_txt');
-        
+
         $obj['isbn_txt'] = $isbn_txt;
         $obj['distributore_txt'] = $distributore_txt;
-        
-        
-        
+
+
+
         $obj['titolo_txt'] = $titolo_txt;
-        
-        
+
+
         $obj['casa_editrice_txt'] = $casa_editrice_txt;
 //        $obj['edizione_txt'] = $edizione_txt;
         $obj['autore_txt'] = $autore_txt;
@@ -131,13 +135,13 @@ class Magazzino extends CI_Controller {
         $obj['prezzo_txt'] = $prezzo_txt;
         $obj['totalePrezzoDocumentoCarico_txt'] = $totalePrezzoDocumentoCarico_txt;
         $obj['documentoCarico_txt'] = $documentoCarico_txt;
-        
+
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
 
         //pagination settings
         $config['base_url'] = site_url('magazzino/listaCaricoMagazzino');
-        $config['total_rows'] = $this->magazzino_model->listaCaricoMagazzino_count($isbn_txt, $distributore_txt,  $titolo_txt, $casa_editrice_txt, $autore_txt, $quantita_txt, $prezzo_txt, $documentoCarico_txt);
+        $config['total_rows'] = $this->magazzino_model->listaCaricoMagazzino_count($isbn_txt, $distributore_txt, $titolo_txt, $casa_editrice_txt, $autore_txt, $quantita_txt, $prezzo_txt, $documentoCarico_txt);
 
         $config['per_page'] = "150";
         $config["uri_segment"] = 3;
@@ -172,20 +176,25 @@ class Magazzino extends CI_Controller {
 
 
         $obj['totali'] = $config["total_rows"];
-        $obj["data"] = $this->magazzino_model->listaCaricoMagazzino($config["per_page"], $obj['page'], $isbn_txt, $distributore_txt, $titolo_txt, $casa_editrice_txt,$autore_txt, $quantita_txt, $prezzo_txt, $documentoCarico_txt);
+        $obj["data"] = $this->magazzino_model->listaCaricoMagazzino($config["per_page"], $obj['page'], $isbn_txt, $distributore_txt, $titolo_txt, $casa_editrice_txt, $autore_txt, $quantita_txt, $prezzo_txt, $documentoCarico_txt);
         $obj['pagination'] = $this->pagination->create_links();
 
-        // $obj['data'] = $this->magazzino_model->listaMagazzino();
-
+        $obj['global'] = $this->global;
+        
         $this->load->view('magazzino/listaCaricoMagazzino.php', $obj);
     }
 
+    
+    
+    
+    
     public function inserisciNuovoStep1() {
 
         $this->load->model('magazzino_model');
 
         $obj['contenutiTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo = NULL);
 
+        $obj['global'] = $this->global;
         $this->load->view('magazzino/inserisciNuovoStep1.php', $obj);
     }
 
@@ -194,13 +203,13 @@ class Magazzino extends CI_Controller {
         $this->load->library('pagination');
         $this->load->model('magazzino_model');
 
-
         $idContenutoTipo = $this->input->get('idContenutoTipo');
 
         $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
-
         $obj['distributori'] = $this->magazzino_model->getElencoDistributori($idDistributore = NULL);
-
+        
+        $obj['global'] = $this->global;
+        
         $this->load->view('magazzino/inserisciNuovoStep2.php', $obj);
     }
 
@@ -219,6 +228,12 @@ class Magazzino extends CI_Controller {
 
         $obj['percentuale'] = $this->setup_model->getElencoPercentuale();
 
+        $obj['global'] = $this->global;
+        
+        
+        
+        
+        
 
         //ho fatto la ricerca per isbn
         if ($isbn != "") {
@@ -239,7 +254,7 @@ class Magazzino extends CI_Controller {
 
                 // echo $idContenutoTipo; 
                 //print_r($obj['contenutoTipo']);die();
-
+                 
 
 
                 $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
@@ -265,6 +280,14 @@ class Magazzino extends CI_Controller {
             $totalePrezzoDocumentoCarico = $this->input->post('totalePrezzoDocumentoCarico');
 
 
+             //autori
+        $obj['autori'] = $this->magazzino_model->getElencoAutori($limit=null, $id =null, $nome_txt=null);
+        
+             //casa_editrice
+        $obj['casaEditrice'] = $this->magazzino_model->getElencoCasaEditrice($limit=null, $id =null, $nome_txt=null);
+        
+       // print_r($obj['autori']);
+            
             $obj['contenutoTipo'] = $this->magazzino_model->getElencoContenutiTipo($idContenutoTipo);
             $obj['distributore'] = $this->magazzino_model->getElencoDistributori($idDistributore);
             $obj['tipoPresaInCarico'] = $this->magazzino_model->getElencoTipoPresaCarico($idTipoPresaInCarico = "");
@@ -272,6 +295,7 @@ class Magazzino extends CI_Controller {
             $obj['dataCarico'] = $dataCarico;
             $obj['totalePrezzoDocumentoCarico'] = $totalePrezzoDocumentoCarico;
             $obj['trovato'] = "PRIMA VOLTA";
+            
 
             $this->load->view('magazzino/inserisciNuovoStep3.php', $obj);
         }
@@ -280,7 +304,7 @@ class Magazzino extends CI_Controller {
     public function inserisciArticolo() {
 
 
-        $this->load->model('magazzino_model');
+        $this->load->model('');
 
         $trovato = $this->input->post('trovato');
         $isbn = $this->input->post('isbn');
@@ -350,41 +374,7 @@ class Magazzino extends CI_Controller {
         }
     }
 
-//    public function search($array, $key, $value) {
-//        $results = array();
-//
-//
-//
-//
-//        //echo $key . "--" . $value . '------' . $array[0][0]['isbn'] ."<br>";
-//
-//        print($array[0][0]->isbn);
-//
-//        if (is_array($array)) {
-//
-//            echo "ok<br>";
-//            if (isset($array[0][0]->$key) && $array[0][0]->$key == '$value') {
-//                echo "llsxxxl<br>";
-//                $results[] = $array;
-//            }
-//
-//
-//            foreach ($array as $subarray) {
-//                $results = array_merge($results, $this->search($subarray, $key, $value));
-//            }
-//        }
-//
-//        echo "result:::: <br>";
-//        print_r($results);
-//        return $results;
-//    }
-
     public function portaInVisione() {
-        
-        
-        //var_dump(array_filter($this->session->userdata('que_ans_session')));
-        
-        
 
         $this->load->model('cliente_model');
         $this->load->model('magazzino_model');
@@ -396,25 +386,24 @@ class Magazzino extends CI_Controller {
 
         $obj['cliente'] = $this->cliente_model->getClienteById($idCliente);
 
-        $obj['rapprensentati'] = $this->rappresentanti_model->getElencoRapprentanti($id=NULL);
-        
+        $obj['rapprensentati'] = $this->rappresentanti_model->getElencoRapprentanti($id = NULL);
+
         $obj['numBollaVisione'] = $this->cliente_model->getMaxBollaInVisione();
-        
+
         //print_r($obj['numBollaVisione']);
-        
         //METTO IN SESSIONE I LIBRI CHE HO SELEZIONATO PER LA PRESA VISIONE
         $obj['articoloMagazzino'] = $this->magazzino_model->getArticoloInMagazzinoById($idMagazzino);
 
-        
-        
-        $old_que_ans_session = (count($this->session->userdata('que_ans_session'))>0) ? array_filter($this->session->userdata('que_ans_session')) : $this->session->userdata('que_ans_session');
-        
-            //delete articolo in visione
-           if ($isbnDelete != "") {
+
+
+        $old_que_ans_session = (count($this->session->userdata('que_ans_session')) > 0) ? array_filter($this->session->userdata('que_ans_session')) : $this->session->userdata('que_ans_session');
+
+        //delete articolo in visione
+        if ($isbnDelete != "") {
             //$array = array_filter($this->session->userdata('que_ans_session'));
 
-             foreach ($old_que_ans_session as $elementKey => $element) {
-                 
+            foreach ($old_que_ans_session as $elementKey => $element) {
+
                 foreach ($element[0] as $valueKey => $value) {
                     if ($valueKey == 'isbn' && $value == $isbnDelete) {
                         //delete this particular object from the $array
@@ -434,6 +423,9 @@ class Magazzino extends CI_Controller {
         }
 
         $this->session->set_userdata('que_ans_session', $old_que_ans_session);
+        
+        $obj['global'] = $this->global;
+        
 
         $this->load->view('magazzino/portaInVisione', $obj);
     }
@@ -443,8 +435,6 @@ class Magazzino extends CI_Controller {
         $obj['selezioneLibriInVisione'] = array_filter($this->session->userdata('que_ans_session'));
 
 //        print(count($obj['selezioneLibriInVisione']));
-
-
 
         if (count($obj['selezioneLibriInVisione']) > 0) {
             $this->result->validation = TRUE;
@@ -464,6 +454,290 @@ class Magazzino extends CI_Controller {
                 ->set_output(json_encode($this->result));
     }
 
+    public function listaAutori() {
+
+        $nome_txt = $this->input->post('nome_txt');
+
+        $obj['nome_txt'] = $nome_txt;
+        
+        $this->load->library('pagination');
+        $this->load->model('magazzino_model');
+
+        //pagination settings
+        $config['base_url'] = site_url('magazzino/listaAutori');
+        $config['total_rows'] = $this->magazzino_model->getElencoAutori_count($nome_txt);
+
+       // print_r($config);die();
+        
+        
+        $config['per_page'] = "320";
+        
+        $config["uri_segment"] = 3;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+
+        //config for bootstrap pagination class integration
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        //$config['page_query_string']=true;
+
+        $this->pagination->initialize($config);
+        $obj['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $obj['totali'] = $config["total_rows"];
+        $obj["data"] = $this->magazzino_model->getElencoAutori($config["per_page"], $obj['page'], $nome_txt);
+        $obj['pagination'] = $this->pagination->create_links();
+        
+        $obj['global'] = $this->global;
+
+        $this->load->view('magazzino/listaAutori.php', $obj);
+    }
+    
+    
+    public function autoreAdd() {
+
+        $this->load->model('magazzino_model');
+
+        $dataAutore = array(
+             'nome' => $this->input->post('nome'),
+            'descrizione' => $this->input->post('descrizione'),
+            'data_inserimento_riga' => date("Y-m-d"),
+            'data_modifica_riga' => date("Y-m-d"),
+            'operatore' => 'Pippo Baudo',
+        );
+
+        $ret = $this->magazzino_model->autoreAdd($dataAutore);
+
+        if ($ret->validation) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret));
+        }
+    }
+    
+    
+      public function autoreUpdate() {
+
+        $this->load->model('magazzino_model');
+        $dataAutore = array(
+            'nome' => $this->input->post('nome'),
+            'descrizione' => $this->input->post('descrizione'),
+             'data_modifica_riga' => date("Y-m-d"),
+        );
+    
+        $this->magazzino_model->autoreUpdate($this->input->post('idAutore'), $dataAutore);
+        echo json_encode(array("status" => TRUE));
+    
+    }
+
+     public function getAutoreById($idAutore) {
+
+        $this->load->model('magazzino_model');
+        
+        $ret = $this->magazzino_model->getAutoreById($idAutore);
+
+        //print_r($ret);
+        if ($ret->validation) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret->data));
+        } else {
+
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret));
+        }
+    }
+    
+    
+    public function autoreDelete($idAutore) {
+
+        $this->load->model('magazzino_model');
+        $ret = $this->magazzino_model->autoreDelete($idAutore);
+
+        $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($ret));
+    }
+    
+    //####################### Lista Editore ##################################
+    public function listaCasaEditrice() {
+
+        $nome_txt = $this->input->post('nome_txt');
+
+        $obj['nome_txt'] = $nome_txt;
+        
+        $this->load->library('pagination');
+        $this->load->model('magazzino_model');
+
+        //pagination settings
+        $config['base_url'] = site_url('magazzino/listaCasaEditrice');
+        $config['total_rows'] = $this->magazzino_model->getElencoCasaEditrice_count($nome_txt);
+
+       // print_r($config);die();
+        
+        
+        $config['per_page'] = "320";
+        
+        $config["uri_segment"] = 3;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+
+        //config for bootstrap pagination class integration
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        //$config['page_query_string']=true;
+
+        $this->pagination->initialize($config);
+        $obj['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $obj['totali'] = $config["total_rows"];
+        $obj["data"] = $this->magazzino_model->getElencoCasaEditrice($config["per_page"], $obj['page'], $nome_txt);
+        $obj['pagination'] = $this->pagination->create_links();
+        
+        $obj['global'] = $this->global;
+        
+
+        $this->load->view('magazzino/listaCasaEditrice.php', $obj);
+    }
+    
+    
+    public function casaEditriceAdd() {
+
+        $this->load->model('magazzino_model');
+
+        $dataCasaEditrice = array(
+             'nome' => $this->input->post('nome'),
+            'descrizione' => $this->input->post('descrizione'),
+            'data_inserimento_riga' => date("Y-m-d"),
+            'data_modifica_riga' => date("Y-m-d"),
+            'operatore' => 'Pippo Baudo',
+        );
+
+        $ret = $this->magazzino_model->casaEditriceAdd($dataCasaEditrice);
+
+        if ($ret->validation) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret));
+        }
+    }
+    
+    
+      public function casaEditriceUpdate() {
+
+        $this->load->model('magazzino_model');
+        $dataCasaEditrice = array(
+            'nome' => $this->input->post('nome'),
+            'descrizione' => $this->input->post('descrizione'),
+             'data_modifica_riga' => date("Y-m-d"),
+        );
+    
+        $this->magazzino_model->casaEditriceUpdate($this->input->post('idCasaEditrice'), $dataCasaEditrice);
+        echo json_encode(array("status" => TRUE));
+    
+    }
+
+     public function getCasaEditriceById($idCasaEditrice) {
+
+        $this->load->model('magazzino_model');
+        
+        $ret = $this->magazzino_model->getCasaEditriceById($idCasaEditrice);
+
+        //print_r($ret);
+        if ($ret->validation) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret->data));
+        } else {
+
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($ret));
+        }
+    }
+    
+    
+    public function casaEditriceDelete($idCasaEditrice) {
+
+        $this->load->model('magazzino_model');
+        $ret = $this->magazzino_model->casaEditriceDelete($idCasaEditrice);
+
+        $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($ret));
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     function test() {
 
         $obj['selezioneLibriInVisione'] = $this->session->userdata('que_ans_session');

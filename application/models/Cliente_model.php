@@ -7,6 +7,10 @@
  * @version 1.0
  * @copyright Schema31 s.p.a - 2015
  */
+
+
+
+
 class Cliente_model extends CI_Model {
 
     function count_all() {

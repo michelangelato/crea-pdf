@@ -403,7 +403,7 @@ class Magazzino_model extends CI_Model {
         if (isset($casa_editrice_txt) && $casa_editrice_txt != "") {
             $this->db->like('casa_editrice.nome', $casa_editrice_txt);
         }
-        
+
         if (isset($autore_txt) && $autore_txt != "") {
             $this->db->like('autori.nome', $autore_txt);
         }
@@ -419,7 +419,7 @@ class Magazzino_model extends CI_Model {
         if (isset($documentoCarico_txt) && $documentoCarico_txt != "") {
             $this->db->like('carico_magazzino.documento_carico', $documentoCarico_txt);
         }
-        
+
         $this->db->order_by('data_carico', 'DESC');
         $query = $this->db->get();
 
@@ -484,7 +484,7 @@ class Magazzino_model extends CI_Model {
         if (isset($casa_editrice_txt) && $casa_editrice_txt != "") {
             $this->db->like('casa_editrice.nome', $casa_editrice_txt);
         }
-        
+
         if (isset($autore_txt) && $autore_txt != "") {
             $this->db->like('autori.nome', $autore_txt);
         }
@@ -862,6 +862,266 @@ class Magazzino_model extends CI_Model {
         return $output;
     }
 
+    public function getElencoAutori($limit, $id, $nome_txt) {
+       
+        if ($limit != "") {
+            $this->db->limit($limit, $id);
+        }
+
+        $this->db->select('id, trim(nome) as nome, data_inserimento_riga, operatore');
+        $this->db->from('autori');
+
+        if ($nome_txt != "") {
+            $this->db->like('nome', $nome_txt);
+        }
+
+        $this->db->group_by('trim(nome)');
+        $this->db->order_by('nome');
+
+        $query = $this->db->get();
+        
+        $res = $query->result();
+        return $res;
+    }
+
+    public function getElencoAutori_count($nome_txt) {
+
+        $this->db->select('id, trim(nome) as nome');
+        $this->db->from('autori');
+        
+         if ($nome_txt != "") {
+            $this->db->like('nome', $nome_txt);
+        }
+        
+        $this->db->group_by('trim(nome)');
+        $this->db->order_by('nome');
+
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+//    public function getElencoCasaEditrice() {
+//
+//        $this->db->select('id, trim(nome) as nome');
+//        $this->db->from('casa_editrice');
+//        $this->db->group_by('trim(nome)');
+//        $this->db->order_by('nome');
+//
+//        $query = $this->db->get();
+//        $res = $query->result();
+//        return $res;
+//    }
+
+    public function autoreAdd($dataAutore) {
+
+        $this->db->insert("autori", $dataAutore);
+//echo $this->db->last_query();die();
+        if ($this->db->affected_rows()) {
+            $this->result->validation = TRUE;
+            $this->result->message = 'insert autore ok';
+            $this->result->httpResponse = 200;
+        } else {
+            $this->result->validation = FALSE;
+            $this->result->errorNum = '0701';
+            $this->result->errorText = 'Errore in insert autore';
+            $this->result->message = 'Errore';
+            $this->result->httpResponse = 417;
+        }
+
+        return $this->result;
+    }
+
+    public function autoreUpdate($idAutore, $dataAutore) {
+
+        $this->db->where('id', $idAutore);
+        $this->db->update("autori", $dataAutore);
+
+
+        // echo $this->db->last_query();die();
+
+        if ($this->db->affected_rows()) {
+
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getAutoreById($idAutore) {
+
+        $this->db->from('autori');
+        $this->db->where('id', $idAutore);
+
+        $query = $this->db->get();
+        $ret = $query->result();
+
+        if ($ret) {
+            $this->result->validation = TRUE;
+            $this->result->message = 'Autore recuperato!!';
+            $this->result->httpResponse = 200;
+            $this->result->data = $ret;
+        } else {
+            $this->result->validation = FALSE;
+            $this->result->errorNum = '0701';
+            $this->result->errorText = 'Autore non trovato per il id: ' . $idAutore;
+            $this->result->message = 'Errore';
+            $this->result->httpResponse = 417;
+        }
+
+        return $this->result;
+    }
+
+    
+    public function autoreDelete($idAutore) {
+
+        $this->db->where('id', $idAutore);
+        $this->db->delete("autori");
+
+        return $this->db->affected_rows();
+    }
+    
+    
+    //#################### Lista casa editrice ############################
+   
+    
+    public function getElencoCasaEditrice($limit, $id, $nome_txt) {
+       
+        if ($limit != "") {
+            $this->db->limit($limit, $id);
+        }
+
+        $this->db->select('id, trim(nome) as nome, data_inserimento_riga, operatore');
+        $this->db->from('casa_editrice');
+
+        if ($nome_txt != "") {
+            $this->db->like('nome', $nome_txt);
+        }
+
+        $this->db->group_by('trim(nome)');
+        $this->db->order_by('nome');
+
+        $query = $this->db->get();
+        
+        $res = $query->result();
+        return $res;
+    }
+    
+
+    public function getElencoCasaEditrice_count($nome_txt) {
+
+        $this->db->select('id, trim(nome) as nome');
+        $this->db->from('casa_editrice');
+        
+         if ($nome_txt != "") {
+            $this->db->like('nome', $nome_txt);
+        }
+        
+        $this->db->group_by('trim(nome)');
+        $this->db->order_by('nome');
+
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function casaEditriceAdd($dataCasaEditrice) {
+
+        $this->db->insert("casa_editrice", $dataCasaEditrice);
+//       echo $this->db->last_query();die();
+
+
+
+        if ($this->db->affected_rows()) {
+            $this->result->validation = TRUE;
+            $this->result->message = 'insert autore ok';
+            $this->result->httpResponse = 200;
+        } else {
+            $this->result->validation = FALSE;
+            $this->result->errorNum = '0701';
+            $this->result->errorText = 'Errore in insert autore';
+            $this->result->message = 'Errore';
+            $this->result->httpResponse = 417;
+        }
+
+        return $this->result;
+    }
+
+    public function casaEditriceUpdate($idCasaEditrice, $dataCasaEditrice) {
+
+        $this->db->where('id', $idCasaEditrice);
+        $this->db->update("casa_editrice", $dataCasaEditrice);
+
+        if ($this->db->affected_rows()) {
+
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    
+    public function getCasaEditriceById($idCasaEditrice) {
+
+        $this->db->from('casa_editrice');
+        $this->db->where('id', $idCasaEditrice);
+
+        $query = $this->db->get();
+        $ret = $query->result();
+
+        if ($ret) {
+            $this->result->validation = TRUE;
+            $this->result->message = 'Autore recuperato!!';
+            $this->result->httpResponse = 200;
+            $this->result->data = $ret;
+        } else {
+            $this->result->validation = FALSE;
+            $this->result->errorNum = '0701';
+            $this->result->errorText = 'Autore non trovato per il id: ' . $idCasaEditrice;
+            $this->result->message = 'Errore';
+            $this->result->httpResponse = 417;
+        }
+
+        return $this->result;
+    }
+    
+    
+    
+    public function casaEditriceDelete($idCasaEditrice) {
+
+        $this->db->where('id', $idCasaEditrice);
+        $this->db->delete("casa_editrice");
+
+        return $this->db->affected_rows();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // FINE PAGINAZIONE PER LA PRESA VISIONE DELL'ELENCO MAGAZZINO
 //
 //    public function getElencoCorsiArchivio($categoriaCorso) {

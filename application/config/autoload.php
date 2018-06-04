@@ -40,7 +40,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $autoload['packages'] = array();
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Libraries
@@ -73,14 +72,15 @@ $autoload['libraries'] = array('database', 'session');
 |
 | Prototype:
 |
-|	$autoload['drivers'] = array('cache');
+| $autoload['drivers'] = array('cache');
 |
 | You can also supply an alternative property name to be assigned in
 | the controller:
 |
-|	$autoload['drivers'] = array('cache' => 'cch');
+| $autoload['drivers'] = array('cache' => 'cch');
 |
 */
+
 $autoload['drivers'] = array();
 
 /*
@@ -89,10 +89,12 @@ $autoload['drivers'] = array();
 | -------------------------------------------------------------------
 | Prototype:
 |
-|	$autoload['helper'] = array('url', 'file');
+| $autoload['helper'] = array('url', 'file');
 */
+
 //$autoload['helper'] = array();
-$autoload['helper'] = array('form', 'url', 'asset_helper', 'lang_helper');
+
+$autoload['helper'] = array('form', 'url', 'cias_helper');
 
 /*
 | -------------------------------------------------------------------
@@ -106,6 +108,7 @@ $autoload['helper'] = array('form', 'url', 'asset_helper', 'lang_helper');
 | config files.  Otherwise, leave it blank.
 |
 */
+
 $autoload['config'] = array();
 
 /*

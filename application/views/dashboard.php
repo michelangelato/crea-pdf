@@ -1,37 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
     <head>
 
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-          <title>J-ACADEMY</title>
+        <title>INSPINIA | Static Tables</title>
 
-        <!-- Bootstrap Core CSS -->
-        <link href="<?php echo base_url('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+        <!-- Toastr style -->
+        <link href="<?php echo base_url('assets/css/plugins/toastr/toastr.min.css'); ?>" rel="stylesheet">
 
-        <!-- MetisMenu CSS -->
-        <link href="<?php echo base_url('assets/vendor/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet">
 
-        <!-- Custom CSS -->
-        <link href="<?php echo base_url('assets/dist/css/sb-admin-2.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/css/animate.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/css/plugins/select2/select2.min.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('assets/css/plugins/datapicker/datepicker3.css'); ?>" rel="stylesheet">
 
-        <!-- Morris Charts CSS -->
-        <link href="<?php echo base_url('assets/vendor/morrisjs/morris.css'); ?>" rel="stylesheet">
-
-          <!-- Custom Fonts -->
-        <link href="<?php echo base_url('assets/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'); ?>" rel="stylesheet" type="text/css">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
 
     </head>
 
@@ -39,88 +25,403 @@
 
         <div id="wrapper">
 
-            <?php $this->view('menu'); ?>
+            <?php $this->view('menu_sx'); ?>
+            <div id="page-wrapper" class="gray-bg">
 
-            <div id="page-wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Dashboard</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
+                <?php $this->view('menu_top'); ?>
+
+                <!--                <div class="row wrapper border-bottom white-bg page-heading">
                 
-                <div class="row">
+                                    <div class="col-lg-10">
+                                        <h2>Stai portando in visione un libro</h2>
+                                    </div>
+                
+                                </div>
+                -->
 
-                    <div class="col-lg-4">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example
+                <div class="wrapper wrapper-content">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-success pull-right">Monthly</span>
+                                    <h5>Views</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins">386,200</h1>
+                                    <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                                    <small>Total views</small>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <div id="corsi"></div>
-                                <a href="#" class="btn btn-default btn-block">View Details</a>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-info pull-right">Annual</span>
+                                    <h5>Orders</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins">80,800</h1>
+                                    <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                                    <small>New orders</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-primary pull-right">Today</span>
+                                    <h5>visits</h5>
+                                </div>
+                                <div class="ibox-content">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h1 class="no-margins">406,42</h1>
+                                            <div class="font-bold text-navy">44% <i class="fa fa-level-up"></i> <small>Rapid pace</small></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h1 class="no-margins">206,12</h1>
+                                            <div class="font-bold text-navy">22% <i class="fa fa-level-up"></i> <small>Slow pace</small></div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Monthly income</h5>
+                                    <div class="ibox-tools">
+                                        <span class="label label-primary">Updated 12.2015</span>
+                                    </div>
+                                </div>
+                                <div class="ibox-content no-padding">
+                                    <div class="flot-chart m-t-lg" style="height: 55px;">
+                                        <div class="flot-chart-content" id="flot-chart1"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div>
+                                        <span class="pull-right text-right">
+                                            <small>Average value of sales in the past month in: <strong>United states</strong></small>
+                                            <br/>
+                                            All sales: 162,862
+                                        </span>
+                                        <h3 class="font-bold no-margins">
+                                            Half-year revenue margin
+                                        </h3>
+                                        <small>Sales marketing.</small>
+                                    </div>
+
+                                    <div class="m-t-sm">
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div>
+                                                    <canvas id="lineChart" height="114"></canvas>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <ul class="stat-list m-t-lg">
+                                                    <li>
+                                                        <h2 class="no-margins">2,346</h2>
+                                                        <small>Total orders in period</small>
+                                                        <div class="progress progress-mini">
+                                                            <div class="progress-bar" style="width: 48%;"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <h2 class="no-margins ">4,422</h2>
+                                                        <small>Orders in last month</small>
+                                                        <div class="progress progress-mini">
+                                                            <div class="progress-bar" style="width: 60%;"></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="m-t-md">
+                                        <small class="pull-right">
+                                            <i class="fa fa-clock-o"> </i>
+                                            Update on 16.07.2015
+                                        </small>
+                                        <small>
+                                            <strong>Analysis of sales:</strong> The value has been changed over time, and last month reached a level over $50,000.
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-warning pull-right">Data has changed</span>
+                                    <h5>User activity</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">Pages / Visit</small>
+                                            <h4>236 321.80</h4>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">% New Visits</small>
+                                            <h4>46.11%</h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">Last week</small>
+                                            <h4>432.021</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">Pages / Visit</small>
+                                            <h4>643 321.10</h4>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">% New Visits</small>
+                                            <h4>92.43%</h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">Last week</small>
+                                            <h4>564.554</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">Pages / Visit</small>
+                                            <h4>436 547.20</h4>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">% New Visits</small>
+                                            <h4>150.23%</h4>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <small class="stats-label">Last week</small>
+                                            <h4>124.990</h4>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
-                    <!-- /.col-lg-8 -->
-                    <div class="col-lg-8">
-
-                        dddddddd
-
-                    </div>
-                    <!-- /.col-lg-4 -->
                 </div>
-                <!-- /.row -->
+
+                <div class="footer">
+                    <div class="pull-right">
+                        10GB of <strong>250GB</strong> Free.
+                    </div>
+                    <div>
+                        <strong>Copyright</strong> Example Company &copy; 2014-2017
+                    </div>
+                </div>
+
             </div>
-            <!-- /#page-wrapper -->
-
         </div>
-        <!-- /#wrapper -->
 
+
+     
+        <!-- Mainly scripts -->
+        <script src="<?php echo base_url('assets/js/jquery-3.1.1.min.js'); ?>"></script>
+        
+           <!--Toastr script--> 
+        <script src="<?php echo base_url('assets/js/plugins/toastr/toastr.min.js'); ?>"></script>
+
+        
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/metisMenu/jquery.metisMenu.js'); ?>"></script>
+        
+        
        
+          
+          <script src="<?php echo base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js'); ?>"></script>
+                                                                                                                
+     
+      <!--Flot--> 
+        <script src="<?php echo base_url('assets/js/plugins/flot/jquery.flot.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/flot/jquery.flot.tooltip.min.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/flot/jquery.flot.spline.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/flot/jquery.flot.resize.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/flot/jquery.flot.pie.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/flot/jquery.flot.symbol.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/flot/curvedLines.js'); ?>"></script>
         
         
         
         
-        
-        <!-- jQuery -->
-        <script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
+        <!--
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.min.js'); ?>"></script>
+         Peity 
+        <script src="<?php echo base_url('assets/js/plugins/peity/jquery.peity.min.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/demo/peity-demo.js'); ?>"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="<?php echo base_url('assets/vendor/metisMenu/metisMenu.min.js'); ?>"></script>
+-->        
+<!--        Custom and plugin javascript -->
+        <script src="<?php echo base_url('assets/js/inspinia.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/pace/pace.min.js'); ?>"></script>
 
-        <!-- Morris Charts JavaScript -->
-        <script src="<?php echo base_url('assets/vendor/raphael/raphael.min.js'); ?>"></script>
-        
-        <script src="<?php echo base_url('assets/vendor/morrisjs/morris.min.js'); ?>"></script>
-        
-<!--    <script src="<?php echo base_url('assets/data/morris-data.js'); ?>"></script>-->
+<!--         jQuery UI -->
+        <script src="<?php echo base_url('assets/js/plugins/jquery-ui/jquery-ui.min.js'); ?>"></script><!--
 
-        <!-- Custom Theme JavaScript -->
-        <script src="<?php echo base_url('assets/dist/js/sb-admin-2.js'); ?>"></script>
+         Jvectormap 
+        <script src="<?php echo base_url('assets/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'); ?>"></script>
+
+         Sparkline 
+        <script src="<?php echo base_url('assets/js/plugins/sparkline/jquery.sparkline.min.js'); ?>"></script>
+
+         Sparkline demo data  
+        <script src="<?php echo base_url('assets/js/demo/sparkline-demo.js'); ?>"></script>
+
+-->       
+            <!--ChartJS-->
+        <script src="<?php echo base_url('assets/js/plugins/chartJs/Chart.min.js'); ?>"></script>
 
 
-         <script>
+
+
+
+        <script>
+          
+                 
+            
+             toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "progressBar": true,
+                "preventDuplicates": false,
+                "positionClass": "toast-top-right",
+                "onclick": null,
+                "showDuration": "400",
+                "hideDuration": "1000",
+                "timeOut": "7000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "heading": "Error"
+            };
 
             $(document).ready(function () {
+                
+                 
+//                
+//                 //toastr.error('Inserire Quantità totali', 'Attenzione!');
+//                 
+                 
+                var welcome = '<?php echo $global['welcome']; ?>';
+                if (welcome === '1') {
 
-                Morris.Donut({
-                    element: 'corsi',
-                    data: [
-                        {label: "Download Sales", value: 12},
-                        {label: "In-Store Sales", value: 30},
-                        {label: "Mail-Order Sales", value: 20}
-                    ]
+                  toastr.success("Benvenuto  <?php echo $global['name']; ?> !");
+                    
+                }
+
+                var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
+                var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
+
+                var data1 = [
+                    {label: "Data 1", data: d1, color: '#17a084'},
+                    {label: "Data 2", data: d2, color: '#127e68'}
+                ];
+                $.plot($("#flot-chart1"), data1, {
+                    xaxis: {
+                        tickDecimals: 0
+                    },
+                    series: {
+                        lines: {
+                            show: true,
+                            fill: true,
+                            fillColor: {
+                                colors: [{
+                                        opacity: 1
+                                    }, {
+                                        opacity: 1
+                                    }]
+                            },
+                        },
+                        points: {
+                            width: 0.1,
+                            show: false
+                        },
+                    },
+                    grid: {
+                        show: false,
+                        borderWidth: 0
+                    },
+                    legend: {
+                        show: false,
+                    }
                 });
+
+                var lineData = {
+                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    datasets: [
+                        {
+                            label: "Example dataset",
+                            backgroundColor: "rgba(26,179,148,0.5)",
+                            borderColor: "rgba(26,179,148,0.7)",
+                            pointBackgroundColor: "rgba(26,179,148,1)",
+                            pointBorderColor: "#fff",
+                            data: [48, 48, 60, 39, 56, 37, 30]
+                        },
+                        {
+                            label: "Example dataset",
+                            backgroundColor: "rgba(220,220,220,0.5)",
+                            borderColor: "rgba(220,220,220,1)",
+                            pointBackgroundColor: "rgba(220,220,220,1)",
+                            pointBorderColor: "#fff",
+                            data: [65, 59, 40, 51, 36, 25, 40]
+                        }
+                    ]
+                };
+
+                var lineOptions = {
+                    responsive: true
+                };
+
+
+                var ctx = document.getElementById("lineChart").getContext("2d");
+                new Chart(ctx, {type: 'line', data: lineData, options: lineOptions});
+
 
             });
 
-        </script>   
+
+        </script>
+
+
+
+
+
+
+
+
 
 
     </body>
