@@ -51,49 +51,73 @@ class Login extends CI_Controller
     {
         $this->load->library('form_validation');
         
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[128]|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|max_length[32]');
         
-        if($this->form_validation->run() == FALSE)
-        {
-            $this->index();
-        }
-        else
-        {
+        
+       
+        
+//        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[128]|trim');
+//        $this->form_validation->set_rules('password', 'Password', 'required|max_length[32]');
+//        
+//        if($this->form_validation->run() == FALSE)
+//        {
+//            $this->index();
+//        }
+//        else
+//        {
+            
             $email = $this->security->xss_clean($this->input->post('email'));
             $password = $this->input->post('password');
             
+            
+            
             $result = $this->login_model->loginMe($email, $password);
+            
+            
+            
+            print_r($result);
+            
+            
             
             if(!empty($result))
             {
                 $lastLogin = $this->login_model->lastLoginInfo($result->userId);
 
+                
+                
+                
                 $sessionArray = array('userId'=>$result->userId,                    
                                         'role'=>$result->roleId,
                                         'roleText'=>$result->role,
                                         'name'=>$result->name,
                                         'lastLogin'=> $lastLogin->createdDtm,
+                                        'avatar'=> $result->avatar,
                                         'isLoggedIn' => TRUE
                                 );
 
+                
+                
                 $this->session->set_userdata($sessionArray);
 
                 unset($sessionArray['userId'], $sessionArray['isLoggedIn'], $sessionArray['lastLogin']);
 
                 $loginInfo = array("userId"=>$result->userId, "sessionData" => json_encode($sessionArray), "machineIp"=>$_SERVER['REMOTE_ADDR'], "userAgent"=>getBrowserAgent(), "agentString"=>$this->agent->agent_string(), "platform"=>$this->agent->platform());
 
+                
+                
                 $this->login_model->lastLogin($loginInfo);
                 
                 redirect('/dashboard');
+                
+                
             }
             else
             {
-                $this->session->set_flashdata('error', 'Email or password mismatch');
                 
+                $this->session->set_flashdata('error', 'Email or password mismatch');
                 redirect('/login');
+                
             }
-        }
+        //}
     }
 
     /**

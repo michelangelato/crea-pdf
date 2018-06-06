@@ -10,7 +10,7 @@ class Login_model extends CI_Model
      */
     function loginMe($email, $password)
     {
-        $this->db->select('BaseTbl.userId, BaseTbl.password, BaseTbl.name, BaseTbl.roleId, Roles.role');
+        $this->db->select('BaseTbl.userId, BaseTbl.password, BaseTbl.name, BaseTbl.roleId, Roles.role, BaseTbl.avatar');
         $this->db->from('tbl_users as BaseTbl');
         $this->db->join('tbl_roles as Roles','Roles.roleId = BaseTbl.roleId');
         $this->db->where('BaseTbl.email', $email);
@@ -19,8 +19,11 @@ class Login_model extends CI_Model
         
         $user = $query->row();
         
+        
         if(!empty($user)){
             if(verifyHashedPassword($password, $user->password)){
+                
+               // echo $this->db->last_query();die();
                 return $user;
             } else {
                 return array();
@@ -28,6 +31,8 @@ class Login_model extends CI_Model
         } else {
             return array();
         }
+        
+        
     }
 
     /**

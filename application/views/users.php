@@ -211,7 +211,7 @@
             e.preventDefault();            
             var link = jQuery(this).get(0).href;            
             var value = link.substring(link.lastIndexOf('/') + 1);
-            jQuery("#searchList").attr("action", baseURL + "userListing/" + value);
+            jQuery("#searchList").attr("action", "<?php echo base_url(); ?>" + "userListing/" + value);
             jQuery("#searchList").submit();
         });
     });
@@ -229,7 +229,7 @@
 			hitURL = "<?php echo base_url(); ?>" + "deleteUser",
 			currentRow = $(this);
 		
-		var confirmation = confirm("Are you sure to delete this user ?");
+		var confirmation = confirm("Sicuro di voler cancellare questo utente?");
 		
 		if(confirmation)
 		{

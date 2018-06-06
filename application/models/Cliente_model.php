@@ -8,9 +8,6 @@
  * @copyright Schema31 s.p.a - 2015
  */
 
-
-
-
 class Cliente_model extends CI_Model {
 
     function count_all() {
@@ -84,4 +81,77 @@ class Cliente_model extends CI_Model {
         return $res;
     }
 
+    
+    
+    // per pagin lista clienti
+    
+    public function getElencoClienti($limit, $id, $nome_txt) {
+       
+        if ($limit != "") {
+            $this->db->limit($limit, $id);
+        }
+
+        $this->db->select('clienti.id, codice_sap, clienti.nome , clienti.cognome, clienti.p_iva, clienti.indirizzo, clienti.citta, CONCAT(rappresentante.cognome, " ", rappresentante.nome) as rappresentante, clienti.data_inserimento_riga');
+        
+        $this->db->from('clienti');
+         $this->db->join('rappresentante', 'clienti.id_rappresentante = rappresentante.id');
+
+        if ($nome_txt != "") {
+            $this->db->like('clienti.nome', $nome_txt);
+        }
+
+//        $this->db->group_by('trim(nome)');
+        $this->db->order_by('id');
+
+        $query = $this->db->get();
+        
+        
+        
+        //echo $this->db->last_query();die();
+        
+        
+        $res = $query->result();
+        return $res;
+    }
+
+    public function getElencoClienti_count($nome_txt) {
+
+        $this->db->select('id, trim(nome) as nome');
+        $this->db->from('clienti');
+        
+         if ($nome_txt != "") {
+            $this->db->like('nome', $nome_txt);
+        }
+        
+        $this->db->group_by('trim(nome)');
+        $this->db->order_by('nome');
+
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

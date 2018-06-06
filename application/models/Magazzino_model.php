@@ -880,6 +880,11 @@ class Magazzino_model extends CI_Model {
 
         $query = $this->db->get();
         
+        
+        
+        //echo $this->db->last_query();die();
+        
+        
         $res = $query->result();
         return $res;
     }

@@ -3,15 +3,15 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"> <span>
-                            <img alt="image" class="img-circle" src="<?php echo base_url('assets/img/profile_small.jpg'); ?>" />
+<!--                            <img alt="image" class="img-circle" src="<?php echo base_url('assets/img/profile_small.jpg'); ?>" />-->
+                            <img alt="image" class="img-circle" width="48" height="48" src="<?php echo base_url('uploads/' .$global['avatar']); ?>" />
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"> <?php echo $global['name']; ?></strong>
                              </span> <span class="text-muted text-xs block"><?php echo $global['role_text']; ?> <b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="profile.html">Profile</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li><a href="<?php echo base_url(); ?>loadChangePass"  >Cambio Password</a></li>
+                       
                             <li class="divider"></li>
                             <li><a href="<?php echo base_url('logout'); ?>">Logout</a></li>
                         </ul>
@@ -37,20 +37,24 @@ MBM
                     </ul>
                 </li>
                 
-                
-                
-                
                 <!-- MAGAZZINO -->
-                <li <?php echo (basename(current_url())=='listaMagazzino' || basename(current_url())=='listaCaricoMagazzino' || basename(current_url())=='inserisciNuovoStep1' || basename(current_url())=='listaCasaEditrice' || basename(current_url())=='listaAutori') ? "class=\"active\"" : "" ?>>
+                <li <?php echo (basename(current_url())=='listaMagazzino' || basename(current_url())=='listaCaricoMagazzino' || basename(current_url())=='inserisciNuovoStep1' || basename(current_url())=='inserisciNuovoStep2' ||  basename(current_url())=='inserisciNuovoStep3'  || basename(current_url())=='listaCasaEditrice' || basename(current_url())=='listaAutori') ? "class=\"active\"" : "" ?>>
                     <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Magazzino</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li <?php echo (basename(current_url())=='listaMagazzino') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaMagazzino'); ?>">Lista Magazzino</a></li>
                         <li <?php echo (basename(current_url())=='listaCaricoMagazzino') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaCaricoMagazzino'); ?>">Storico Magazzino</a></li>
-                        <li <?php echo (basename(current_url())=='inserisciNuovoStep1') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/inserisciNuovoStep1'); ?>">Inserisci Nuovo</a></li>
+                        <li <?php echo (basename(current_url())=='inserisciNuovoStep1' || basename(current_url())=='inserisciNuovoStep2' || basename(current_url())=='inserisciNuovoStep3') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/inserisciNuovoStep1'); ?>">Inserisci Nuovo</a></li>
                         <li <?php echo (basename(current_url())=='listaCasaEditrice') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaCasaEditrice'); ?>">Lista Editori</a></li>
                         <li <?php echo (basename(current_url())=='listaAutori') ? "class=\"active\"" : "" ?>><a href="<?php echo base_url('magazzino/listaAutori'); ?>">Lista Autori</a></li>
                     </ul>
                 </li>
+                
+                
+                   <!-- CLIENTI -->
+                 <li <?php echo (basename(current_url())=='listaClienti') ? "class=\"active\"" : ""; ?>>
+                    <a href="<?php echo base_url('cliente/listaClienti'); ?>"><i class="fa fa-users"></i> <span class="nav-label">Clienti</span></a>
+                </li>
+                
                 
                 
                 

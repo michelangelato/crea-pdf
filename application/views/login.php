@@ -19,14 +19,14 @@
         <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
     </head>
 
-    <body class="gray-bg">
+    <body class="white-bg">
 
         <div class="middle-box text-center loginscreen animated fadeInDown">
             <div style="margin-top: 200px">
 
                 <h3>Welcome to MBM</h3>
 
-
+                <img alt="image"width="80%" src="<?php echo base_url('assets/img/LogoMediaedit.png'); ?>" />
 
                 <?php
                 $this->load->helper('form');

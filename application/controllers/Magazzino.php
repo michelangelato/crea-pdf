@@ -227,13 +227,11 @@ class Magazzino extends BaseController {
         $isbn = $this->input->post('isbn');
 
         $obj['percentuale'] = $this->setup_model->getElencoPercentuale();
-
+        $obj['autori'] = $this->magazzino_model->getElencoAutori($limit=null, $id =null, $nome_txt=null);
+          //casa_editrice
+           $obj['casaEditrice'] = $this->magazzino_model->getElencoCasaEditrice($limit=null, $id =null, $nome_txt=null);
+        
         $obj['global'] = $this->global;
-        
-        
-        
-        
-        
 
         //ho fatto la ricerca per isbn
         if ($isbn != "") {
@@ -280,11 +278,7 @@ class Magazzino extends BaseController {
             $totalePrezzoDocumentoCarico = $this->input->post('totalePrezzoDocumentoCarico');
 
 
-             //autori
-        $obj['autori'] = $this->magazzino_model->getElencoAutori($limit=null, $id =null, $nome_txt=null);
-        
-             //casa_editrice
-        $obj['casaEditrice'] = $this->magazzino_model->getElencoCasaEditrice($limit=null, $id =null, $nome_txt=null);
+           
         
        // print_r($obj['autori']);
             
@@ -304,7 +298,7 @@ class Magazzino extends BaseController {
     public function inserisciArticolo() {
 
 
-        $this->load->model('');
+        $this->load->model('magazzino_model');
 
         $trovato = $this->input->post('trovato');
         $isbn = $this->input->post('isbn');
