@@ -38,6 +38,8 @@ class Cliente extends BaseController {
 
     public function listaCLienti() {
 
+        
+        die('sssssss');
         $nome_txt = $this->input->post('nome_txt');
 
         $obj['nome_txt'] = $nome_txt;
