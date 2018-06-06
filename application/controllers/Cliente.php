@@ -89,7 +89,7 @@ class Cliente extends BaseController {
         
         $obj['global'] = $this->global;
 
-        $this->load->view('cliente/listaCLienti', $obj);
+        $this->load->view('cliente/listaclienti', $obj);
     }
     
     
