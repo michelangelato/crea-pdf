@@ -39,7 +39,6 @@ class Cliente extends BaseController {
     public function listaCLienti() {
 
         
-        die('sssssss');
         $nome_txt = $this->input->post('nome_txt');
 
         $obj['nome_txt'] = $nome_txt;
@@ -90,7 +89,7 @@ class Cliente extends BaseController {
         
         $obj['global'] = $this->global;
 
-        $this->load->view('cliente/listaCLienti.php', $obj);
+        $this->load->view('cliente/listaCLienti', $obj);
     }
     
     
