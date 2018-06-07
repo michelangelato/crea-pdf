@@ -98,7 +98,7 @@
                                                     <?php
                                                     foreach ($data as $item):
                                                         ?>
-                                                        <tr>
+                                                        <tr style="cursor: pointer;" class='clickable-row' data-href='<?php echo base_url('cliente/dettaglio?idCliente=' . $item->id); ?>'>
                                                             <?php
                                                             $num = $item->id;
                                                             $str_length = 4;
@@ -238,6 +238,14 @@
         <script src="<?php echo base_url('assets/js/demo/peity-demo.js'); ?>"></script>
 
         <script>
+
+jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+
+
 
 
                                 var save_method;

@@ -66,6 +66,9 @@ class Cliente_model extends CI_Model {
         $query = $this->db->get();
         $res = $query->result();
 
+        
+       // echo $this->db->last_query();die();
+        
         return $res;
     }
     

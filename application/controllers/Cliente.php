@@ -159,4 +159,22 @@ class Cliente extends BaseController {
                 ->set_output(json_encode($ret));
     }
     
+    
+    public function dettaglio() {
+          
+        $idCliente =  $this->input->get('idCliente');
+        
+        $this->load->model('cliente_model');
+        
+        
+        
+        $obj["data"] = $this->cliente_model->getClienteById($idCliente);
+        
+        $obj['global'] = $this->global;
+        
+        
+        //print_r($obj["data"]);
+
+        $this->load->view('cliente/dettaglio', $obj);
+    }
 }
