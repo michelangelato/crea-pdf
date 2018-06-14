@@ -226,7 +226,8 @@ class Magazzino extends BaseController {
         $dataCarico = $this->input->post('dataCarico');
         $isbn = $this->input->post('isbn');
 
-        $obj['percentuale'] = $this->setup_model->getElencoPercentuale();
+        $obj['percentuale'] = $this->setup_model->getElencoSetupByFieldName('percentuale_sconto');
+        
         $obj['autori'] = $this->magazzino_model->getElencoAutori($limit=null, $id =null, $nome_txt=null);
           //casa_editrice
            $obj['casaEditrice'] = $this->magazzino_model->getElencoCasaEditrice($limit=null, $id =null, $nome_txt=null);
@@ -423,31 +424,9 @@ class Magazzino extends BaseController {
 
         $this->load->view('magazzino/portaInVisione', $obj);
     }
-
-    function getLibriSelezionatiPerVisione() {
-
-        $obj['selezioneLibriInVisione'] = array_filter($this->session->userdata('que_ans_session'));
-
-//        print(count($obj['selezioneLibriInVisione']));
-
-        if (count($obj['selezioneLibriInVisione']) > 0) {
-            $this->result->validation = TRUE;
-            $this->result->message = 'Articolo in magazzino recuperato!!';
-            $this->result->httpResponse = 200;
-            $this->result->data = $obj['selezioneLibriInVisione'];
-        } else {
-            $this->result->validation = FALSE;
-            $this->result->errorNum = '0701';
-            $this->result->errorText = 'articolo non trovato per idMagazzino: ' . $idMagazzino;
-            $this->result->message = 'Errore';
-            $this->result->httpResponse = 417;
-        }
-
-        $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($this->result));
-    }
-
+    
+    
+    
     public function listaAutori() {
 
         $nome_txt = $this->input->post('nome_txt');

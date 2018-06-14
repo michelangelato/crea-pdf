@@ -17,11 +17,28 @@
         <link href="<?php echo base_url('assets/css/plugins/select2/select2.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/css/plugins/datapicker/datepicker3.css'); ?>" rel="stylesheet">
 
-    </head>
 
-    <body>
+        <style>
 
-        <div id="wrapper">
+            ul, li{
+                margin: 0;
+                padding: 0;
+            }
+            #sortable-row { list-style:none; display: list-item; width: 100%; border: 0px solid red;}
+
+            #sortable-row li { margin-bottom:4px; padding:0px;cursor:move;}
+            #sortable-row li.ui-state-highlight { height: 0em;border:#ccc 2px dotted;
+                                                  list-style-position:inside;
+                                                  margin:0;
+                                                  padding:0;}
+            </style>
+
+
+        </head>
+
+        <body>
+
+            <div id="wrapper">
 
             <?php $this->view('menu_sx'); ?>
             <div id="page-wrapper" class="gray-bg">
@@ -30,7 +47,7 @@
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Dettaglio Cliente</h2>
+                        <h2>Dettaglio Cliente: <b><?php echo $data->nome; ?> </b></h2>
                     </div>
                     <div class="col-lg-2">
 
@@ -38,7 +55,7 @@
                 </div>
                 <!--                <div class="wrapper wrapper-content animated fadeInRight">-->
                 <div class="wrapper wrapper-content">
-
+                    <input type="text" class="form-control input-sm" id="idCliente" value="<?php echo $data->id; ?>" >
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
@@ -52,26 +69,45 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div id="tab-1" class="tab-pane active">
+                                           
                                             <div class="panel-body">
+                                                
+                                                
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                      <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                       <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                                                    </div>
 
+
+                                                    <div class="form-group col-md-2">   
+                                                       <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                       <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                                                    </div>
+
+                                                </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="titolo">Nome o Soc</label>
-                                                        <input type="text" class="form-control input-sm" id="nome" value="<?php echo $data[0]->nome; ?>" >
+                                                        <input type="text" class="form-control input-sm" id="nome" value="<?php echo $data->nome; ?>" >
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="quantitaTotali" id="labelQuantitaTotali">Cognome</label>
-                                                        <input type="text" class="form-control input-sm" id="cognome" value="<?php echo $data[0]->cognome; ?>"  placeholder="Cognome">
+                                                        <input type="text" class="form-control input-sm" id="cognome" value="<?php echo $data->cognome; ?>"  placeholder="Cognome">
                                                     </div>
 
 
                                                     <div class="form-group col-md-2">   
                                                         <label for="titolo">Codice Fiscale</label>
-                                                        <input type="text" class="form-control input-sm" id="codice_fiscale" value="<?php echo $data[0]->codice_fiscale; ?>" >
+                                                        <input type="text" class="form-control input-sm" id="codice_fiscale" value="<?php echo $data->codice_fiscale; ?>" >
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="quantitaTotali" id="labelQuantitaTotali">P. Iva</label>
-                                                        <input type="text" class="form-control input-sm" id="p_iva" value="<?php echo $data[0]->p_iva; ?>"  placeholder="P. Iva">
+                                                        <input type="text" class="form-control input-sm" id="p_iva" value="<?php echo $data->p_iva; ?>"  placeholder="P. Iva">
                                                     </div>
 
                                                 </div>
@@ -80,63 +116,158 @@
 
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Indirizzo Fatturazione</label>
-                                                        <input type="text" class="form-control input-sm" id="indirizzo" value="<?php echo $data[0]->indirizzo; ?>"  placeholder="Indirizzo Fatturazione">
+                                                        <input type="text" class="form-control input-sm" id="indirizzo" value="<?php echo $data->indirizzo; ?>"  placeholder="Indirizzo Fatturazione">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Cap Fatturazione</label>
-                                                        <input type="text" class="form-control input-sm" id="cap" value="<?php echo $data[0]->cap; ?>" placeholder="Cap">
+                                                        <input type="text" class="form-control input-sm" id="cap" value="<?php echo $data->cap; ?>" placeholder="Cap">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Città Fatturazione</label>
-                                                        <input type="text" class="form-control input-sm" id="citta" value="<?php echo $data[0]->citta; ?>" placeholder="Città">
+                                                        <input type="text" class="form-control input-sm" id="citta" value="<?php echo $data->citta; ?>" placeholder="Città">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Indirizzo Spedizione</label>
-                                                        <input type="text" class="form-control input-sm" id="indirizzo_spedizione" value="<?php echo $data[0]->indirizzo_spedizione; ?>" placeholder="Indirizzo Spedizione">
+                                                        <input type="text" class="form-control input-sm" id="indirizzo_spedizione" value="<?php echo $data->indirizzo_spedizione; ?>" placeholder="Indirizzo Spedizione">
                                                     </div>
-                                                    
+
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Cap Spedizione</label>
-                                                        <input type="text" class="form-control input-sm" id="cap_spedizione" value="<?php echo $data[0]->cap_spedizione; ?>" placeholder="Indirizzo Spedizione">
+                                                        <input type="text" class="form-control input-sm" id="cap_spedizione" value="<?php echo $data->cap_spedizione; ?>" placeholder="Indirizzo Spedizione">
                                                     </div>
-                                                    
-                                                     <div class="form-group col-md-2">
+
+                                                    <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Città Spedizione</label>
-                                                        <input type="text" class="form-control input-sm" id="citta_spedizione" value="<?php echo $data[0]->citta_spedizione; ?>" placeholder="Città">
+                                                        <input type="text" class="form-control input-sm" id="citta_spedizione" value="<?php echo $data->citta_spedizione; ?>" placeholder="Città">
                                                     </div>
                                                 </div>
-<div class="form-row">
+                                                <div class="form-row">
 
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Telefono Fisso</label>
-                                                        <input type="text" class="form-control input-sm" id="fisso" value="<?php echo $data[0]->fisso; ?>"  placeholder="Telefono Fisso">
+                                                        <input type="text" class="form-control input-sm" id="fisso" value="<?php echo $data->fisso; ?>"  placeholder="Telefono Fisso">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Cellulare</label>
-                                                        <input type="text" class="form-control input-sm" id="cap" value="<?php echo $data[0]->cellulare; ?>" placeholder="Cellulare">
+                                                        <input type="text" class="form-control input-sm" id="cap" value="<?php echo $data->cellulare; ?>" placeholder="Cellulare">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Studio di Appartenenza</label>
-                                                        <input type="text" class="form-control input-sm" id="ragione_sociale" value="<?php echo $data[0]->ragione_sociale; ?>" placeholder="Studio di Appartenenza">
+                                                        <input type="text" class="form-control input-sm" id="ragione_sociale" value="<?php echo $data->ragione_sociale; ?>" placeholder="Studio di Appartenenza">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Percentuale di Sconto</label>
-                                                        <input type="text" class="form-control input-sm" id="percentuale_sconto" value="<?php echo $data[0]->percentuale_sconto; ?>" placeholder="Percentuale di Sconto">
+
+                                                        <select class="select2_demo_4 form-control"  name="percentuale_sconto" id="percentuale_sconto" style="width:100%">
+                                                            <option></option>
+                                                            <?php
+                                                            foreach ($percentuale as $item):
+
+                                                                if ($data->percentuale_sconto == $item->name) {
+                                                                    $selected = "selected";
+                                                                } else {
+                                                                    $selected = "";
+                                                                }
+                                                                ?>
+                                                                <option value="<?php echo $item->name; ?>"   <?php echo $selected; ?>     data-tokens="<?php echo $item->name; ?>%"  ><?php echo $item->name; ?>%</option>
+                                                                <?php
+                                                            endforeach;
+                                                            ?>
+                                                        </select>
+
+
+
+
                                                     </div>
-                                                    
+
                                                     <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Codice SAP</label>
-                                                        <input type="text" class="form-control input-sm" id="codice_sap" value="<?php echo $data[0]->codice_sap; ?>" placeholder="Codice SAP">
+                                                        <input type="text" class="form-control input-sm" id="codice_sap" value="<?php echo $data->codice_sap; ?>" placeholder="Codice SAP">
                                                     </div>
-                                                    
-                                                     <div class="form-group col-md-2">
+
+                                                    <div class="form-group col-md-2">
                                                         <label for="titolo" id="labelNumeroCopieOmaggio">Rappresentante</label>
-                                                        <input type="text" class="form-control input-sm" id="id_rappresentante" value="<?php echo $data[0]->citta_spedizione; ?>" placeholder="Rappresentante">
+
+                                                        <select class="select2_demo_3 form-control" name="rappresentante" id="rappresentante" style="width:100%">
+                                                            <option></option>
+                                                            <?php
+                                                            foreach ($rapprensentati as $item):
+                                                                ?>
+                                                                <option <?php echo ($item->id == $data->id_rappresentante) ? 'selected' : ''; ?> value="<?php echo $item->id; ?>" data-tokens="<?php echo $item->nome; ?>"  ><?php echo $item->nome; ?></option>
+                                                                <?php
+                                                            endforeach;
+                                                            ?>
+                                                        </select>
+
                                                     </div>
+
+                                                    <div style="clear:both"></div>
                                                 </div>
 
 
+
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-2">
+                                                        <label for="titolo" id="labelNumeroCopieOmaggio">Importo Rata da Ritirare</label>
+                                                        <input type="text" class="form-control input-sm" id="rata_da_ritirare" value="<?php echo $data->rata_da_ritirare; ?>"  placeholder="Importo Rata da Ritirare">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="titolo" id="labelNumeroCopieOmaggio">Codice IPA</label>
+                                                        <input type="text" class="form-control input-sm" id="codice_ipa" value="<?php echo $data->codice_ipa; ?>" placeholder="Codice IPA">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="titolo" id="labelNumeroCopieOmaggio">Attiva blocco morosi</label><br>
+
+                                                        <input type ="checkbox"id="is_blocked">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+                                                </div>
+
                                             </div>
+                                            <div class="panel-body">
+
+                                                <h3>Dati Banca</h3>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-2">
+                                                        <label for="titolo" id="labelNumeroCopieOmaggio">Iban</label>
+                                                        <input type="text" class="form-control input-sm" id="iban" value="<?php echo $data->iban; ?>"  placeholder="Iban">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="titolo" id="labelNumeroCopieOmaggio">Banca</label>
+                                                        <input type="text" class="form-control input-sm" id="banca" value="<?php echo $data->banca; ?>" placeholder="Banca">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-body">
+
+                                                <h3>Referenti</h3> 
+
+                                                <button type="button" style="margin-left: 5px;min-width:30px" class="btn btn-w-m btn-default btn-sm" onclick="addMoreRows();">+</button>
+                                                <ul id="sortable-row" style="padding-top:15px;margin-left: 18px;">
+
+
+                                                </ul>
+                                            </div>
+
                                         </div>
                                         <div id="tab-2" class="tab-pane">
                                             <div class="panel-body">
@@ -197,9 +328,102 @@
         <!-- Toastr script -->
         <script src="<?php echo base_url('assets/js/plugins/toastr/toastr.min.js'); ?>"></script>
 
-
-
         <script>
+
+            function creaReferenti() {
+<?php
+foreach ($data->referenti as $item):
+    ?>
+                    var addLi = '<li id="<?php echo $item->id; ?>" >' +
+                            '<div id="div2" style="margin: 0px; display: inline-block;width:86.99%;">' +
+                            '<div style="float:left;width:20%">' +
+                            '<input type="text" class="form-control input-sm" id="referente_nome" value="<?php echo $item->nome; ?>"  placeholder="Nome">' +
+                            '</div>' +
+                            '<div style="float:left;margin-left: 0px;width:15%%;vertical-align: top; margin-left:10px">' +
+                            '<input type="text" class="form-control input-sm" id="referente_telefono" value="<?php echo $item->telefono; ?>" placeholder="Telefono">' +
+                            '</div>' +
+                            '<div style="float:left;margin-left: 0px;width:20%;vertical-align: top;margin-left:10px">' +
+                            '<input type="text" class="form-control input-sm" id="email" value="<?php echo $item->email; ?>"  placeholder="E-mail">' +
+                            '</div>' +
+                            '<div style="float:left;margin-left: 0px;width:15%;vertical-align: top; margin-left:10px;">' +
+                            '<select class="select2_demo_5 form-control">' +
+    <?php
+    foreach ($referrer_type as $itemReferr):
+        ?>
+
+                        '<option <?php echo ($item->referr_type == $itemReferr->name) ? 'selected' : ''; ?> value="<?php echo $itemReferr->name; ?>" data-tokens="<?php echo $itemReferr->name; ?>"  ><?php echo $itemReferr->name; ?></option>' +
+        <?php
+    endforeach;
+    ?>
+                    '</select>' +
+                            '<div style="clear:both"></div>' +
+                            '</div>' +
+                            '<div id="div3" style="float:left; width:2%;border: 0px solid blue;vertical-align: top;margin-left:20px ">' +
+                            '<a href="#" class="itemDelete"><i class="fa fa-trash fa-2x" style ="cursor: pointer;"  aria-hidden="true" onclick="removeRowDb(<?php echo $item->id; ?>);"></i></a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+
+                    jQuery("#sortable-row").append(addLi);
+
+    <?php
+endforeach;
+?>
+
+            }
+            var rowCount = 0;
+
+
+            function addMoreRows() {
+
+                rowCount++;
+
+                var greatId = Math.max.apply(null, $('#sortable-row li').map(function () {
+                    return $(this).attr('id');
+                }));
+
+                if (isFinite(greatId) == false) {
+                    greatId = 0;
+                 }
+
+                var newId = parseInt(greatId) + 1;
+
+                var addLi = '<li id="'+newId+'">' +
+                        '<div id="div2" style="margin: 0px; display: inline-block;width:86.99%;">' +
+                        '<div style="float:left;width:20%">' +
+                        '<input type="text" class="form-control input-sm" id="referente_nome" value=""  placeholder="Nome">' +
+                        '</div>' +
+                        '<div style="float:left;margin-left: 0px;width:15%%;vertical-align: top; margin-left:10px">' +
+                        '<input type="text" class="form-control input-sm" id="referente_telefono" value="" placeholder="Telefono">' +
+                        '</div>' +
+                        '<div style="float:left;margin-left: 0px;width:20%;vertical-align: top;margin-left:10px">' +
+                        '<input type="text" class="form-control input-sm" id="email" value=""  placeholder="E-mail">' +
+                        '</div>' +
+                        '<div style="float:left;margin-left: 0px;width:15%;vertical-align: top; margin-left:10px;">' +
+                        '<select class="select2_demo_5 form-control">' +
+                    <?php
+                    foreach ($referrer_type as $itemReferr): ?>
+                    '<option value="<?php echo $itemReferr->name; ?>" data-tokens="<?php echo $itemReferr->name; ?>"  ><?php echo $itemReferr->name; ?></option>' +
+                        <?php endforeach; ?>
+                        '</select>' +
+                        '<div style="clear:both"></div>' +
+                        '</div>' +
+                        '<div id="div3" style="float:left; width:2%;border: 0px solid blue;vertical-align: top;margin-left:20px ">' +
+                        '<a href="#" class="itemDelete"><i class="fa fa-trash fa-2x" style ="cursor: pointer;"  aria-hidden="true" ></i></a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</li>';
+
+
+                jQuery('#sortable-row').append(addLi);
+            }
+
+
+                         $('#sortable-row').on('click', '.itemDelete', function () {
+                                        $(this).closest('li').remove();
+                                    });
+
+
 
             toastr.options = {
                 "closeButton": true,
@@ -221,83 +445,33 @@
 
 
 
-            function goStep2()
-            {
-
-                $("#labelTipoContenuto").css("color", "#676a6c");
-
-
-                if ($('.select2_demo_3').val() === '') {
-                    toastr.error('Selezionare la tipologia di documento', 'Attenzione!');
-                    $("#labelTipoContenuto").css("color", "red");
-                    return;
-                }
-
-
-
-
-                var idContenutoTipo = $('#idContenutoTipo').val();
-
-                window.location = "<?php echo base_url("magazzino/inserisciNuovoStep2"); ?>?idContenutoTipo=" + idContenutoTipo;
-
-            }
-
-
-//                                                        function goStep2()
-//                                                        {
-//                                                            $('#btnGoStep2').text('avanti...'); //change button text
-//                                                            $('#btnGoStep2').attr('disabled', true); //set button disable 
-//
-//                                                            // ajax adding data to database
-//                                                            $.ajax({
-//                                                                url: "<?php echo site_url('magazzino/inserisciNuovoStep2') ?>",
-//                                                                type: "POST",
-//                                                                data: {
-//                                                                    idContenutoTipo: $('#nome').val(),
-//                                                                    indirizzo: $('#indirizzo').val(),
-//                                                                    citta: $('#citta').val(),
-//                                                                    cap: $('#cap').val(),
-//                                                                    telefono: $('#telefono').val(),
-//                                                                    email: $('#email').val(),
-//                                                                    piva: $('#p_iva').val(),
-//                                                                    percentuale: $('#percentuale_sconto').val(),
-//                                                                    referente: $('#referente').val(),
-//                                                                    emailReferente: $('#emailReferente').val(),
-//                                                                    telefonoReferente: $('#telefonoReferente').val()
-//                                                                },
-//                                                                dataType: "json",
-//                                                                success: function (validation)
-//                                                                {
-//                                                                    if (validation) //if success close modal and reload ajax table
-//                                                                    {
-//                                                                        $('#myModal_distributore').modal('hide');
-//                                                                        setTimeout(function () {
-//                                                                            location.reload();
-//                                                                        }, 500);
-//                                                                    }
-//                                                                    $('#btnGoStep2').text('avanti'); //change button text
-//                                                                    $('#btnGoStep2').attr('disabled', false); //set button enable 
-//                                                                },
-//                                                                error: function (jqXHR, textStatus, errorThrown)
-//                                                                {
-//                                                                    alert('Error adding / update data');
-//                                                                    $('#btnSave').text('save'); //change button text
-//                                                                    $('#btnSave').attr('disabled', false); //set button enable 
-//
-//                                                                }
-//                                                            });
-//                                                        }
 
             $(document).ready(function () {
 
+                creaReferenti();
+
                 $(".select2_demo_3").select2({
-                    placeholder: "Seleziona la tipologia di contenuto",
+                    placeholder: "Seleziona reappresentante",
+                    allowClear: true
+                });
+
+
+                $(".select2_demo_4").select2({
+                    placeholder: "Seleziona la percentuale",
+                    allowClear: true
+                });
+
+                $(".select2_demo_5").select2({
+                    placeholder: "Seleziona tipo di contatto",
                     allowClear: true
                 });
 
 
             });
         </script>
+
+
+
 
 
         <!--        <div class="modal inmodal fade" id="myModal_distributore" tabindex="-1" role="dialog"  aria-hidden="true">

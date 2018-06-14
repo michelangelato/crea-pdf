@@ -22,13 +22,16 @@ class Setup_model extends CI_Model {
     }
 
    
-    public function getElencoPercentuale() {
-
-
-        $this->db->select('id, CAST(name as SIGNED) AS name');
+    public function getElencoSetupByFieldName($fieldName) {
+        
+        if($fieldName == 'percentuale_sconto'){
+            $this->db->select('id, CAST(name as SIGNED) AS name');
+        }else{
+             $this->db->select('id, name');
+        }
         $this->db->from('setup');
-        $this->db->where('field_name', 'percentuale_sconto');
-
+        
+        $this->db->where('field_name', $fieldName);
         $this->db->order_by('name');
         $query = $this->db->get();
         $res = $query->result();

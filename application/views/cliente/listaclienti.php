@@ -68,10 +68,12 @@
 
                                             <table class="table table-hover" style="width:100%" border="0">
                                                 <thead>
-<!--                                                    <tr>
-                                                        <td style="width:30%;"> <input type="text" class="form-control input-sm" name="nome_txt"  value="<?php echo $nome_txt; ?>" ></td>
-
-                                                        <td colspan="2">
+                                                    <tr>
+                                                        <td > <input type="text" class="form-control input-sm" name="nome_txt"  value="<?php echo $cod_cliente_txt; ?>" ></td>
+                                                        <td > <input type="text" class="form-control input-sm" name="nome_txt"  value="<?php echo $cod_sap_txt; ?>" ></td>
+                                                        <td > <input type="text" class="form-control input-sm" name="nome_txt"  value="<?php echo $cognome_nome_txt; ?>" ></td>
+                                                        <td> <input type="text" class="form-control input-sm" name="nome_txt"  value="<?php echo $p_iva_txt; ?>" ></td>
+                                                        <td colspan="4">
                                                             <button type="submit" style="min-width:30px" class="btn btn-w-m btn-success btn-sm">Cerca</button>
                                                             <button type="reset" style="margin-left: 5px;min-width:30px" class="btn btn-w-m btn-danger btn-sm" onclick="document.location.href = '<?php echo $_SERVER['PHP_SELF']; ?>'">Reset</button>
                                                             <button type="button" style="margin-left: 5px;min-width:30px" class="btn btn-w-m btn-default btn-sm" onclick="exportExcel();">Export</button>
@@ -80,17 +82,18 @@
                                                         <td style="width:10%;text-align: right">
                                                             <button type="button" class="btn btn-primary btn-sm" onclick="autoreAdd()">Nuovo Autore</button>
                                                         </td>
-                                                    </tr>-->
+                                                    </tr>
                                                     <tr>
-                                                        <th>Cod. Cliente</th>
-                                                        <th>Cod. SAP</th>
-                                                        <th>Cognome Nome</th>
+                                                        <th style="width:7%">Cod. Cliente</th>
+                                                        <th style="width:5%">Cod. SAP</th>
+                                                        <th style="width:20%">Cognome Nome</th>
+<!--                                                        <th>E-mail</th>-->
                                                         <th>P.Iva</th>
                                                         <th>Indirizzo</th>
                                                         <th>Città</th>
                                                         <th>Rappresentate</th>
                                                         <th>Note</th>
-                                                        <th></th>
+                                                        <th style="width:20%"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -98,7 +101,8 @@
                                                     <?php
                                                     foreach ($data as $item):
                                                         ?>
-                                                        <tr style="cursor: pointer;" class='clickable-row' data-href='<?php echo base_url('cliente/dettaglio?idCliente=' . $item->id); ?>'>
+<!--                                                        <tr style="cursor: pointer;" class='clickable-row' data-href='<?php echo base_url('cliente/dettaglio?idCliente=' . $item->id); ?>'>-->
+                                                        <tr >
                                                             <?php
                                                             $num = $item->id;
                                                             $str_length = 4;
@@ -117,6 +121,7 @@
                                                             ?>
 
                                                             <td style="width:2%"><?php echo $cognome . $item->nome; ?> </td>
+<!--                                                            <td style="width:2%"><?php echo $item->email ?> </td>-->
 
                                                             
                                                             <td><?php echo $item->p_iva; ?></td>
@@ -125,10 +130,23 @@
                                                             <td><?php echo $item->rappresentante; ?></td>
                                                             <td><?php echo date("d/m/Y", strtotime($item->data_inserimento_riga)); ?></td>
                                                             
-                                                            <td  style="text-align:right">
-                                                                <button type="button" class="btn btn-default btn-sm" onclick="autoreEdit(<?php echo $item->id; ?>)">
+                                                             <td  style="text-align:right">
+<!--                                                                 <a href="<?php echo base_url('cliente/portaInVisione?idCliente=' . $item->id); ?>" class="btn btn-primary btn-sm">
+                                                                 Porta In Visione
+                                                                </a>
+                                                                -->
+                                                                <a href="<?php echo base_url('cliente/dettaglio?idCliente=' . $item->id); ?>"  class="btn btn-w-m btn-info btn-sm">
+                                                                 Dettaglio
+                                                                </a>
+                                                                
+                                                                
+                                                               
+                                                                <button type="button" class="btn btn-default btn-sm" onclick="(<?php echo $item->id; ?>)">
                                                                     <span class="glyphicon glyphicon-pencil " aria-hidden="true"></span>
-                                                                </button>
+                                                                </button>   
+                                                                
+                                                               
+                                                                
                                                                 <button type="button" class="btn btn-danger btn-sm" onclick="autoreDel(<?php echo $item->id; ?>)">
                                                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"  ></span>
                                                                 </button>
@@ -244,13 +262,9 @@ jQuery(document).ready(function($) {
         window.location = $(this).data("href");
     });
 });
-
-
-
-
                                 var save_method;
 
-                                function autoreAdd()
+                                function clienteAdd()
                                 {
                                     save_method = 'add';
                                     $('#form')[0].reset(); // reset form on modals
