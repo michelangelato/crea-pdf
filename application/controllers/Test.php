@@ -25,12 +25,6 @@ class Test extends CI_Controller {
         $azienda = new Azienda_model();
         $cliente = new Cliente_model();
 
-        $cliente->ragione_sociale = 'PAVIA E ANSA LDO STUDIO LEGALE ROMA';
-        $cliente->indirizzo = 'VIA BOCCA DI LEONE, 78';
-        $cliente->cap = '00100';
-        $cliente->comune = 'ROMA';
-        $cliente->partita_iva = '08648741000';
-
         createPdf('', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
 	}
 	

@@ -1,2 +1,8 @@
 <p>Che mucca</p>
-<a href="<?= base_url() ?>test/pdfDocumentoVisione">pdfa</a>
+<ul>
+    <li><a href="<?= base_url() ?>test/pdfDocumentoVisione">Doc di vendita</a></li>
+    <li><a href="<?= base_url() ?>test/pdfDocumentoVisione">Doc di vendita</a></li>
+    <li><a href="<?= base_url() ?>test/pdfDocumentoVisione">Doc di vendita</a></li>
+    <li><a href="<?= base_url() ?>test/pdfDocumentoVisione">Doc di vendita</a></li>
+    <li><a href="<?= base_url() ?>test/pdfDocumentoVisione">Doc di vendita</a></li>
+</ul>
