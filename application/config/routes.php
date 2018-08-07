@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['default_controller'] = 'magazzino/ListaMagazzino';
 
 
-$route['default_controller'] = "login";
+$route['default_controller'] = "test";
 $route['404_override'] = 'error';
 
 

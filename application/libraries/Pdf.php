@@ -315,9 +315,6 @@ class Pdf extends FPDF_rotation {
                 $this->from = $to;
             }
 
-
-
-
             //cliente
             $this->Cell($width, $lineheight, strtoupper($this->lang['from']), 0, 0, 'L');
 
@@ -326,81 +323,87 @@ class Pdf extends FPDF_rotation {
 
 
            $this->Multicell(0,6, iconv('utf-8', 'cp1252',$this->to),1,'L',false);
-                          
-                          
-//                        
-//                        $this->Ln(15);       
-//                        $this->Rect(20,50,180,20);      
-//                        $this->SetFont('Arial','',10);
-//                        $cell = 'This is my disclaimer.';
-//                        $this->Cell($this->GetStringWidth($cell),3,$cell, 0, 'L');
-//                        $this->SetFont('Arial','B',10);
-//                        $boldCell = "THESE WORDS NEED TO BE BOLD.";
-//                        $this->Cell($this->GetStringWidth($boldCell),3,$boldCell, 0, 'L');
-//                        $this->SetFont('Arial','',10);
-//                        $cell = 'These words do not need to be bold.';
-//                        $this->Cell($this->GetStringWidth($cell),3,$cell, 0, 'L');
-//                   
 
+            //                        
+            //                        $this->Ln(15);       
+            //                        $this->Rect(20,50,180,20);      
+            //                        $this->SetFont('Arial','',10);
+            //                        $cell = 'This is my disclaimer.';
+            //                        $this->Cell($this->GetStringWidth($cell),3,$cell, 0, 'L');
+            //                        $this->SetFont('Arial','B',10);
+            //                        $boldCell = "THESE WORDS NEED TO BE BOLD.";
+            //                        $this->Cell($this->GetStringWidth($boldCell),3,$boldCell, 0, 'L');
+            //                        $this->SetFont('Arial','',10);
+            //                        $cell = 'These words do not need to be bold.';
+            //                        $this->Cell($this->GetStringWidth($cell),3,$cell, 0, 'L');
+            //                   
 
             $this->Line($this->margins['l'], $this->GetY(), $this->margins['l'] + $width - 10, $this->GetY());
             $this->Line($this->margins['l'] + $width, $this->GetY(), $this->margins['l'] + $width + $width, $this->GetY());
 
-//				
         }
         //Table header
         if (!isset($this->productsEnded)) {
             $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
             
-            
-            
             $this->SetTextColor(50, 50, 50);
             $this->Ln(12);
             $this->SetFont($this->font, 'B', 9);
+
+            // prodotto
             $this->Cell(1, 10, '', 0, 0, 'L', 0);
-            $this->Cell($this->firstColumnWidth, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['product'])), 0, 0, 'L', 0);
+            $this->Cell($this->firstColumnWidth, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['product']), 0, 0, 'L', 0);
+
+            // quantità
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            
-            
-            
-            
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['qty'])), 0, 0, 'C', 0);
-            $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['qty'])), 0, 0, 'C', 0);
-            
-            
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['qty']), 0, 0, 'C', 0);
+
             if (isset($this->vatField)) {
+                // iva
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['vat'])), 0, 0, 'C', 0);
+                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['vat']), 0, 0, 'C', 0);
             }
+
+            // prezzo
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['price'])), 0, 0, 'C', 0);
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['price']), 0, 0, 'C', 0);
+
             if (isset($this->discountField)) {
+                // sconto
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['discount'])), 0, 0, 'C', 0);
+                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['discount']), 0, 0, 'C', 0);
             }
             
-            
-            
+            // totale
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
             $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['total'])), 0, 0, 'C', 0);
+
             $this->Ln();
             $this->SetLineWidth(0.3);
             $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
             $this->Line($this->margins['l'], $this->GetY(), $this->document['w'] - $this->margins['r'], $this->GetY());
             $this->Ln(2);
-        } else {
+        } 
+        else 
+        {
             $this->Ln(12);
         }
     }
 
     public function Body() {
         $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
+        
+        
+        //die($width_other);
+        
+        
         $cellHeight = 8;
         $bgcolor = (1 - $this->columnOpacity) * 255;
         if ($this->items) {
             foreach ($this->items as $item) {
-                if ($item['description']) {
+
+                if ($item['description']) 
+                {
                     //Precalculate height
                     $calculateHeight = new Pdf();
                     $calculateHeight->addPage();
@@ -417,6 +420,8 @@ class Pdf extends FPDF_rotation {
                 $this->SetFont($this->font, 'b', 8);
                 $this->SetTextColor(50, 50, 50);
                 $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
+
+                // Prodotto
                 $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
                 $x = $this->GetX();
                 $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1", $item['item']), 0, 0, 'L', 1);
@@ -427,6 +432,7 @@ class Pdf extends FPDF_rotation {
                     $this->SetXY($x, $this->GetY() + 8);
                     $this->SetFont($this->font, '', 7);
                     $this->MultiCell($this->firstColumnWidth, 3, iconv("UTF-8", "ISO-8859-1", $item['description']), 0, 'L', 1);
+                    
                     //Calculate Height
                     $newY = $this->GetY();
                     $cHeight = $newY - $resetY + 2;
@@ -438,22 +444,33 @@ class Pdf extends FPDF_rotation {
                     $this->Cell($this->firstColumnWidth, 2, '', 0, 0, 'L', 1);
                     $this->SetXY($resetX, $resetY);
                 }
+                
                 $this->SetTextColor(50, 50, 50);
                 $this->SetFont($this->font, '', 8);
+
+                // Quantità
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                
                 if (isset($this->vatField)) {
+                    // Iva
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                    if (isset($item['vat'])) {
+                    if (isset($item['vat'])) 
+                    {
                         $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['vat']), 0, 0, 'C', 1);
-                    } else {
+                    } 
+                    else 
+                    {
                         $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
                     }
                 }
+                
+                // Prezzo
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
+
                 if (isset($this->discountField)) {
+                    // Sconto
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                     if (isset($item['discount'])) {
                         $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $item['discount']), 0, 0, 'C', 1);
@@ -461,14 +478,14 @@ class Pdf extends FPDF_rotation {
                         $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
                     }
                 }
+
+                // Totale
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency . ' ' . number_format($item['total'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
-               // $this->Ln();
-                //$this->Ln($this->columnSpacing);
+
+                // $this->Ln();
+                // $this->Ln($this->columnSpacing);
                 
-                
-                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency . ' ' . number_format($item['total'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
                 $this->Ln();
                 $this->Ln($this->columnSpacing);
                 

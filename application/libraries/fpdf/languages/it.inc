@@ -1,6 +1,7 @@
 <?php
   $lang['number']		= 'Riferimento';
   $lang['date']			= 'Data di fatturazione';
+  $lang['time']			= 'Ora di fatturazione';
   $lang['due']			= 'Scadenza';
   $lang['to']			= 'Per accettazione';
   $lang['from']			= 'Cliente';

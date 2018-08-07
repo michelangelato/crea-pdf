@@ -94,7 +94,7 @@ $autoload['drivers'] = array();
 
 //$autoload['helper'] = array();
 
-$autoload['helper'] = array('form', 'url', 'cias_helper');
+$autoload['helper'] = array('form', 'url', 'invoice_helper');
 
 /*
 | -------------------------------------------------------------------
