@@ -25,7 +25,13 @@ class Test extends CI_Controller {
         $azienda = new Azienda_model();
         $cliente = new Cliente_model();
 
-        createPdf('', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
-	}
+        createPdf('Vendita', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
+        createPdf('ResoPostVendita', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
+        createPdf('ResaFornitore', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
+        createPdf('ResaCaricoRappresentante', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
+        createPdf('NotaCredito', $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
+    }
+    
+    
 	
 }
