@@ -273,9 +273,9 @@ class Pdf extends FPDF_rotation {
 //	        //Title
         $this->SetTextColor(0, 0, 0);
 //		$this->SetFont($this->font,'B',20);
-//	        $this->Cell(0,5,iconv("UTF-8", "ISO-8859-1",strtoupper($this->title)),0,1,'R');
+	    //$this->Cell(0,0,/*iconv("UTF-8", "ISO-8859-1",*/strtoupper($this->title)/*)*/,0,1,'R');
         $this->SetFont($this->font, '', 9);
-        //$this->Ln(5);
+        $this->Ln(3);
 //		
         $lineheight = 5;
         //Calculate position of strings
@@ -318,7 +318,7 @@ class Pdf extends FPDF_rotation {
             //cliente
             $this->Cell($width, $lineheight, strtoupper($this->lang['from']), 0, 0, 'L');
 
-            //$this->Cell(0,$lineheight,strtoupper($this->lang['to']),0,0,'L');
+            $this->Cell(0,$lineheight,strtoupper($this->lang['to']),0,0,'L');
             $this->Ln(5);
 
 

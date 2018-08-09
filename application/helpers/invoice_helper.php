@@ -19,6 +19,7 @@ if ( !function_exists('createPdf'))
         /* Header Settings */
         $invoice->setLogo(base_url('assets/img/'.$logo));
         $invoice->setColor("#007fff");
+        //$invoice->setType($doc->tipologia);
 
         $str_azienda = 
             $azienda->nome."\n".$azienda->indirizzo."\nTel. ".$azienda->telefono
@@ -26,6 +27,11 @@ if ( !function_exists('createPdf'))
             ."\nRegistro imprese ".$azienda->registro_imprese."\n".$azienda->email;
    
         $invoice->setAzienda($str_azienda);
+        
+
+        //possibilmente?
+        $invoice->setTo($doc->tipologia.' '.$numeroDoc);
+
         //  $invoice->setDate(date('M dS ,Y',time()));
         //  $invoice->setTime(date('h:i:s A',time()));
         //  $invoice->setDue(date('M dS ,Y',strtotime('+3 months')));
@@ -42,13 +48,11 @@ if ( !function_exists('createPdf'))
             case 1:
                 $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
                 .$doc->campo_email.$cliente->email;
-                $invoice->setType("Documento di vendita");
             break;
             
             case 2:
                 $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
                 .$doc->campo_email.$cliente->email;
-                $invoice->setType("Documento di reso post vendita");
             break;
             
             case 3:    

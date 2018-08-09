@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    $_GET['doctype'];
+
+?>
+
+
 <p>Che mucca</p>
 <ul>
     <li><a href="<?= base_url() ?>test/pdfDocumentoVisione">Doc di Vendita</a></li>
