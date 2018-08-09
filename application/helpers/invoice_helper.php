@@ -28,7 +28,6 @@ if ( !function_exists('createPdf'))
    
         $invoice->setAzienda($str_azienda);
         
-
         //possibilmente?
         $invoice->setTo($doc->tipologia.' '.$numeroDoc);
 

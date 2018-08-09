@@ -42,6 +42,15 @@ class Doc_model extends CI_Model {
         $this->codice = $codicetipologia;
         switch ($this->codice)
         {
+            case 0: //Doc Vendita
+                $this->interessato = "Cliente";
+                $this->campo_nominativo = "Cognome Nome: ";
+                $this->tipologia = "Documento di Vendita N. "; 
+                $this->campo_pivaotel = "\nC.F. / P.IVA: ";
+                $this->campo_rappresentante = "\nRappresentante: ";
+                $this->campo_data = "\nData: ";
+                break;
+                
             case 1: //Doc Reso Post Vendita
                 $this->interessato = "Cliente";
                 $this->campo_nominativo = "Cognome Nome: ";
@@ -73,14 +82,6 @@ class Doc_model extends CI_Model {
                 $this->campo_pivaotel = "\nP.IVA: ";
                 break;
 
-            case 5: //Doc Vendita
-                $this->interessato = "Cliente";
-                $this->campo_nominativo = "Cognome Nome: ";
-                $this->tipologia = "Documento di Vendita N. "; 
-                $this->campo_pivaotel = "\nC.F. / P.IVA: ";
-                $this->campo_rappresentante = "\nRappresentante: ";
-                $this->campo_data = "\nData: ";
-                break;
             
             default: //default Doc Vendita
                 $this->interessato = "Cliente";

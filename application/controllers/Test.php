@@ -21,8 +21,9 @@ class Test extends CI_Controller {
 		$this->load->view('test/index', $data);
 	}
 
-    public function pdfDocumentoVisione()
+    public function documento()
 	{
+        $tipo = $this->input->get('tipo');
         /*code goes from 1 to 5:
         1 - Doc Reso Post Vendita
         2 - Doc Resa Fornitore
@@ -32,18 +33,13 @@ class Test extends CI_Controller {
         */
 
         $tipo = 1;
-        if (isset($_GET['doctype'])) {
-            $tipo = $_GET['doctype'];
-        }
-        $azienda = new Azienda_model();
-        $cliente = new Cliente_model();
+
         $documento = new Doc_model();
         $documento->definetype($tipo);
 
+        $azienda = new Azienda_model();
+        $cliente = new Cliente_model();
+        
         createPdf($documento, $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
     }
-    
-    
-    
-	
 }
