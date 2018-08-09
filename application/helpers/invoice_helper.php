@@ -4,20 +4,13 @@ if ( !function_exists('createPdf'))
 {
 
 
-    function createPdf($tipoDoc, $azienda, $cliente, $logo, $numeroDoc, $arrayCliente, $arrayItem, $sconto, $iva)
+    function createPdf($doc, $azienda, $cliente, $logo, $numeroDoc, $arrayCliente, $arrayItem, $sconto, $iva)
     {
         // Get a reference to the controller object
         $CI = get_instance();
         
 
-        /*code goes from 1 to 5:
-        1 - Doc Reso Post Vendita
-        2 - Doc Resa Fornitore
-        3 - Doc Resa di Carico al Rappresentante
-        4 - Doc Nota di Credito
-        5 - Doc Vendita
-        */
-        $codice = 1;
+        
 
         //da aggiungere parametro al costruttore Doc_model (?) 
         //altrimenti si crea una funzioncina e si richiama e si impostano le variabili da li
@@ -46,9 +39,44 @@ if ( !function_exists('createPdf'))
         
         //da cambiare le stringhe "cognome" etc con i valori di Doc_Model.php per renderlo variabile
         $str_cliente = 
-            "Cognome Nome o Rag Sociale: ".$cliente->ragione_sociale."\nIndirizzo Sede: ".$cliente->indirizzo
-            ."\nCAP: ".$cliente->cap."\nCittà: ".$cliente->comune."\nC.F. o P.IVA: ".$cliente->partita_iva;
+            $doc->campo_nominativo.$cliente->ragione_sociale.
+            $doc->campo_indirizzo.$cliente->indirizzo.
+            $doc->campo_cittacap.$cliente->cap.' '.$cliente->comune;
+        
+        
+        switch($doc->codice)
+        {
+            case 1:
+                $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
+                .$doc->campo_email.$cliente->email;
+            break;
+            
+            case 2:
+                $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
+                .$doc->campo_email.$cliente->email;
+            break;
+            
+            case 3:    
+                $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
+                .$doc->campo_email.$cliente->email;
+            break;
+            
+            case 4:
+                $str_cliente .= $doc->campo_pivaotel.$cliente->partita_iva;
+            break;
 
+            case 5:
+                $str_cliente .= $doc->campo_pivaotel.$cliente->partita_iva
+                .$doc->campo_rappresentante.$cliente->rappresentante
+                .$doc->campo_data.$cliente->data;    
+            break;
+            
+            default:
+                $str_cliente .= $doc->campo_pivaotel.$cliente->partita_iva
+                .$doc->campo_rappresentante.$cliente->rappresentante
+                .$doc->campo_data.$cliente->data;
+            break;
+        }
         $invoice->setTo($str_cliente);
   
         /* Adding Items in table

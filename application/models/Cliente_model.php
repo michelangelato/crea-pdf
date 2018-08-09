@@ -7,6 +7,10 @@ class Cliente_model extends CI_Model {
     public $cap;
     public $comune;
     public $partita_iva;
+    public $telefono;
+    public $email;
+    public $rappresentante;
+
 
     function __construct()
     {
@@ -15,6 +19,8 @@ class Cliente_model extends CI_Model {
         $this->cap = '00100';
         $this->comune = 'ROMA';
         $this->partita_iva = '08648741000';
+        $this->telefono = '3456669647';
+        $this->email = 'cliente@cliente.it';
     }
 }
 
