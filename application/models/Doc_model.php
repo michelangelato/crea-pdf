@@ -13,7 +13,6 @@ class Doc_model extends CI_Model {
     public $campo_rappresentante;
     public $campo_data;
     
-    
     public function __construct()
     {
         $this->interessato = "Cliente";
@@ -50,7 +49,7 @@ class Doc_model extends CI_Model {
                 $this->campo_rappresentante = "\nRappresentante: ";
                 $this->campo_data = "\nData: ";
                 break;
-                
+
             case 1: //Doc Reso Post Vendita
                 $this->interessato = "Cliente";
                 $this->campo_nominativo = "Cognome Nome: ";

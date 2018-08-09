@@ -245,10 +245,6 @@ class Pdf extends FPDF_rotation {
         $this->addText[] = array('paragraph', $paragraph);
     }
     
-    
-    
-    
-
     public function addBadge($badge) {
         $this->badge = $badge;
     }
@@ -270,13 +266,6 @@ class Pdf extends FPDF_rotation {
             $this->Image($this->logo, $this->margins['l'], $this->margins['t'], $this->dimensions[0], $this->dimensions[1]);
         }
         
-        //Title
-        $this->SetTextColor(0, 0, 0);
-        $this->SetFont($this->font,'B',20);
-        $this->Cell(0, 0, iconv("UTF-8", "ISO-8859-1", strtoupper($this->title)), 0, 1, 'R');
-        $this->SetFont($this->font, '', 9);
-        $this->Ln(3);
-//		
         $lineheight = 5;
         //Calculate position of strings
         $this->SetFont($this->font, 'B', 9);
@@ -288,7 +277,6 @@ class Pdf extends FPDF_rotation {
         if (!empty($this->reference)) {
             $this->Multicell(0, 4, iconv('utf-8', 'cp1252', $this->reference), 0, 'R', false);
         }
-
 
         //First page
         if ($this->PageNo() == 1) {
@@ -315,14 +303,20 @@ class Pdf extends FPDF_rotation {
                 $this->from = $to;
             }
 
+        //Title
+        $this->SetTextColor(0, 0, 0);
+        $this->SetFont($this->font, 'B', 20);
+        $this->Cell(0, 0, iconv("UTF-8", "ISO-8859-1", strtoupper($this->title)), 0, 1, 'R');
+        $this->SetFont($this->font, '', 9);
+        $this->Ln(5);
+
             //cliente
             $this->Cell($width, $lineheight, strtoupper($this->lang['from']), 0, 0, 'L');
 
             $this->Cell(0,$lineheight,strtoupper($this->lang['to']),0,0,'L');
             $this->Ln(5);
 
-
-           $this->Multicell(0,6, iconv('utf-8', 'cp1252',$this->to),1,'L',false);
+            $this->Multicell(0,6, iconv('utf-8', 'cp1252',$this->to),1,'L',false);
 
             //                        
             //                        $this->Ln(15);       
