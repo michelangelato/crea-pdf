@@ -2,16 +2,11 @@
 
 if ( !function_exists('createPdf'))
 {
-
-
     function createPdf($doc, $azienda, $cliente, $logo, $numeroDoc, $arrayCliente, $arrayItem, $sconto, $iva)
     {
         // Get a reference to the controller object
         $CI = get_instance();
         
-
-        
-
         //da aggiungere parametro al costruttore Doc_model (?) 
         //altrimenti si crea una funzioncina e si richiama e si impostano le variabili da li
         $CI->load->model('Doc_model');
@@ -24,8 +19,7 @@ if ( !function_exists('createPdf'))
         /* Header Settings */
         $invoice->setLogo(base_url('assets/img/'.$logo));
         $invoice->setColor("#007fff");
-        //$invoice->setType("Sale Invoice");
-        
+
         $str_azienda = 
             $azienda->nome."\n".$azienda->indirizzo."\nTel. ".$azienda->telefono
             ."\nPartita IVA n. ".$azienda->partita_iva."\nCF ".$azienda->codice_fiscale
@@ -43,17 +37,18 @@ if ( !function_exists('createPdf'))
             $doc->campo_indirizzo.$cliente->indirizzo.
             $doc->campo_cittacap.$cliente->cap.' '.$cliente->comune;
         
-        
         switch($doc->codice)
         {
             case 1:
                 $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
                 .$doc->campo_email.$cliente->email;
+                $invoice->setType("Documento di vendita");
             break;
             
             case 2:
                 $str_cliente .= $doc->campo_pivaotel.$cliente->telefono
                 .$doc->campo_email.$cliente->email;
+                $invoice->setType("Documento di reso post vendita");
             break;
             
             case 3:    
