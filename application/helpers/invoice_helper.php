@@ -16,10 +16,11 @@ if ( !function_exists('createPdf'))
         
         $invoice = new Pdf();
         //$invoice = new phpinvoice();
+
         /* Header Settings */
         $invoice->setLogo(base_url('assets/img/'.$logo));
         $invoice->setColor("#007fff");
-        //$invoice->setType($doc->tipologia);
+        $invoice->setType($doc->tipologia.' '.$numeroDoc);
 
         $str_azienda = 
             $azienda->nome."\n".$azienda->indirizzo."\nTel. ".$azienda->telefono
@@ -29,7 +30,7 @@ if ( !function_exists('createPdf'))
         $invoice->setAzienda($str_azienda);
         
         //possibilmente?
-        $invoice->setTo($doc->tipologia.' '.$numeroDoc);
+        //$invoice->setTo($doc->tipologia.' '.$numeroDoc);
 
         //  $invoice->setDate(date('M dS ,Y',time()));
         //  $invoice->setTime(date('h:i:s A',time()));

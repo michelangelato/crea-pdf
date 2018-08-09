@@ -23,7 +23,6 @@ class Test extends CI_Controller {
 
     public function documento()
 	{
-        $tipo = $this->input->get('tipo');
         /*code goes from 1 to 5:
         1 - Doc Reso Post Vendita
         2 - Doc Resa Fornitore
@@ -32,14 +31,13 @@ class Test extends CI_Controller {
         5 - Doc Vendita
         */
 
-        $tipo = 1;
-
+        $tipo = $this->input->get('tipo');
         $documento = new Doc_model();
         $documento->definetype($tipo);
 
         $azienda = new Azienda_model();
         $cliente = new Cliente_model();
         
-        createPdf($documento, $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '', '', '', '', '');
+        createPdf($documento, $azienda, $cliente, 'MEDIAEDIT-LOGO.jpg', '3', '', '', '', '');
     }
 }

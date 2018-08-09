@@ -269,11 +269,11 @@ class Pdf extends FPDF_rotation {
         if (isset($this->logo) and ! empty($this->logo)) {
             $this->Image($this->logo, $this->margins['l'], $this->margins['t'], $this->dimensions[0], $this->dimensions[1]);
         }
-
-//	        //Title
+        
+        //Title
         $this->SetTextColor(0, 0, 0);
-//		$this->SetFont($this->font,'B',20);
-	    //$this->Cell(0,0,/*iconv("UTF-8", "ISO-8859-1",*/strtoupper($this->title)/*)*/,0,1,'R');
+        $this->SetFont($this->font,'B',20);
+        $this->Cell(0, 0, iconv("UTF-8", "ISO-8859-1", strtoupper($this->title)), 0, 1, 'R');
         $this->SetFont($this->font, '', 9);
         $this->Ln(3);
 //		
