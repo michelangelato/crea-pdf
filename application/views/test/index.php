@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    $_GET['doctype'];
+   // session_start();
+   // $_GET['doctype'];
 
 ?>
 

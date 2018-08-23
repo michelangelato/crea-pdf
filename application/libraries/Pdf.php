@@ -27,6 +27,8 @@ class Pdf extends FPDF_rotation {
     public $date;
     public $time;
     public $due;
+    public $client_type;
+    public $doc_type;
     public $from;
     public $to;
     public $items;
@@ -39,17 +41,18 @@ class Pdf extends FPDF_rotation {
     public $display_tofrom = true;
     
 
+
     /*     * ****************************************
      * Class Constructor               		 *
      * param : Page Size , Currency, Language *
      * **************************************** */
 
-    public function __construct($size = 'A4', $currency = '$', $language = 'it') {
-        $this->columns = 4;
+    public function __construct($size = 'A4', $currency = '€', $language = 'it') {
+        $this->columns = 7;
         $this->items = array();
         $this->totals = array();
         $this->addText = array();
-        $this->firstColumnWidth = 70;
+        $this->firstColumnWidth = 20;
         $this->currency = $currency;
         $this->maxImageDimensions = array(230, 130);
         $this->setLanguage($language);
@@ -58,6 +61,7 @@ class Pdf extends FPDF_rotation {
         $this->FPDFMETHOD('P', 'mm', array($this->document['w'], $this->document['h']));
         $this->AliasNbPages();
         $this->SetMargins($this->margins['l'], $this->margins['t'], $this->margins['r']);
+        
     }
 
     private function setLanguage($language) {
@@ -159,6 +163,14 @@ class Pdf extends FPDF_rotation {
         $this->due = $date;
     }
 
+    public function setClient($data) {
+        $this->client_type = $data;
+    }
+
+    public function setDoctype($data) {
+        $this->doc_type = $data;  
+    }
+
     public function setLogo($logo = 0, $maxWidth = 0, $maxHeight = 0) {
         if ($maxWidth and $maxHeight) {
             $this->maxImageDimensions = array($maxWidth, $maxHeight);
@@ -191,26 +203,34 @@ class Pdf extends FPDF_rotation {
         $this->flipflop = true;
     }
 
-    public function addItem($item, $description = "", $quantity, $vat, $price, $discount = 0, $total, $num = 0) {
-        $p['item'] = $item;
-        $p['description'] = $this->br2nl($description);
+    public function addItem($isbn, $editor, $author, $description, $price, $quantity, $total, $num = 0) {
+        
+        $p['isbn'] = preg_replace("/[^0-9]/", "", $isbn); //isbn
+        
+        $p['editor'] = $editor; //editore
 
-        if ($vat !== false) {
+        $p['author'] = $author; //autore
+
+        $p['description'] = $description; //descrizione
+        
+        $p['price'] = $price; //prezzo
+        
+        $p['qty'] = $quantity; //quantita'
+        
+        $p['total'] = $total; //importo
+        
+        //$p['num'] = $num;
+        
+        /*if ($vat !== false) {
             $p['vat'] = $vat;
             if (is_numeric($vat)) {
                 $p['vat'] = $this->currency . ' ' . number_format($vat, 2, $this->referenceformat[0], $this->referenceformat[1]);
             }
             $this->vatField = true;
             $this->columns = 5;
-        }
-        $p['quantity'] = $quantity;
-        $p['price'] = $price;
-        $p['total'] = $total;
-        $p['num'] = $num;
+        }*/
         
-        
-        
-        if ($discount !== false) {
+        /*if ($discount !== false) {
             $this->firstColumnWidth = 58;
             $p['discount'] = $discount;
             if (is_numeric($discount)) {
@@ -218,7 +238,7 @@ class Pdf extends FPDF_rotation {
             }
             $this->discountField = true;
             $this->columns = 7;
-        }
+        }*/
         $this->items[] = $p;
     }
 
@@ -304,21 +324,31 @@ class Pdf extends FPDF_rotation {
 //			$this->SetDrawColor($this->color[0],$this->color[1],$this->color[2]);
             $this->SetFont($this->font, 'B', 9);
             $width = ($this->document['w'] - $this->margins['l'] - $this->margins['r']) / 2;
-            if (isset($this->flipflop)) {
+           /* if (isset($this->flipflop)) {
+
                 $to = $this->lang['to'];
                 $from = $this->lang['from'];
+
                 $this->lang['to'] = $from;
                 $this->lang['from'] = $to;
+
                 $to = $this->to;
                 $from = $this->from;
+
                 $this->to = $from;
                 $this->from = $to;
-            }
+
+            }*/
 
             //cliente
-            $this->Cell($width, $lineheight, strtoupper($this->lang['from']), 0, 0, 'L');
+            $this->Cell($width, $lineheight, strtoupper($this->client_type), 0, 0, 'L');
+            
+            //tipo di documento
+            $this->Cell(0,$lineheight,strtoupper($this->doc_type),0,0,'L');
+            
 
-            $this->Cell(0,$lineheight,strtoupper($this->lang['to']),0,0,'L');
+
+
             $this->Ln(5);
 
 
@@ -350,29 +380,37 @@ class Pdf extends FPDF_rotation {
             $this->Ln(12);
             $this->SetFont($this->font, 'B', 9);
 
-            // prodotto
+            // ISBN
             $this->Cell(1, 10, '', 0, 0, 'L', 0);
-            $this->Cell($this->firstColumnWidth, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['product']), 0, 0, 'L', 0);
+            $this->Cell($this->firstColumnWidth, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['isbn']), 0, 0, 'L', 0);
 
-            // quantità
+            // Editore
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['qty']), 0, 0, 'C', 0);
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['editor']), 0, 0, 'C', 0);
+            
+            // Autore
+            $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['author']), 0, 0, 'C', 0);
 
-            if (isset($this->vatField)) {
+          /*  if (isset($this->vatField)) {
                 // iva
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['vat']), 0, 0, 'C', 0);
-            }
+            }*/
+
+            // Descrizione
+            $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
+            $this->Cell(90, 10, iconv("UTF-8", "ISO-8859-1", $this->br2nl($this->lang['description'])), 0, 0, 'C', 0);
 
             // prezzo
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['price']), 0, 0, 'C', 0);
+            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['price'])), 0, 0, 'C', 0);
 
-            if (isset($this->discountField)) {
-                // sconto
+            //if (isset($this->discountField)) {
+            // Quantita'
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['discount']), 0, 0, 'C', 0);
-            }
+                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['qty']), 0, 0, 'C', 0);
+           // }
             
             // totale
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
@@ -392,9 +430,6 @@ class Pdf extends FPDF_rotation {
 
     public function Body() {
         $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
-        
-        
-        //die($width_other);
         
         
         $cellHeight = 8;
@@ -421,11 +456,11 @@ class Pdf extends FPDF_rotation {
                 $this->SetTextColor(50, 50, 50);
                 $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
 
-                // Prodotto
+                // isbn
                 $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
                 $x = $this->GetX();
-                $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1", $item['item']), 0, 0, 'L', 1);
-                if ($item['description']) {
+                $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1", $item['isbn']), 0, 0, 'L', 1);
+               /* if ($item['description']) {
                     $resetX = $this->GetX();
                     $resetY = $this->GetY();
                     $this->SetTextColor(120, 120, 120);
@@ -443,16 +478,16 @@ class Pdf extends FPDF_rotation {
                     $this->SetXY($x, $newY);
                     $this->Cell($this->firstColumnWidth, 2, '', 0, 0, 'L', 1);
                     $this->SetXY($resetX, $resetY);
-                }
+                }*/
                 
                 $this->SetTextColor(50, 50, 50);
                 $this->SetFont($this->font, '', 8);
 
-                // Quantità
+                // Editore
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, $item['quantity'], 0, 0, 'C', 1);
+                $this->Cell(20, $cHeight, $item['editor'], 0, 0, 'C', 1);
                 
-                if (isset($this->vatField)) {
+               /*if (isset($this->vatField)) {
                     // Iva
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                     if (isset($item['vat'])) 
@@ -463,13 +498,22 @@ class Pdf extends FPDF_rotation {
                     {
                         $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
                     }
-                }
+                }*/
                 
+                // autore
+                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                $this->Cell($width_other, $cHeight, $item['author'], 0, 0, 'C', 1);
+                
+                // descrizione
+                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                $this->Cell($width_other, $cHeight, $item['description'], 0, 0, 'C', 1);
+                
+
                 // Prezzo
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                 $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
 
-                if (isset($this->discountField)) {
+                /*if (isset($this->discountField)) {
                     // Sconto
                     $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
                     if (isset($item['discount'])) {
@@ -477,7 +521,11 @@ class Pdf extends FPDF_rotation {
                     } else {
                         $this->Cell($width_other, $cHeight, '', 0, 0, 'C', 1);
                     }
-                }
+                }*/
+               
+                // Quantita'
+                $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
+                $this->Cell($width_other, $cHeight, $item['qty'], 0, 0, 'C', 1);
 
                 // Totale
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
@@ -530,29 +578,29 @@ class Pdf extends FPDF_rotation {
         $this->Ln();
         $this->Ln(3);
 
+/*
+        //Badge
+        if ($this->badge) {
+            $badge = ' ' . strtoupper($this->badge) . ' ';
+            $resetX = $this->getX();
+            $resetY = $this->getY();
+            $this->setXY($badgeX, $badgeY + 15);
+            $this->SetLineWidth(0.4);
+            $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
+            $this->setTextColor($this->color[0], $this->color[1], $this->color[2]);
+            $this->SetFont($this->font, 'b', 15);
+            $this->Rotate(10, $this->getX(), $this->getY());
+            $this->Rect($this->GetX(), $this->GetY(), $this->GetStringWidth($badge) + 2, 10);
+            $this->Write(10, $badge);
+            $this->Rotate(0);
+            if ($resetY > $this->getY() + 20) {
+                $this->setXY($resetX, $resetY);
+            } else {
+                $this->Ln(18);
+            }
+        }
 
-//        //Badge
-//        if ($this->badge) {
-//            $badge = ' ' . strtoupper($this->badge) . ' ';
-//            $resetX = $this->getX();
-//            $resetY = $this->getY();
-//            $this->setXY($badgeX, $badgeY + 15);
-//            $this->SetLineWidth(0.4);
-//            $this->SetDrawColor($this->color[0], $this->color[1], $this->color[2]);
-//            $this->setTextColor($this->color[0], $this->color[1], $this->color[2]);
-//            $this->SetFont($this->font, 'b', 15);
-//            $this->Rotate(10, $this->getX(), $this->getY());
-//            $this->Rect($this->GetX(), $this->GetY(), $this->GetStringWidth($badge) + 2, 10);
-//            $this->Write(10, $badge);
-//            $this->Rotate(0);
-//            if ($resetY > $this->getY() + 20) {
-//                $this->setXY($resetX, $resetY);
-//            } else {
-//                $this->Ln(18);
-//            }
-//        }
-
-        
+*/        
         
           $this->SetFont($this->font, '', 11);
              $this->SetTextColor(50, 50, 50);

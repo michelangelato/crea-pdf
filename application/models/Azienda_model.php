@@ -9,6 +9,7 @@ class Azienda_model extends CI_Model {
     public $codice_fiscale;
     public $registro_imprese;
     public $email;
+    public $logo;
 
     function __construct()
     {
@@ -19,6 +20,7 @@ class Azienda_model extends CI_Model {
         $this->codice_fiscale = "MSCDRA75P01H501T";
         $this->registro_imprese = "1110250";
         $this->email = "mediaedit@mediaedit.it";
+        $this->logo = 'MEDIAEDIT-LOGO.jpg';
     }
 }
 

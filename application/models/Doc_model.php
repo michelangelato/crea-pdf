@@ -2,7 +2,7 @@
 //Class that will contain the entirety of it
 class Doc_model extends CI_Model {
     
-    public $codice;
+    public $codice; //codice del documento (da 1 a 5)
     public $interessato;
     public $tipologia;
     public $campo_nominativo;
@@ -12,6 +12,7 @@ class Doc_model extends CI_Model {
     public $campo_email;
     public $campo_rappresentante;
     public $campo_data;
+    public $modalita_pagamento;
     
     
     public function __construct()
@@ -24,6 +25,7 @@ class Doc_model extends CI_Model {
         $this->campo_pivaotel = "\nC.F. / P.IVA: ";
         $this->campo_rappresentante = "\nRappresentante: ";
         $this->campo_data = "\nData: ";
+        $this->modalita_pagamento = "\nModalità di pagamento: ";
         
         /*
         $this->campo_nominativo = $this->spacing($this->$campo_nominativo, 35);
@@ -102,6 +104,8 @@ class Doc_model extends CI_Model {
         */
     }
 
+
+    //funzione per allineare le stringhe sull'intestazione (WIP)
     public function spacing($str_value, $str_spacing)
     {
         die(strlen($str_value));
