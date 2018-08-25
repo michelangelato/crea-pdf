@@ -12,8 +12,6 @@ class Test extends CI_Controller {
         $this->load->model('Cliente_model');
         $this->load->model('Book_model');
         $this->load->model('Doc_model');
-
-        $this->load->helper('invoice_helper');
     }
 
 	public function index() {
@@ -59,9 +57,13 @@ class Test extends CI_Controller {
             array_push($array, $libro);
         }
 
+        $modo_pagamento = "BONIFICO RIC. FATTURA";
+
+        $sconto = 15;
+
         $cliente = new Cliente_model();  
 
-        $cliente->creaDocumento($documento, $azienda, $numero_doc, $data, $array);
+        $cliente->creaDocumento($documento, $azienda, $numero_doc, $data, $array, $modo_pagamento, $sconto);
     }
 }
 

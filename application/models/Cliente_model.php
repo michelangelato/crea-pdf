@@ -23,7 +23,7 @@ class Cliente_model extends CI_Model {
         $this->email = 'cliente@cliente.it';    
     }
 
-    public function creaDocumento($doc, $azienda, $numero_doc, $data_doc, $array_libri) 
+    public function creaDocumento($doc, $azienda, $numero_doc, $data_doc, $array_libri, $modo_pagamento, $sconto) 
     {
 
 
@@ -60,44 +60,49 @@ class Cliente_model extends CI_Model {
         //$invoice->setFrom($doc->tipologia.'\\'.$data_doc);
         //$invoice->Cell(0,$lineheight,strtoupper($doc->tipologia.' '.$numero_doc.'\\'.$data_doc),0,0,'L');
         
+        $invoice->setClient($doc->interessato);
         $invoice->setDoctype($doc->tipologia.' '.$numero_doc.' '.$data_doc);
 
         $str_cliente = 
             $doc->campo_nominativo.$this->ragione_sociale.
             $doc->campo_indirizzo.$this->indirizzo.
-            $doc->campo_cittacap.$this->cap.' '.$this->comune;
+            $doc->campo_cittacap.$this->comune.' ('.$this->cap.')';
         
         switch($doc->codice)
         {
+            case 0:
+                $str_cliente .= $doc->campo_piva.$this->partita_iva.
+                                $doc->campo_rappresentante.$this->rappresentante.
+                                $doc->campo_data.date('d/m/Y', $data_doc);
+            break;
+            
             case 1:
-                $str_cliente .= $doc->campo_pivaotel.$this->telefono
-                .$doc->campo_email.$this->email;
+                $str_cliente .= $doc->campo_tel.$this->telefono.
+                                $doc->campo_email.$this->email.
+                                $doc->campo_data.date('d/m/Y', $data_doc);
             break;
             
-            case 2:
-                $str_cliente .= $doc->campo_pivaotel.$this->telefono
-                .$doc->campo_email.$this->email;
+            case 2:    
+                $str_cliente .= $doc->campo_tel.$this->telefono.
+                                $doc->campo_email.$this->email.
+                                $doc->campo_data.date('d/m/Y', $data_doc);
             break;
             
-            case 3:    
-                $str_cliente .= $doc->campo_pivaotel.$this->telefono
-                .$doc->campo_email.$this->email;
-            break;
-            
-            case 4:
-                $str_cliente .= $doc->campo_pivaotel.$this->partita_iva;
+            case 3:
+                $str_cliente .= $doc->campo_piva.$this->partita_iva.
+                                $doc->campo_data.date('d/m/Y', $data_doc);
             break;
 
-            case 5:
-                $str_cliente .= $doc->campo_pivaotel.$this->partita_iva
-                .$doc->campo_rappresentante.$this->rappresentante
-                .$doc->campo_data.$this->data;    
+            case 4:
+                $str_cliente .= $doc->campo_piva.$this->partita_iva.
+                                $doc->campo_rappresentante.$this->rappresentante.
+                                $doc->campo_data.date('d/m/Y', $data_doc);    
             break;
             
             default:
-                $str_cliente .= $doc->campo_pivaotel.$this->partita_iva
-                .$doc->campo_rappresentante.$this->rappresentante
-                .$doc->campo_data.$this->data;
+                $str_cliente .= $doc->campo_piva.$this->partita_iva.
+                                $doc->campo_rappresentante.$this->rappresentante.
+                                $doc->campo_data.date('d/m/Y', $data_doc);
             break;
         }
         $invoice->setTo($str_cliente);
@@ -109,15 +114,12 @@ class Cliente_model extends CI_Model {
             $invoice->addItem($ogg->isbn, $ogg->editore, $ogg->autore, $ogg->descrizione, $ogg->prezzo, $ogg->quantita, $ogg->importo);
             $prezzo_totale = $prezzo_totale + $ogg->importo;
         } 
-        $vat = $prezzo_totale*0.21;
-        $invoice->addTotal("Total", $prezzo_totale);
-        $invoice->addTotal("VAT 21%",$vat);
-        $invoice->addTotal("Total due",$vat+$prezzo_totale);
+        $invoice->setTotal((int)$prezzo_totale, (int)$sconto);
         /* Set badge */ 
         $invoice->addBadge("Amount Paid");
         
         /* Add firma */
-        $invoice->addDataFirma("Roma ".date('d/m/Y',time()));
+        $invoice->addDataFirma($doc->modo_pagamento.$modo_pagamento);
 
         /* Add title */
         //  $invoice->addTitle("Important Notice");
@@ -127,7 +129,7 @@ class Cliente_model extends CI_Model {
         /* Set footer note */
         $invoice->setFooternote("My Company Name Here");
         /* Render */
-        $invoice->render($data_doc.'_'.$doc->tipologia.'_'.$numero_doc.'.pdf','I'); /* I => Display on browser, D => Force Download, F => local path save, S => return document path */
+        $invoice->render(preg_replace('/\s+/', '', $data_doc.'_'.$doc->tipologia.'_'.$numero_doc.'.pdf'),'I'); /* I => Display on browser, D => Force Download, F => local path save, S => return document path */
 
     }
 

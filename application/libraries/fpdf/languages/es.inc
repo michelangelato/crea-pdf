@@ -12,4 +12,11 @@
   $lang['total']		= 'Total de';
   $lang['page']			= 'Página';
   $lang['page_of']		= 'de';
+  $lang['isbn'] = 'ISBN';
+  $lang['editor'] = 'Editore';
+  $lang['author'] = 'Autore';
+  $lang['description'] = 'Descrizione';
+  $lang['qty']			= 'Q.tà';
+  $lang['price']		= 'Prezzo';
+  $lang['total']		= 'Importo';
 ?>

@@ -29,6 +29,7 @@ class Pdf extends FPDF_rotation {
     public $due;
     public $client_type;
     public $doc_type;
+    public $doc_total;
     public $from;
     public $to;
     public $items;
@@ -169,6 +170,13 @@ class Pdf extends FPDF_rotation {
 
     public function setDoctype($data) {
         $this->doc_type = $data;  
+    }
+
+    public function setTotal($price, $discount) {
+        $totaldiscount = $price - (($price/100)*$discount);
+        $this->doc_total = "\nTotale: ".$this->currency.$price.
+                            "\nSconto: ".$discount."%".
+                            "\nPrezzo Finale: ".$this->currency.$totaldiscount;
     }
 
     public function setLogo($logo = 0, $maxWidth = 0, $maxHeight = 0) {
@@ -368,8 +376,9 @@ class Pdf extends FPDF_rotation {
         }
         //Table header
         if (!isset($this->productsEnded)) {
-            $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
-            
+            //$width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
+            $width_other = 20.35;
+
             $this->SetTextColor(50, 50, 50);
             $this->Ln(12);
             $this->SetFont($this->font, 'B', 9);
@@ -426,7 +435,7 @@ class Pdf extends FPDF_rotation {
         $width_other = ($this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->firstColumnWidth - ($this->columns * $this->columnSpacing)) / ($this->columns - 1);
         
         
-        $cellHeight = 8;
+        $cellHeight = 15;
         $bgcolor = (1 - $this->columnOpacity) * 255;
         if ($this->items) {
             foreach ($this->items as $item) {
@@ -453,7 +462,7 @@ class Pdf extends FPDF_rotation {
                 // isbn
                 $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
                 $x = $this->GetX();
-                $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1", $item['isbn']), 0, 0, 'L', 1);
+                $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1", $item['isbn']), 0, 0, 'C', 1);
                /* if ($item['description']) {
                     $resetX = $this->GetX();
                     $resetY = $this->GetY();
@@ -600,17 +609,17 @@ class Pdf extends FPDF_rotation {
              $this->SetTextColor(50, 50, 50);
         
                         //$this->setTextColor($this->color[0], $this->color[1], $this->color[2]);
-                                $lineheight = 5;
+                                $lineheight = 10;
                                 $width = ($this->document['w']-$this->margins['l']-$this->margins['r'])/2;
-				$this->Cell($width,$lineheight,($this->dataFirma),1,0,'L');
-				$this->Cell(0,$lineheight,($this->lang['to']),1,0,'L');
-				$this->Ln(4);
+                
+                $this->Multicell(0,6, iconv('utf-8', 'cp1252',$this->dataFirma.$this->doc_total),1,'L',false);
+                $this->Ln(4);
 				$this->SetLineWidth(0.1);
 				//$this->Line($this->margins['l'], $this->GetY(),$this->margins['l']+$width-30, $this->GetY());
 				//$this->Line($this->margins['l']+$width, $this->GetY(),$this->margins['l']+$width+$width, $this->GetY());
 	
 				
-                         $this->Line($this->margins['l']+$width+33, $this->GetY(),$this->margins['l']+$width+$width, $this->GetY());
+                         //$this->Line($this->margins['l']+$width+33, $this->GetY(),$this->margins['l']+$width+$width, $this->GetY());
 	
         
         
