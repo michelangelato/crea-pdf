@@ -389,11 +389,11 @@ class Pdf extends FPDF_rotation {
 
             // Editore
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['editor']), 0, 0, 'C', 0);
+            $this->Cell(25, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['editor']), 0, 0, 'C', 0);
             
             // Autore
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['author']), 0, 0, 'C', 0);
+            $this->Cell(25, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['author']), 0, 0, 'C', 0);
 
           /*  if (isset($this->vatField)) {
                 // iva
@@ -403,21 +403,21 @@ class Pdf extends FPDF_rotation {
 
             // Descrizione
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell(90, 10, iconv("UTF-8", "ISO-8859-1", $this->br2nl($this->lang['description'])), 0, 0, 'C', 0);
+            $this->Cell(70, 10, iconv("UTF-8", "ISO-8859-1", $this->br2nl($this->lang['description'])), 0, 0, 'C', 0);
 
             // prezzo
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['price'])), 0, 0, 'C', 0);
+            $this->Cell(13, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['price'])), 0, 0, 'C', 0);
 
             //if (isset($this->discountField)) {
             // Quantita'
                 $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['qty']), 0, 0, 'C', 0);
+                $this->Cell(8, 10, iconv("UTF-8", "ISO-8859-1", $this->lang['qty']), 0, 0, 'C', 0);
            // }
             
             // totale
             $this->Cell($this->columnSpacing, 10, '', 0, 0, 'L', 0);
-            $this->Cell($width_other, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['total'])), 0, 0, 'C', 0);
+            $this->Cell(17, 10, iconv("UTF-8", "ISO-8859-1", strtoupper($this->lang['total'])), 0, 0, 'C', 0);
 
             $this->Ln();
             $this->SetLineWidth(0.3);
@@ -460,10 +460,10 @@ class Pdf extends FPDF_rotation {
                 $this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
 
                 // isbn
-                $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
+               // $this->Cell(1, $cHeight, '', 0, 0, 'L', 1);
                 $x = $this->GetX();
                 $this->Cell($this->firstColumnWidth, $cHeight, iconv("UTF-8", "ISO-8859-1", $item['isbn']), 0, 0, 'C', 1);
-               /* if ($item['description']) {
+               /* if ($item['description']) {   
                     $resetX = $this->GetX();
                     $resetY = $this->GetY();
                     $this->SetTextColor(120, 120, 120);
@@ -488,7 +488,7 @@ class Pdf extends FPDF_rotation {
 
                 // Editore
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell(20, $cHeight, $item['editor'], 0, 0, 'C', 1);
+                $this->Cell(25, $cHeight, $item['editor'], 0, 0, 'L', 1);
                 
                /*if (isset($this->vatField)) {
                     // Iva
@@ -505,16 +505,16 @@ class Pdf extends FPDF_rotation {
                 
                 // autore
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, $item['author'], 0, 0, 'C', 1);
+                $this->Cell(25, $cHeight, $item['author'], 0, 0, 'L', 1);
                 
                 // descrizione
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, $item['description'], 0, 0, 'C', 1);
+                $this->Cell(70, $cHeight, $item['description'], 0, 0, 'C', 1);
                 
 
                 // Prezzo
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency . ' ' . number_format($item['price'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
+                $this->Cell(13, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency.number_format($item['price'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
 
                 /*if (isset($this->discountField)) {
                     // Sconto
@@ -528,11 +528,11 @@ class Pdf extends FPDF_rotation {
                
                 // Quantita'
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, $item['qty'], 0, 0, 'C', 1);
+                $this->Cell(8, $cHeight, $item['qty'], 0, 0, 'C', 1);
 
-                // Totale
+                // Importo
                 $this->Cell($this->columnSpacing, $cHeight, '', 0, 0, 'L', 0);
-                $this->Cell($width_other, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency . ' ' . number_format($item['total'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'C', 1);
+                $this->Cell(17, $cHeight, iconv('UTF-8', 'windows-1252', $this->currency.number_format($item['total'], 2, $this->referenceformat[0], $this->referenceformat[1])), 0, 0, 'R', 1);
 
                 // $this->Ln();
                 // $this->Ln($this->columnSpacing);
