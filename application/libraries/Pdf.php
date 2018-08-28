@@ -544,7 +544,7 @@ class Pdf extends FPDF_rotation {
             }
         }
         $badgeX = $this->getX();
-        $badgeY = $this->getY();
+        $badgeY = $this->getY(); 
 
         //Add totals
         if ($this->totals) {
