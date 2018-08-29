@@ -25,8 +25,6 @@ class Cliente_model extends CI_Model {
 
     public function creaDocumento($doc, $azienda, $numero_doc, $data_doc, $array_libri, $modo_pagamento, $sconto) 
     {
-
-
         // Get a reference to the controller object
         $CI = get_instance();
 
@@ -127,7 +125,7 @@ class Cliente_model extends CI_Model {
         $invoice->addParagraph("\n\nNo item will be replaced or refunded if you don't have the invoice with you. You can refund within 2 days of purchase.");
   
         /* Set footer note */
-        $invoice->setFooternote("My Company Name Here");
+        $invoice->setFooternote("Mediaedit");
         /* Render */
         $invoice->render(preg_replace('/\s+/', '', $data_doc.'_'.$doc->tipologia.'_'.$numero_doc.'.pdf'),'I'); /* I => Display on browser, D => Force Download, F => local path save, S => return document path */
 
