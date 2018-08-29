@@ -578,7 +578,7 @@ class Pdf extends FPDF_rotation {
         }
         
         $this->productsEnded = true;
-        $this->Ln();
+        $this->Ln(); 
         $this->Ln(3);
 
 /*
